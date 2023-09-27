@@ -1,3 +1,21 @@
-name: GWTHouses
+name: GTWHouses
 version: '${version}'
-main: com.edgarssilva.gwthouses.GWTHouses
+main: com.edgarssilva.gtwhouses.GTWHouses
+author: Edgar Silva
+depend:
+  - Vault
+  - WorldEdit
+  - WorldGuard
+  - AtumCore
+
+commands:
+  house:
+    description: Create, delete and manage houses!
+    usage: "/house [register|delete|list|info|tp|set|unset...]"
+    permission: house.houseadmin
+    aliases:
+      - houses
+permissions:
+  house.houseadmin:
+    description: Allows the player to manage houses.
+    default: op
