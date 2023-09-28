@@ -1,6 +1,7 @@
 package com.edgarssilva.gtwhouses;
 
 import com.edgarssilva.gtwhouses.commands.HouseCommand;
+import com.edgarssilva.gtwhouses.manager.HouseManager;
 import com.edgarssilva.gtwhouses.world_guard.GTWHousesFlagRegistry;
 import com.google.common.collect.Lists;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -23,6 +24,8 @@ public final class GTWHouses extends AtumPlugin {
     private static WorldEditPlugin worldEditPlugin;
     private final Logger logger = this.getLogger();
 
+    public static final String CONFIG_FOLDER = "GTWHouses";
+
 
     @Override
     protected void handleEnable() {
@@ -43,7 +46,9 @@ public final class GTWHouses extends AtumPlugin {
             getServer().getPluginManager().disablePlugin(this);
         }
 
+        HouseManager.load();
     }
+
 
     @Override
     protected void handleLoad() {
@@ -54,6 +59,8 @@ public final class GTWHouses extends AtumPlugin {
 
     @Override
     protected void handleDisable() {
+        HouseManager.save();
+
         logger.info(StringUtils.format("&GTW Houses has been disabled!"));
     }
 
