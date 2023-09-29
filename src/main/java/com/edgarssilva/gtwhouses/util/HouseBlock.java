@@ -1,6 +1,7 @@
 package com.edgarssilva.gtwhouses.util;
 
 import org.bukkit.Location;
+import org.bukkit.Server;
 import org.bukkit.World;
 
 import java.io.Serializable;
@@ -24,5 +25,14 @@ public class HouseBlock implements Serializable {
         this.y = y;
         this.z = z;
         this.world = world.getUID();
+    }
+
+
+    public Location getLocation(Server server) {
+        return new Location(server.getWorld(world), x, y, z);
+    }
+
+    public World getWorld(Server server) {
+        return server.getWorld(world);
     }
 }

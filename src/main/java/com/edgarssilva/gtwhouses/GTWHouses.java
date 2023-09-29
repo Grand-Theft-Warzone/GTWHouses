@@ -1,6 +1,7 @@
 package com.edgarssilva.gtwhouses;
 
 import com.edgarssilva.gtwhouses.commands.HouseCommand;
+import com.edgarssilva.gtwhouses.events.HouseBlockBreak;
 import com.edgarssilva.gtwhouses.manager.HouseManager;
 import com.edgarssilva.gtwhouses.world_guard.GTWHousesFlagRegistry;
 import com.google.common.collect.Lists;
@@ -9,6 +10,7 @@ import me.phoenixra.atum.core.AtumPlugin;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.utils.StringUtils;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -24,7 +26,7 @@ public final class GTWHouses extends AtumPlugin {
     private static WorldEditPlugin worldEditPlugin;
     private final Logger logger = this.getLogger();
 
-    public static final String CONFIG_FOLDER = "GTWHouses";
+    public static final String CONFIG_FOLDER = "plugins/GTWHouses";
 
 
     @Override
@@ -46,7 +48,7 @@ public final class GTWHouses extends AtumPlugin {
             getServer().getPluginManager().disablePlugin(this);
         }
 
-        HouseManager.load();
+        HouseManager.init(this);
     }
 
 
@@ -59,7 +61,7 @@ public final class GTWHouses extends AtumPlugin {
 
     @Override
     protected void handleDisable() {
-        HouseManager.save();
+        HouseManager.disable();
 
         logger.info(StringUtils.format("&GTW Houses has been disabled!"));
     }
@@ -69,6 +71,13 @@ public final class GTWHouses extends AtumPlugin {
         return Lists.newArrayList(
                 new HouseCommand(this)
         );
+    }
+
+    @Override
+    protected List<Listener> loadListeners() {
+       return Lists.newArrayList(
+               new HouseBlockBreak()
+       );
     }
 
     @Override

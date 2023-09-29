@@ -16,8 +16,11 @@ public class HouseCommand extends AtumCommand {
     public HouseCommand(@Nonnull GTWHouses plugin) {
         super(plugin, "house", "house.houseadmin");
         this.plugin = plugin;
-        addSubcommand(new RegisterHouseCommand(plugin, this));
 
+        addSubcommand(new RegisterHouseCommand(plugin, this));
+        addSubcommand(new ResetHouseCommand(plugin, this));
+        addSubcommand(new ListHousesCommand(plugin, this));
+        addSubcommand(new HouseRemoveCommand(plugin, this));
     }
 
 
