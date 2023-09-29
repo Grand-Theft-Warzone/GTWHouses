@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class HouseBlock implements Serializable {
-    public final UUID world;
+//    public final UUID world;
     public final double x;
     public final double y;
     public final double z;
@@ -17,22 +17,22 @@ public class HouseBlock implements Serializable {
         this.x = location.getX();
         this.y = location.getY();
         this.z = location.getZ();
-        this.world = location.getWorld().getUID();
+//        this.world = location.getWorld().getUID();
     }
 
     public HouseBlock(World world, int x, int y, int z) {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.world = world.getUID();
+//        this.world = world.getUID();
     }
 
 
-    public Location getLocation(Server server) {
-        return new Location(server.getWorld(world), x, y, z);
+    public Location getLocation(World world) {
+        return new Location(world, x, y, z);
     }
 
-    public World getWorld(Server server) {
-        return server.getWorld(world);
-    }
+//    public World getWorld(Server server) {
+//        return server.getWorld(world);
+//    }
 }

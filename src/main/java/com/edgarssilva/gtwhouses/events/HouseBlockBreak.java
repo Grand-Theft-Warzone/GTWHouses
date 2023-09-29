@@ -9,6 +9,7 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,9 +35,10 @@ public class HouseBlockBreak implements Listener {
                 continue;
 
             House house = HouseManager.getHouse(region.getId());
+            World world = player.getServer().getWorld(house.getWorld());
 
             for (HouseBlock houseBlock : house.getBlocks()) {
-                if (!houseBlock.getLocation(event.getPlayer().getServer()).equals(event.getBlock().getLocation()))
+                if (!houseBlock.getLocation(world).equals(event.getBlock().getLocation()))
                     continue;
 
                 player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Hey! " + ChatColor.RESET + ChatColor.GRAY + "You can't break a house block.");

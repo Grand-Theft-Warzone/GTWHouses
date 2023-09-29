@@ -66,7 +66,7 @@ public class RegisterHouseCommand extends AtumSubcommand {
         if (regionManager.hasRegion(houseName))
             throw new NotificationException("A house with this name already exists.");
 
-        protectedRegion.getOwners().addPlayer(player.getUniqueId());
+//        protectedRegion.getOwners().addPlayer(player.getUniqueId());
 
         protectedRegion.setFlag(DefaultFlag.BUILD, StateFlag.State.ALLOW);
         protectedRegion.setFlag(DefaultFlag.BUILD.getRegionGroupFlag(), RegionGroup.OWNERS);
@@ -103,7 +103,7 @@ public class RegisterHouseCommand extends AtumSubcommand {
         try {
             regionManager.save();
 
-            if (HouseManager.registerHouse(new House(houseName, houseBlocks, rent, player.getUniqueId())))
+            if (HouseManager.registerHouse(new House(houseName, world.getUID(), houseBlocks, rent)))
                 player.sendMessage("House registered successfully.");
             else throw new NotificationException("A house with this name already exists.");
 
@@ -124,6 +124,6 @@ public class RegisterHouseCommand extends AtumSubcommand {
 
     @Override
     public @NotNull String getUsage() {
-        return "/house register <house name> <rent>";
+        return "/house register <house name> <rent per day>";
     }
 }

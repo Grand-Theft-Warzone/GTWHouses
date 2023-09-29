@@ -35,7 +35,7 @@ public class ResetHouseCommand extends AtumSubcommand {
         House house = HouseManager.getHouse(houseName);
         if (house == null) throw new NotificationException("House not found.");
 
-        World world = house.getBlocks().get(0).getWorld(server);
+        World world = server.getWorld(house.getWorld());
 
         try {
             RegionManager rm = GTWHouses.getInstance().getWorldGuardPlugin().getRegionManager(world);

@@ -50,7 +50,7 @@ public class HouseManager {
         List<House> playerHouses = new ArrayList<>();
 
         houses.forEach((name, house) -> {
-            if (house.getOwner().equals(player))
+            if (house.getOwner() != null && house.getOwner().equals(player))
                 playerHouses.add(house);
         });
 

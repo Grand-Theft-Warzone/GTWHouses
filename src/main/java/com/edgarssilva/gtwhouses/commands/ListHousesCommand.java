@@ -30,7 +30,7 @@ public class ListHousesCommand extends AtumSubcommand {
             return;
         }
         player.sendMessage("Your houses:");
-        houses.forEach(house -> player.sendMessage(" - " + ChatColor.BOLD + ChatColor.GOLD + house.getName() + ChatColor.RESET + " with a rent of " + ChatColor.GREEN + house.getRent()));
+        houses.forEach(house -> player.sendMessage(" - " + ChatColor.BOLD + ChatColor.GOLD + house.getName() + ChatColor.RESET + " with a rent of " + ChatColor.GREEN + house.getRentPerDay()));
     }
 
     @Override
