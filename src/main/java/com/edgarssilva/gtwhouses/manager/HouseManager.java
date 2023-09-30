@@ -15,8 +15,6 @@ public class HouseManager {
     private static final HashMap<String, House> houses = new HashMap<>();
     private static boolean isDirty = false;
 
-    private static BukkitTask saveTask;
-
     public static final Runnable SAVE_RUNNABLE = () -> {
         if (isDirty) save();
     };
@@ -41,12 +39,12 @@ public class HouseManager {
                 playerHouses.add(house);
         });
 
-        isDirty = true;
         return playerHouses;
     }
 
     public static void removeHouse(String houseName) {
         houses.remove(houseName);
+        isDirty = true;
     }
 
     public static void load() {
@@ -86,9 +84,15 @@ public class HouseManager {
             fileOutputStream.close();
 
             isDirty = false;
-            GTWHouses.getInstance().getLogger().info("Saved " + houses.size() + " houses!");
+            GTWHouses.getInstance().getLogger().info("Saving houses...");
         } catch (Exception e) {
-            GTWHouses.getInstance().getLogger().severe("Error while saving houses.sav file.");
+            GTWHouses.getInstance().getLogger().severe("Error while saving houses data!");
+
         }
+    }
+
+
+    public static void setDirty() {
+        isDirty = true;
     }
 }

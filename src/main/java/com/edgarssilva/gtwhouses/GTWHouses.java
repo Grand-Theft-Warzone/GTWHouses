@@ -65,9 +65,9 @@ public final class GTWHouses extends AtumPlugin {
         super.handleReload();
 
         //TODO: Check if this can be done asynchronously
-        Bukkit.getScheduler().runTaskTimer(this, new RentRunnable(), 20 * 10, 20 * 60);
-        Bukkit.getScheduler().runTaskTimerAsynchronously(this, HouseManager.SAVE_RUNNABLE, 20 * 10, 20 * 20);
-    }
+        Bukkit.getScheduler().runTaskTimer(this, new RentRunnable(), 20 * 10, 20 * 60 * 30); //30 minutes
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, HouseManager.SAVE_RUNNABLE, 20 * 10, 20 * 60); // 1 minute
+     }
 
     @Override
     protected void handleDisable() {

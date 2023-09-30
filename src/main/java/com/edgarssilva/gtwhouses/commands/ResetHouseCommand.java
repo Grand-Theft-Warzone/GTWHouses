@@ -9,6 +9,7 @@ import com.sk89q.worldguard.protection.managers.storage.StorageException;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.command.CommandBase;
 import me.phoenixra.atum.core.exceptions.NotificationException;
+import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -46,7 +47,7 @@ public class ResetHouseCommand extends AtumSubcommand {
             throw new NotificationException("Error while saving region owner.");
         }
 
-        sender.sendMessage("House " + houseName + " has been reset successfully!");
+        sender.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " has been reset successfully!");
     }
 
     @Override

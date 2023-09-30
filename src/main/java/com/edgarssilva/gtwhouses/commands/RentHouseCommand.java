@@ -8,9 +8,8 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
-import me.phoenixra.atum.core.utils.AtumUtils;
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -62,7 +61,9 @@ public class RentHouseCommand extends AtumSubcommand {
 
         protectedRegion.getOwners().addPlayer(player.getUniqueId());
         house.setOwner(player.getUniqueId(), rentDays);
-        player.sendMessage("You have rented the house " + houseName + " for " + rentDays + " days.");
+
+
+        player.sendMessage("You have rented the house " + ChatColor.GOLD + houseName + ChatColor.RESET + " for " + ChatColor.YELLOW + rentDays + ChatColor.RESET + " day" + (rentDays > 1 ? "s" : "") + ".");
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.sk89q.worldedit.Vector;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.managers.storage.StorageException;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -51,6 +52,7 @@ public class HouseUtils {
 
         house.resetOwner();
         rm.save();
+        HouseManager.setDirty();
         return true;
     }
 
@@ -67,25 +69,33 @@ public class HouseUtils {
             int days = (int) diff / (24 * 60 * 60 * 1000);
             int remainingDays = h.getRentDaysDuration() - days;
 
+            String houseName = ChatColor.GOLD + h.getName() + ChatColor.RED;
+
             switch (remainingDays) {
                 case 1:
-                    player.sendMessage("§cYour house " + h.getName() + " rent will expire in 1 day.");
+                    if (h.getRentStatus() != RentStatus.CLOSE_TO_EXPIRE) {
+                        player.sendMessage("§cYour house " + houseName + " rent will expire in 1 day.");
+                        h.setRentStatus(RentStatus.CLOSE_TO_EXPIRE);
+                        HouseManager.setDirty();
+                    }
                     break;
                 case 0:
                     if (h.getRentStatus() != RentStatus.EXPIRING) {
-                        player.sendMessage("§cYour house " + h.getName() + " rent will expire today.");
+                        player.sendMessage("§cYour house " + houseName + " rent will expire today.");
                         h.setRentStatus(RentStatus.EXPIRING);
+                        HouseManager.setDirty();
                     }
                     break;
                 case -1:
                     if (h.getRentStatus() != RentStatus.EXPIRED) {
-                        player.sendMessage("§cYour house " + h.getName() + " rent has expired. You have until today to pay it.");
+                        player.sendMessage("§cYour house " + houseName + " rent has expired. You have until today to pay it.");
                         h.setRentStatus(RentStatus.EXPIRED);
+                        HouseManager.setDirty();
                     }
                     break;
                 default:
                     if (remainingDays < -1) {
-                        player.sendMessage("§cYour house " + h.getName() + " rent has expired. Resetting house...");
+                        player.sendMessage("§cYour house " + houseName + " rent has expired. Resetting house...");
                         toBeReset.add(h);
                     }
             }
@@ -105,9 +115,10 @@ public class HouseUtils {
     }
 
     public enum RentStatus {
-        EXPIRED,
-        EXPIRING,
-        RENTED,
-        NOT_RENTED
+        EXPIRED, // Expired (still has 1 day to pay)
+        CLOSE_TO_EXPIRE, // 1 day left
+        EXPIRING, // Today
+        RENTED, // More than 1 day left
+        NOT_RENTED // Not rented
     }
 }
