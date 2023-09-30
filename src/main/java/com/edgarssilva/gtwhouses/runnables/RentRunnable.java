@@ -14,6 +14,6 @@ public class RentRunnable implements Runnable {
         plugin.getLogger().info("Checking rent...");
 
         for (OfflinePlayer p : server.getOfflinePlayers())
-            HouseUtils.handleRent(p.getPlayer(), server);
+            HouseUtils.handleRent(p.getPlayer(), false);
     }
 }

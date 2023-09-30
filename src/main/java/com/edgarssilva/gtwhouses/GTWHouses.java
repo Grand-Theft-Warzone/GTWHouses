@@ -2,6 +2,7 @@ package com.edgarssilva.gtwhouses;
 
 import com.edgarssilva.gtwhouses.commands.HouseCommand;
 import com.edgarssilva.gtwhouses.events.HouseBlockBreak;
+import com.edgarssilva.gtwhouses.events.PlayerLoginListener;
 import com.edgarssilva.gtwhouses.manager.HouseManager;
 import com.edgarssilva.gtwhouses.runnables.RentRunnable;
 import com.edgarssilva.gtwhouses.world_guard.GTWHousesFlagRegistry;
@@ -54,13 +55,6 @@ public final class GTWHouses extends AtumPlugin {
     }
 
     @Override
-    protected void handleLoad() {
-        super.handleLoad();
-
-        GTWHousesFlagRegistry.registerFlags(this);
-    }
-
-    @Override
     protected void handleReload() {
         super.handleReload();
 
@@ -86,7 +80,8 @@ public final class GTWHouses extends AtumPlugin {
     @Override
     protected List<Listener> loadListeners() {
         return Lists.newArrayList(
-                new HouseBlockBreak()
+                new HouseBlockBreak(),
+                new PlayerLoginListener()
         );
     }
 
@@ -114,6 +109,9 @@ public final class GTWHouses extends AtumPlugin {
         if (!(plugin instanceof WorldGuardPlugin)) return false;
 
         worldGuardPlugin = (WorldGuardPlugin) plugin;
+
+        //TODO: Check where to register the flags
+//        GTWHousesFlagRegistry.registerFlags(worldGuardPlugin);
 
         return true;
     }

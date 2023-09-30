@@ -31,10 +31,9 @@ public class HouseBlockBreak implements Listener {
         Set<ProtectedRegion> regions = regionManager.getApplicableRegions(location).getRegions();
 
         for (ProtectedRegion region : regions) {
-            if (region.getFlag(GTWHousesFlagRegistry.HOUSE) == null || !Boolean.TRUE.equals(region.getFlag(GTWHousesFlagRegistry.HOUSE)))
-                continue;
-
             House house = HouseManager.getHouse(region.getId());
+            if (house == null) continue;
+
             World world = player.getServer().getWorld(house.getWorld());
 
             for (HouseBlock houseBlock : house.getBlocks()) {

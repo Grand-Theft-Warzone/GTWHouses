@@ -56,51 +56,36 @@ public class HouseUtils {
         return true;
     }
 
-    public static void handleRent(Player player, Server server) {
-        if (player == null) return;
+
+    public static int getRemainingRentDays(House house) {
+        long diff = new Date().getTime() - house.getLastRent().getTime();
+        int days = (int) diff / (24 * 60 * 60 * 1000);
+        return house.getRentDaysDuration() - days;
+    }
+
+    public static void handleRent(Player player, boolean requested) {
+        if (player == null)  return;
+
+        Server server = player.getServer();
+        if (server == null) return;
 
         List<House> toBeReset = new ArrayList<>();
 
         for (House h : HouseManager.getPlayerHouses(player.getUniqueId())) {
-            long diff = new Date().getTime() - h.getLastRent().getTime();
+            if (h.getRentStatus() == RentStatus.NOT_RENTED) continue;
 
+            RentStatus status = RentStatus.fromDays(getRemainingRentDays(h));
 
+            if (requested || status != h.getRentStatus())
+                player.sendMessage(status.getWarning(h));
 
-            int days = (int) diff / (24 * 60 * 60 * 1000);
-            int remainingDays = h.getRentDaysDuration() - days;
-
-            String houseName = ChatColor.GOLD + h.getName() + ChatColor.RED;
-
-            switch (remainingDays) {
-                case 1:
-                    if (h.getRentStatus() != RentStatus.CLOSE_TO_EXPIRE) {
-                        player.sendMessage("§cYour house " + houseName + " rent will expire in 1 day.");
-                        h.setRentStatus(RentStatus.CLOSE_TO_EXPIRE);
-                        HouseManager.setDirty();
-                    }
-                    break;
-                case 0:
-                    if (h.getRentStatus() != RentStatus.EXPIRING) {
-                        player.sendMessage("§cYour house " + houseName + " rent will expire today.");
-                        h.setRentStatus(RentStatus.EXPIRING);
-                        HouseManager.setDirty();
-                    }
-                    break;
-                case -1:
-                    if (h.getRentStatus() != RentStatus.EXPIRED) {
-                        player.sendMessage("§cYour house " + houseName + " rent has expired. You have until today to pay it.");
-                        h.setRentStatus(RentStatus.EXPIRED);
-                        HouseManager.setDirty();
-                    }
-                    break;
-                default:
-                    if (remainingDays < -1) {
-                        player.sendMessage("§cYour house " + houseName + " rent has expired. Resetting house...");
-                        toBeReset.add(h);
-                    }
+            if (status != h.getRentStatus()) {
+                h.setRentStatus(status);
+                HouseManager.setDirty();
             }
-        }
 
+            if (status == RentStatus.OVERDUE) toBeReset.add(h);
+        }
 
         for (House h : toBeReset) {
             World world = server.getWorld(h.getWorld());
@@ -115,10 +100,44 @@ public class HouseUtils {
     }
 
     public enum RentStatus {
+        OVERDUE, // More than 1 day overdue
         EXPIRED, // Expired (still has 1 day to pay)
         CLOSE_TO_EXPIRE, // 1 day left
         EXPIRING, // Today
         RENTED, // More than 1 day left
         NOT_RENTED // Not rented
+        ;
+
+        public static RentStatus fromDays(int daysLeft) {
+            switch (daysLeft) {
+                case 0:
+                    return EXPIRING;
+                case 1:
+                    return CLOSE_TO_EXPIRE;
+                case -1:
+                    return EXPIRED;
+                default:
+                    return daysLeft < -1 ? OVERDUE : RENTED;
+            }
+        }
+
+        public String getWarning(House house) {
+            String houseName = ChatColor.GOLD + house.getName() + ChatColor.RED;
+
+            int daysLeft = getRemainingRentDays(house);
+
+            switch (this) {
+                case EXPIRED:
+                    return "§cYour house " + houseName + " rent has expired. You have until today to pay it.";
+                case CLOSE_TO_EXPIRE:
+                    return "§cYour house " + houseName + " rent will expire in 1 day.";
+                case EXPIRING:
+                    return "§cYour house " + houseName + " rent will expire today.";
+                case OVERDUE:
+                    return "§cYour house " + houseName + " rent is overdue. Resetting house...";
+                default:
+                    return "You house " + houseName + ChatColor.RESET + " rent will expire in " + ChatColor.YELLOW + daysLeft + ChatColor.RESET + " day" + (daysLeft > 1 ? "s" : "") + ".";
+            }
+        }
     }
 }

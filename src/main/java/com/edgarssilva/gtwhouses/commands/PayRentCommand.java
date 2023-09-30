@@ -9,7 +9,6 @@ import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -19,16 +18,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class RentHouseCommand extends AtumSubcommand {
+public class PayRentCommand  extends AtumSubcommand {
 
-    public RentHouseCommand(GTWHouses plugin, @NotNull AtumCommand parent) {
-        super(plugin, "rent", parent);
+    public PayRentCommand(@NotNull GTWHouses plugin, @NotNull AtumCommand parent) {
+        super(plugin, "pay", parent);
     }
 
     @Override
     protected void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) throws NotificationException {
         Player player = (Player) sender;
-
         if (args.size() < 2) throw new NotificationException("Usage: " + getUsage());
 
         String houseName = args.get(0);
@@ -38,15 +36,14 @@ public class RentHouseCommand extends AtumSubcommand {
         try {
             rentDays = Integer.parseInt(rentDaysArg);
             if (rentDays < 1) throw new NotificationException("Rent days must be greater than 0.");
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             throw new NotificationException("Rent days must be a valid number.");
         }
 
+
         House house = HouseManager.getHouse(houseName);
         if (house == null) throw new NotificationException("House not found.");
-
-        if (house.getRentStatus() != HouseUtils.RentStatus.NOT_RENTED)
-            throw new NotificationException("House is already rented.");
+        if (!house.getOwner().equals(player.getUniqueId())) throw new NotificationException("You are not the owner of this house.");
 
         Server server = sender.getServer();
         World world = server.getWorld(house.getWorld());
@@ -60,11 +57,10 @@ public class RentHouseCommand extends AtumSubcommand {
 
         economy.withdrawPlayer(player, house.getRentPerDay() * rentDays);
 
-        protectedRegion.getOwners().addPlayer(player.getUniqueId());
-        house.setOwner(player.getUniqueId(), rentDays);
+        int remainingDays = HouseUtils.getRemainingRentDays(house);
+        if (remainingDays < 0) remainingDays = 0;
 
-
-        player.sendMessage("You have rented the house " + ChatColor.GOLD + houseName + ChatColor.RESET + " for " + ChatColor.YELLOW + rentDays + ChatColor.RESET + " day" + (rentDays > 1 ? "s" : "") + ".");
+        house.updateRent( remainingDays + rentDays);
     }
 
     @Override
@@ -74,11 +70,11 @@ public class RentHouseCommand extends AtumSubcommand {
 
     @Override
     public @NotNull String getDescription() {
-        return "Rents a house for a given amount of days";
+        return  "Pay the rent of a house for a number of days";
     }
 
     @Override
     public @NotNull String getUsage() {
-        return "/house rent <house_name> <rent_days>";
+        return "/house payr <house> <days>";
     }
 }

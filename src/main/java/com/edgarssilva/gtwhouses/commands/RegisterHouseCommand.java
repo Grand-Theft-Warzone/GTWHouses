@@ -48,6 +48,7 @@ public class RegisterHouseCommand extends AtumSubcommand {
         double rent;
         try  {
             rent = Double.parseDouble(rentArg);
+            if (rent <= 0) throw new NotificationException("Rent must be greater than 0.");
         } catch (NumberFormatException e) {
             throw new NotificationException("Rent must be a valid number.");
         }

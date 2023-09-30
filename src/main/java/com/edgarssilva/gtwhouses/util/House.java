@@ -1,5 +1,7 @@
 package com.edgarssilva.gtwhouses.util;
 
+import com.edgarssilva.gtwhouses.manager.HouseManager;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -49,6 +51,10 @@ public class House implements Serializable {
 
     public void setOwner(UUID owner, int rentDaysDuration) {
         this.owner = owner;
+        updateRent(rentDaysDuration);
+    }
+
+    public void updateRent(int rentDaysDuration) {
         this.rentDaysDuration = rentDaysDuration;
         this.setLastRent(new Date());
         this.rentStatus = HouseUtils.RentStatus.RENTED;
@@ -87,5 +93,9 @@ public class House implements Serializable {
         this.rentDaysDuration = 0;
         this.lastRent = null;
         this.rentStatus = HouseUtils.RentStatus.NOT_RENTED;
+    }
+
+    public String getRentWarning() {
+        return rentStatus.getWarning(this);
     }
 }
