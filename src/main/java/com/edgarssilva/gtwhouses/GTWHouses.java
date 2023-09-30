@@ -11,6 +11,7 @@ import me.phoenixra.atum.core.AtumPlugin;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.utils.StringUtils;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -29,8 +30,6 @@ public final class GTWHouses extends AtumPlugin {
     private final Logger logger = this.getLogger();
 
     public static final String CONFIG_FOLDER = "plugins/GTWHouses";
-
-    private BukkitTask rentTask;
 
     @Override
     protected void handleEnable() {
@@ -51,10 +50,8 @@ public final class GTWHouses extends AtumPlugin {
             getServer().getPluginManager().disablePlugin(this);
         }
 
-        HouseManager.init(this);
-        rentTask = new RentRunnable().runTaskTimer(this, 20 * 30, 20 * 30 * 60);
+        HouseManager.load();
     }
-
 
     @Override
     protected void handleLoad() {
@@ -64,10 +61,17 @@ public final class GTWHouses extends AtumPlugin {
     }
 
     @Override
+    protected void handleReload() {
+        super.handleReload();
+
+        //TODO: Check if this can be done asynchronously
+        Bukkit.getScheduler().runTaskTimer(this, new RentRunnable(), 20 * 10, 20 * 60);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, HouseManager.SAVE_RUNNABLE, 20 * 10, 20 * 20);
+    }
+
+    @Override
     protected void handleDisable() {
-        if (rentTask != null)
-            rentTask.cancel();
-        HouseManager.disable();
+        HouseManager.save();
 
         logger.info(StringUtils.format("&GTW Houses has been disabled!"));
     }

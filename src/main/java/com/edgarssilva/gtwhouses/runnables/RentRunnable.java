@@ -7,7 +7,7 @@ import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class RentRunnable extends BukkitRunnable {
+public class RentRunnable implements Runnable {
     @Override
     public void run() {
         GTWHouses plugin = GTWHouses.getInstance();

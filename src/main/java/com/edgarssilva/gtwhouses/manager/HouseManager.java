@@ -2,7 +2,6 @@ package com.edgarssilva.gtwhouses.manager;
 
 import com.edgarssilva.gtwhouses.GTWHouses;
 import com.edgarssilva.gtwhouses.util.House;
-import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.io.*;
@@ -18,21 +17,9 @@ public class HouseManager {
 
     private static BukkitTask saveTask;
 
-    public static void init(GTWHouses plugin) {
-        load();
-
-        saveTask = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
-            if (isDirty) save();
-            GTWHouses.getInstance().getLogger().info("Tick!");
-        }, 0, 20 * 10);
-
-
-    }
-
-    public static void disable() {
-        save();
-        if (saveTask != null) saveTask.cancel();
-    }
+    public static final Runnable SAVE_RUNNABLE = () -> {
+        if (isDirty) save();
+    };
 
     public static boolean registerHouse(House house) {
         if (houses.containsKey(house.getName())) return false;
@@ -62,7 +49,7 @@ public class HouseManager {
         houses.remove(houseName);
     }
 
-    private static void load() {
+    public static void load() {
         try {
             File file = new File(GTWHouses.CONFIG_FOLDER + "/houses.sav");
             if (!file.exists()) return;
@@ -83,7 +70,7 @@ public class HouseManager {
         }
     }
 
-    private static void save() {
+    public static synchronized void save() {
         try {
             File file = new File(GTWHouses.CONFIG_FOLDER + "/houses.sav");
             Files.createDirectories(file.getParentFile().toPath());

@@ -11,7 +11,7 @@ depend:
 commands:
   house:
     description: Create, delete and manage houses!
-    usage: "/house [register|delete|list|info|tp|set|unset...]"
+    usage: "/house [register|reset|remove|list|rent...]"
     permission: house.houseadmin
     aliases:
       - houses

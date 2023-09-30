@@ -55,6 +55,8 @@ public class HouseUtils {
     }
 
     public static void handleRent(Player player, Server server) {
+        if (player == null) return;
+
         List<House> toBeReset = new ArrayList<>();
 
         for (House h : HouseManager.getPlayerHouses(player.getUniqueId())) {
