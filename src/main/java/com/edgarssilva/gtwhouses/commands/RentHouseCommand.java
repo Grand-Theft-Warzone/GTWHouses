@@ -42,11 +42,13 @@ public class RentHouseCommand extends AtumSubcommand {
             throw new NotificationException("Rent days must be a valid number.");
         }
 
+        if (rentDays > 7) throw new NotificationException("You can't rent a house for more than 7 days.");
+
         House house = HouseManager.getHouse(houseName);
-        if (house == null) throw new NotificationException("House not found.");
+        if (house == null) throw new NotificationException(ChatColor.RED + "House not found.");
 
         if (house.getRentStatus() != HouseUtils.RentStatus.NOT_RENTED)
-            throw new NotificationException("House is already rented.");
+            throw new NotificationException(ChatColor.RED + "House is already rented.");
 
         Server server = sender.getServer();
         World world = server.getWorld(house.getWorld());
@@ -54,9 +56,10 @@ public class RentHouseCommand extends AtumSubcommand {
         ProtectedRegion protectedRegion = GTWHouses.getInstance().getWorldGuardPlugin().getRegionManager(world).getRegion(house.getName());
         if (protectedRegion == null) throw new NotificationException("House region not found.");
 
+        double rentPrice = house.getRentPerDay() * rentDays;
         Economy economy = GTWHouses.getInstance().getEconomy();
-        if (!economy.has(player, house.getRentPerDay() * rentDays))
-            throw new NotificationException("You don't have enough money to rent this house for " + rentDays + " days.");
+        if (!economy.has(player, rentPrice))
+            throw new NotificationException("You don't have " + ChatColor.GREEN + "$" + rentPrice + ChatColor.RESET + " to rent this house for " + rentDays + " days.");
 
         economy.withdrawPlayer(player, house.getRentPerDay() * rentDays);
 

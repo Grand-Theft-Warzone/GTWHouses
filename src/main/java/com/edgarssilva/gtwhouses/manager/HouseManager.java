@@ -47,6 +47,10 @@ public class HouseManager {
         isDirty = true;
     }
 
+    public static boolean hasHouse(String id) {
+        return houses.containsKey(id);
+    }
+
     public static void load() {
         try {
             File file = new File(GTWHouses.CONFIG_FOLDER + "/houses.sav");
@@ -95,4 +99,5 @@ public class HouseManager {
     public static void setDirty() {
         isDirty = true;
     }
+
 }

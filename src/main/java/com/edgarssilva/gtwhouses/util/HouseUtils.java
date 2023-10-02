@@ -139,5 +139,9 @@ public class HouseUtils {
                     return "You house " + houseName + ChatColor.RESET + " rent will expire in " + ChatColor.YELLOW + daysLeft + ChatColor.RESET + " day" + (daysLeft > 1 ? "s" : "") + ".";
             }
         }
+
+        public boolean isRented() {
+            return this != NOT_RENTED;
+        }
     }
 }
