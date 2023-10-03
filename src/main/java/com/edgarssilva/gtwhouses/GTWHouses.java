@@ -2,7 +2,9 @@ package com.edgarssilva.gtwhouses;
 
 import com.edgarssilva.gtwhouses.commands.HouseCommand;
 import com.edgarssilva.gtwhouses.events.HouseBlockBreak;
+import com.edgarssilva.gtwhouses.events.HouseEnterEvent;
 import com.edgarssilva.gtwhouses.events.PlayerLoginListener;
+import com.edgarssilva.gtwhouses.events.WGRegionEventsListener;
 import com.edgarssilva.gtwhouses.manager.HouseManager;
 import com.edgarssilva.gtwhouses.runnables.RentRunnable;
 import com.edgarssilva.gtwhouses.world_guard.GTWHousesFlagRegistry;
@@ -61,7 +63,7 @@ public final class GTWHouses extends AtumPlugin {
         //TODO: Check if this can be done asynchronously
         Bukkit.getScheduler().runTaskTimer(this, new RentRunnable(), 20 * 10, 20 * 60 * 30); //30 minutes
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, HouseManager.SAVE_RUNNABLE, 20 * 10, 20 * 60); // 1 minute
-     }
+    }
 
     @Override
     protected void handleDisable() {
@@ -81,7 +83,9 @@ public final class GTWHouses extends AtumPlugin {
     protected List<Listener> loadListeners() {
         return Lists.newArrayList(
                 new HouseBlockBreak(),
-                new PlayerLoginListener()
+                new PlayerLoginListener(),
+                new WGRegionEventsListener(),
+                new HouseEnterEvent()
         );
     }
 
