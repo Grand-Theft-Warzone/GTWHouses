@@ -4,7 +4,6 @@ import com.edgarssilva.gtwhouses.GTWHouses;
 import com.edgarssilva.gtwhouses.util.House;
 import com.edgarssilva.gtwhouses.manager.HouseManager;
 import com.edgarssilva.gtwhouses.util.HouseBlock;
-import com.edgarssilva.gtwhouses.world_guard.GTWHousesFlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.ChatColor;
@@ -34,7 +33,7 @@ public class HouseBlockBreak implements Listener {
             House house = HouseManager.getHouse(region.getId());
             if (house == null) continue;
 
-            World world = player.getServer().getWorld(house.getWorld());
+            World world = player.getServer().getWorld(house.getWorldUUID());
 
             for (HouseBlock houseBlock : house.getBlocks()) {
                 if (!houseBlock.getLocation(world).equals(event.getBlock().getLocation()))

@@ -14,23 +14,29 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ListHousesCommand extends AtumSubcommand {
-
-    public ListHousesCommand(GTWHouses plugin, AtumCommand parent) {
-        super(plugin, "list", parent);
+public class UnsellHouseCommand extends AtumSubcommand {
+    public UnsellHouseCommand(GTWHouses plugin, AtumCommand parent) {
+        super(plugin, "unsell", parent);
     }
 
     @Override
     protected void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) throws NotificationException {
         Player player = (Player) sender;
 
-        List<House> houses = HouseManager.getPlayerHouses(player.getUniqueId());
-        if (houses.isEmpty()) {
-            player.sendMessage("You don't have any houses");
-            return;
-        }
-        player.sendMessage("Houses you are currently renting:");
-        houses.forEach(house -> player.sendMessage(" - " + ChatColor.BOLD + ChatColor.GOLD + house.getName() + ChatColor.RESET + " with a rent of " + ChatColor.GREEN + house.getRentPerDay() + ChatColor.RESET + " per day"));
+        if (args.isEmpty())
+            throw new NotificationException("Usage: " + getUsage());
+
+        String houseName = args.get(0);
+
+        House house = HouseManager.getHouse(houseName);
+        if (house == null)
+            throw new NotificationException("House not found");
+
+        if (!house.getOwner().equals(player.getUniqueId()))
+            throw new NotificationException("You are not the owner of this house");
+
+        house.setSellable(-1);
+        player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is no longer for sale");
     }
 
     @Override
@@ -40,11 +46,11 @@ public class ListHousesCommand extends AtumSubcommand {
 
     @Override
     public @NotNull String getDescription() {
-        return "Lists all houses belonging to the player";
+        return "Makes a house not for sale";
     }
 
     @Override
     public @NotNull String getUsage() {
-        return "/house list";
+        return "/house unsell <house>";
     }
 }

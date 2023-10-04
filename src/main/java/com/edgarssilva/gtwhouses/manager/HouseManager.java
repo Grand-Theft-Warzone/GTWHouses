@@ -31,11 +31,21 @@ public class HouseManager {
         return houses.get(houseName);
     }
 
-    public static List<House> getPlayerHouses(UUID player) {
+    public static List<House> getPlayerRenterHouses(UUID player) {
         List<House> playerHouses = new ArrayList<>();
 
         houses.forEach((name, house) -> {
-            if (house.getOwner() != null && house.getOwner().equals(player))
+            if (house.getRent().isRented() && house.getRent().getRenter().equals(player))
+                playerHouses.add(house);
+        });
+
+        return playerHouses;
+    }
+    public static List<House> getPlayerHousesOwned(UUID player) {
+        List<House> playerHouses = new ArrayList<>();
+
+        houses.forEach((name, house) -> {
+            if (house.isOwned() && house.getOwner().equals(player))
                 playerHouses.add(house);
         });
 

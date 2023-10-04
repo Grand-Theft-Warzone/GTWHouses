@@ -30,7 +30,7 @@ public class RegisterHouseCommand extends AtumSubcommand {
     private final GTWHouses plugin;
 
     protected RegisterHouseCommand(GTWHouses plugin, AtumCommand parent) {
-        super(plugin, "register", parent);
+        super(plugin, "register","house.houseadmin", parent);
         this.plugin = plugin;
     }
 
@@ -38,19 +38,24 @@ public class RegisterHouseCommand extends AtumSubcommand {
     protected void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) throws NotificationException {
         Player player = (Player) sender;
 
-        if (args.size() < 2) {
+        if (args.size() < 3) {
             throw new NotificationException("Usage: " + getUsage());
         }
 
         String houseName = args.get(0);
         String rentArg = args.get(1);
+        String buyCostArg = args.get(2);
 
         double rent;
+        double buyCost;
         try  {
             rent = Double.parseDouble(rentArg);
             if (rent <= 0) throw new NotificationException("Rent must be greater than 0.");
+
+            buyCost = Double.parseDouble(buyCostArg);
+            if (buyCost <= 0) throw new NotificationException("Buy cost must be greater than 0.");
         } catch (NumberFormatException e) {
-            throw new NotificationException("Rent must be a valid number.");
+            throw new NotificationException("Rent and buy cost must be a valid numbers.");
         }
 
 //        com.sk89q.worldedit.entity.Player wePlayer = worldEditPlugin.wrapPlayer(player);
@@ -104,7 +109,7 @@ public class RegisterHouseCommand extends AtumSubcommand {
         try {
             regionManager.save();
 
-            if (HouseManager.registerHouse(new House(houseName, world.getUID(), houseBlocks, rent)))
+            if (HouseManager.registerHouse(new House(houseName, world.getUID(), houseBlocks, rent, buyCost)))
                 player.sendMessage("House registered successfully.");
             else throw new NotificationException("A house with this name already exists.");
 
@@ -125,6 +130,6 @@ public class RegisterHouseCommand extends AtumSubcommand {
 
     @Override
     public @NotNull String getUsage() {
-        return "/house register <house name> <rent per day>";
+        return "/house register <house name> <rent per day> <buy cost>";
     }
 }

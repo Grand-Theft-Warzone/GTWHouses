@@ -46,6 +46,7 @@ public class HouseRemoveCommand extends AtumSubcommand {
         HouseManager.removeHouse(houseName);
 
         player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " removed.");
+        //TODO: Add message to the house owner and renter
     }
 
     @Override

@@ -21,7 +21,7 @@ import java.util.List;
 public class ResetHouseCommand extends AtumSubcommand {
 
     protected ResetHouseCommand(GTWHouses plugin, @NotNull CommandBase parent) {
-        super(plugin, "reset", parent);
+        super(plugin, "reset","house.houseadmin", parent);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ResetHouseCommand extends AtumSubcommand {
         House house = HouseManager.getHouse(houseName);
         if (house == null) throw new NotificationException("House not found.");
 
-        World world = server.getWorld(house.getWorld());
+        World world = server.getWorld(house.getWorldUUID());
 
         try {
             RegionManager rm = GTWHouses.getInstance().getWorldGuardPlugin().getRegionManager(world);

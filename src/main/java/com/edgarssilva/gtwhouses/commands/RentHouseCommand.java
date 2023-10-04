@@ -10,6 +10,7 @@ import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -38,36 +39,41 @@ public class RentHouseCommand extends AtumSubcommand {
         try {
             rentDays = Integer.parseInt(rentDaysArg);
             if (rentDays < 1) throw new NotificationException("Rent days must be greater than 0.");
+            if (rentDays > 7) throw new NotificationException("You can't rent a house for more than 7 days.");
         } catch (NumberFormatException e) {
             throw new NotificationException("Rent days must be a valid number.");
         }
 
-        if (rentDays > 7) throw new NotificationException("You can't rent a house for more than 7 days.");
-
         House house = HouseManager.getHouse(houseName);
         if (house == null) throw new NotificationException(ChatColor.RED + "House not found.");
 
-        if (house.getRentStatus() != HouseUtils.RentStatus.NOT_RENTED)
+        if (!house.isRentable()) throw new NotificationException(ChatColor.RED + "This house is not rentable.");
+
+        if (house.getRent().isRented())
             throw new NotificationException(ChatColor.RED + "House is already rented.");
 
         Server server = sender.getServer();
-        World world = server.getWorld(house.getWorld());
+        World world = server.getWorld(house.getWorldUUID());
 
         ProtectedRegion protectedRegion = GTWHouses.getInstance().getWorldGuardPlugin().getRegionManager(world).getRegion(house.getName());
         if (protectedRegion == null) throw new NotificationException("House region not found.");
 
-        double rentPrice = house.getRentPerDay() * rentDays;
+        double rentPrice = house.getRent().getCostPerDay() * rentDays;
         Economy economy = GTWHouses.getInstance().getEconomy();
         if (!economy.has(player, rentPrice))
             throw new NotificationException("You don't have " + ChatColor.GREEN + "$" + rentPrice + ChatColor.RESET + " to rent this house for " + rentDays + " days.");
 
-        economy.withdrawPlayer(player, house.getRentPerDay() * rentDays);
+        OfflinePlayer offlinePlayer = server.getOfflinePlayer(house.getOwner());
+        if (offlinePlayer != null)
+            economy.depositPlayer(offlinePlayer, rentPrice);
+        economy.withdrawPlayer(player, rentPrice);
 
         protectedRegion.getOwners().addPlayer(player.getUniqueId());
-        house.setOwner(player.getUniqueId(), rentDays);
+        house.getRent().startRent(player.getUniqueId(), rentDays);
 
 
         player.sendMessage("You have rented the house " + ChatColor.GOLD + houseName + ChatColor.RESET + " for " + ChatColor.YELLOW + rentDays + ChatColor.RESET + " day" + (rentDays > 1 ? "s" : "") + ".");
+        //TODO: Add message to the house owner
     }
 
     @Override

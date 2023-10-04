@@ -1,7 +1,5 @@
 package com.edgarssilva.gtwhouses.util;
 
-import com.edgarssilva.gtwhouses.manager.HouseManager;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -17,20 +15,61 @@ public class House implements Serializable {
 
     private UUID owner;
 
-    private double rentPerDay;
+    private double rentConst;
+    private double defaultCost;
 
     private Date lastRent;
 
     private int rentDaysDuration;
 
-    private HouseUtils.RentStatus rentStatus;
+    private HouseRent rent;
 
-    public House(String name, UUID world, List<HouseBlock> blocks, double rentPerDay) {
+    private double sellCost;
+
+    public House(String name, UUID world, List<HouseBlock> blocks, double costPerDay, double buyCost) {
         this.name = name;
         this.world = world;
         this.blocks = blocks;
-        this.rentPerDay = rentPerDay;
-        this.rentStatus = HouseUtils.RentStatus.NOT_RENTED;
+        this.rentConst = costPerDay;
+        this.defaultCost = buyCost;
+        this.rent = new HouseRent(costPerDay);
+        this.sellCost = -1;
+    }
+
+    public boolean isSellable() {
+        return sellCost != -1 && !isOwned();
+    }
+
+    public void setSellable(double sellCost) {
+        this.sellCost = sellCost;
+    }
+
+    public double getSellCost() {
+        return sellCost;
+    }
+
+    public boolean isRentable() {
+        return rent != null;
+    }
+
+    public void setRentable(HouseRent rent) {
+        this.rent = rent;
+    }
+
+    public void resetRent() {
+        setRentable(new HouseRent(rentConst));
+    }
+
+    public void setUnrentable() {
+        setRentable(null);
+    }
+
+    public HouseRent getRent() {
+        return rent;
+    }
+
+    public double getDefaultCost() {
+        return defaultCost;
     }
 
     public String getName() {
@@ -41,61 +80,20 @@ public class House implements Serializable {
         return blocks;
     }
 
-    public double getRentPerDay() {
-        return rentPerDay;
-    }
-
-    public void setRentPerDay(double rentPerDay) {
-        this.rentPerDay = rentPerDay;
-    }
-
-    public void setOwner(UUID owner, int rentDaysDuration) {
+    public void setOwner(UUID owner) {
         this.owner = owner;
-        updateRent(rentDaysDuration);
+        this.sellCost = -1;
     }
 
-    public void updateRent(int rentDaysDuration) {
-        this.rentDaysDuration = rentDaysDuration;
-        this.setLastRent(new Date());
-        this.rentStatus = HouseUtils.RentStatus.RENTED;
+    public boolean isOwned() {
+        return owner != null;
     }
 
     public UUID getOwner() {
         return owner;
     }
 
-    public int getRentDaysDuration() {
-        return rentDaysDuration;
-    }
-
-    public void setLastRent(Date lastRent) {
-        this.lastRent = lastRent;
-    }
-
-    public Date getLastRent() {
-        return lastRent;
-    }
-
-    public void setRentStatus(HouseUtils.RentStatus rentStatus) {
-        this.rentStatus = rentStatus;
-    }
-
-    public HouseUtils.RentStatus getRentStatus() {
-        return rentStatus;
-    }
-
-    public UUID getWorld() {
+    public UUID getWorldUUID() {
         return world;
-    }
-
-    public void resetOwner() {
-        this.owner = null;
-        this.rentDaysDuration = 0;
-        this.lastRent = null;
-        this.rentStatus = HouseUtils.RentStatus.NOT_RENTED;
-    }
-
-    public String getRentWarning() {
-        return rentStatus.getWarning(this);
     }
 }

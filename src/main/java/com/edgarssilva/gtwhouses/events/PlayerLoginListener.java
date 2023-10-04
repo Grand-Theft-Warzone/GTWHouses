@@ -3,6 +3,7 @@ package com.edgarssilva.gtwhouses.events;
 import com.edgarssilva.gtwhouses.GTWHouses;
 import com.edgarssilva.gtwhouses.manager.HouseManager;
 import com.edgarssilva.gtwhouses.util.House;
+import com.edgarssilva.gtwhouses.util.HouseRent;
 import com.edgarssilva.gtwhouses.util.HouseUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,11 +20,13 @@ public class PlayerLoginListener implements Listener {
         Player player = event.getPlayer();
 
         ArrayList<String> warnings = new ArrayList<>();
-        for (House h : HouseManager.getPlayerHouses(player.getUniqueId())) {
-            if (h.getRentStatus() == HouseUtils.RentStatus.RENTED || h.getRentStatus() == HouseUtils.RentStatus.NOT_RENTED)
+        for (House h : HouseManager.getPlayerRenterHouses(player.getUniqueId())) {
+            if (!h.isRentable()) continue;
+            HouseRent rent = h.getRent();
+            if (rent.getStatus()  == HouseRent.RentStatus.RENTED || rent.getStatus() == HouseRent.RentStatus.NOT_RENTED)
                 continue;
 
-            warnings.add(h.getRentWarning());
+            warnings.add(h.getRent().getStatus().getWarning(h));
         }
 
         new BukkitRunnable() {

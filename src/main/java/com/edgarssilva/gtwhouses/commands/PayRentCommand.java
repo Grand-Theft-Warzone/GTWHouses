@@ -10,6 +10,7 @@ import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -36,7 +37,8 @@ public class PayRentCommand extends AtumSubcommand {
         int rentDays;
         try {
             rentDays = Integer.parseInt(rentDaysArg);
-            if (rentDays < 1) throw new NotificationException(ChatColor.RED + "Rent days must be greater than 0.");
+            if (rentDays < 1 || rentDays > 7)
+                throw new NotificationException(ChatColor.RED + "Rent days must be greater than 0 and smaller than 7.");
         } catch (Exception e) {
             throw new NotificationException(ChatColor.RED + "Rent days must be a valid number.");
         }
@@ -44,16 +46,16 @@ public class PayRentCommand extends AtumSubcommand {
 
         House house = HouseManager.getHouse(houseName);
         if (house == null) throw new NotificationException("House not found.");
-        if (!house.getOwner().equals(player.getUniqueId()))
+        if (!house.isRentable() || !house.getRent().getRenter().equals(player.getUniqueId()))
             throw new NotificationException(ChatColor.RED + "You are not the owner of this house.");
 
         Server server = sender.getServer();
-        World world = server.getWorld(house.getWorld());
+        World world = server.getWorld(house.getWorldUUID());
 
         ProtectedRegion protectedRegion = GTWHouses.getInstance().getWorldGuardPlugin().getRegionManager(world).getRegion(house.getName());
         if (protectedRegion == null) throw new NotificationException("House region not found.");
 
-        int remainingDays = HouseUtils.getRemainingRentDays(house);
+        int remainingDays = HouseUtils.getRemainingRentDays(house.getRent());
         if (remainingDays < 0) remainingDays = 0;
 
         int totalRentDays = remainingDays + rentDays;
@@ -61,16 +63,21 @@ public class PayRentCommand extends AtumSubcommand {
         if (totalRentDays > 7)
             throw new NotificationException(ChatColor.RED + "You can't pay rent for more than 7 days." + ChatColor.RESET + " Current rent days: " + ChatColor.YELLOW + remainingDays);
 
-        double rentPrice = house.getRentPerDay() * totalRentDays;
+        double rentPrice = house.getRent().getCostPerDay() * totalRentDays;
         Economy economy = GTWHouses.getInstance().getEconomy();
-        if (!economy.has(player, house.getRentPerDay() * rentDays))
+        if (!economy.has(player, house.getRent().getCostPerDay() * rentDays))
             throw new NotificationException("You don't have " + ChatColor.GREEN + "$" + rentPrice + ChatColor.RESET + " to rent this house for " + rentDays + " days.");
 
-        economy.withdrawPlayer(player, house.getRentPerDay() * rentDays);
 
-        house.updateRent(totalRentDays);
+        OfflinePlayer owner = server.getOfflinePlayer(house.getOwner());
+        if (owner != null)
+            economy.depositPlayer(owner, rentPrice);
+        economy.withdrawPlayer(player, rentPrice);
+
+        house.getRent().renewRent(totalRentDays);
 
         player.sendMessage("You've paid " + ChatColor.GREEN + "$" + rentPrice + ChatColor.RESET + " rent of the house " + ChatColor.GOLD + houseName + ChatColor.RESET + " for " + ChatColor.YELLOW + rentDays + ChatColor.RESET + " day" + (rentDays > 1 ? "s" : "") + ".");
+        //TODO: Add message to the house owner
     }
 
     @Override

@@ -16,6 +16,9 @@ commands:
     aliases:
       - houses
 permissions:
+  house.houseplayer:
+    description: Allows the player to buy and rent houses.
+    default: true
   house.houseadmin:
     description: Allows the player to manage houses.
     default: op

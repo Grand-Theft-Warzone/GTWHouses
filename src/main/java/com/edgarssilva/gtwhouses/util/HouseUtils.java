@@ -50,45 +50,60 @@ public class HouseUtils {
             }
         }
 
-        house.resetOwner();
+        Server server = GTWHouses.getInstance().getServer();
+
+        if (house.isOwned()) house.setOwner(null); //TODO: Also send message to owner
+        if (house.isRentable()) {
+            if (house.getRent().isRented()) {
+                house.getRent().setRenewable(false);
+                Player renter = server.getPlayer(house.getRent().getRenter());
+                if (renter != null)
+                    renter.sendMessage("Your house" + house.getName() + "has changed owner. You can no longer renew your rent.");
+                //TODO: Send message to renter when he logs in
+            }
+        }
+
         rm.save();
         HouseManager.setDirty();
         return true;
     }
 
 
-    public static int getRemainingRentDays(House house) {
-        long diff = new Date().getTime() - house.getLastRent().getTime();
+    public static int getRemainingRentDays(HouseRent rent) {
+        if (rent == null || !rent.isRented()) return -1;
+
+        long diff = new Date().getTime() - rent.getStartDate().getTime();
         int days = (int) diff / (24 * 60 * 60 * 1000);
-        return house.getRentDaysDuration() - days;
+        return rent.getDaysDuration() - days;
     }
 
     public static void handleRent(Player player, boolean requested) {
-        if (player == null)  return;
+        if (player == null) return;
 
         Server server = player.getServer();
         if (server == null) return;
 
         List<House> toBeReset = new ArrayList<>();
 
-        for (House h : HouseManager.getPlayerHouses(player.getUniqueId())) {
-            if (h.getRentStatus() == RentStatus.NOT_RENTED) continue;
+        for (House h : HouseManager.getPlayerRenterHouses(player.getUniqueId())) {
+            HouseRent rent = h.getRent();
+            if (!rent.isRented()) continue;
 
-            RentStatus status = RentStatus.fromDays(getRemainingRentDays(h));
+            HouseRent.RentStatus status = HouseRent.RentStatus.fromDays(getRemainingRentDays(rent));
 
-            if (requested || status != h.getRentStatus())
+            if (requested || status != rent.getStatus())
                 player.sendMessage(status.getWarning(h));
 
-            if (status != h.getRentStatus()) {
-                h.setRentStatus(status);
+            if (status != rent.getStatus()) {
+                rent.setStatus(status);
                 HouseManager.setDirty();
             }
 
-            if (status == RentStatus.OVERDUE) toBeReset.add(h);
+            if (status == HouseRent.RentStatus.OVERDUE) toBeReset.add(h);
         }
 
         for (House h : toBeReset) {
-            World world = server.getWorld(h.getWorld());
+            World world = server.getWorld(h.getWorldUUID());
             RegionManager rm = GTWHouses.getInstance().getWorldGuardPlugin().getRegionManager(world);
 
             try {
@@ -99,49 +114,4 @@ public class HouseUtils {
         }
     }
 
-    public enum RentStatus {
-        OVERDUE, // More than 1 day overdue
-        EXPIRED, // Expired (still has 1 day to pay)
-        CLOSE_TO_EXPIRE, // 1 day left
-        EXPIRING, // Today
-        RENTED, // More than 1 day left
-        NOT_RENTED // Not rented
-        ;
-
-        public static RentStatus fromDays(int daysLeft) {
-            switch (daysLeft) {
-                case 0:
-                    return EXPIRING;
-                case 1:
-                    return CLOSE_TO_EXPIRE;
-                case -1:
-                    return EXPIRED;
-                default:
-                    return daysLeft < -1 ? OVERDUE : RENTED;
-            }
-        }
-
-        public String getWarning(House house) {
-            String houseName = ChatColor.GOLD + house.getName() + ChatColor.RED;
-
-            int daysLeft = getRemainingRentDays(house);
-
-            switch (this) {
-                case EXPIRED:
-                    return "§cYour house " + houseName + " rent has expired. You have until today to pay it.";
-                case CLOSE_TO_EXPIRE:
-                    return "§cYour house " + houseName + " rent will expire in 1 day.";
-                case EXPIRING:
-                    return "§cYour house " + houseName + " rent will expire today.";
-                case OVERDUE:
-                    return "§cYour house " + houseName + " rent is overdue. Resetting house...";
-                default:
-                    return "You house " + houseName + ChatColor.RESET + " rent will expire in " + ChatColor.YELLOW + daysLeft + ChatColor.RESET + " day" + (daysLeft > 1 ? "s" : "") + ".";
-            }
-        }
-
-        public boolean isRented() {
-            return this != NOT_RENTED;
-        }
-    }
 }
