@@ -10,9 +10,9 @@ depend:
 
 commands:
   house:
-    description: Create, delete and manage houses!
+    description: Buy, sell, rent and all about houses!
     usage: "/house [register|reset|remove|list|rent...]"
-    permission: house.houseadmin
+    permission: house.player
     aliases:
       - houses
 permissions:

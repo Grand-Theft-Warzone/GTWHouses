@@ -35,12 +35,13 @@ public class HouseManager {
         List<House> playerHouses = new ArrayList<>();
 
         houses.forEach((name, house) -> {
-            if (house.getRent().isRented() && house.getRent().getRenter().equals(player))
+            if (house.isRentable() && house.getRent().isRented() && house.getRent().getRenter().equals(player))
                 playerHouses.add(house);
         });
 
         return playerHouses;
     }
+
     public static List<House> getPlayerHousesOwned(UUID player) {
         List<House> playerHouses = new ArrayList<>();
 
@@ -78,6 +79,7 @@ public class HouseManager {
 
             GTWHouses.getInstance().getLogger().info("Loaded " + loadedHouses.size() + " houses!");
         } catch (Exception e) {
+            e.printStackTrace();
             GTWHouses.getInstance().getLogger().severe("Error while loading houses.sav file.");
         }
     }
@@ -100,6 +102,7 @@ public class HouseManager {
             isDirty = false;
             GTWHouses.getInstance().getLogger().info("Saving houses...");
         } catch (Exception e) {
+            e.printStackTrace();
             GTWHouses.getInstance().getLogger().severe("Error while saving houses data!");
 
         }

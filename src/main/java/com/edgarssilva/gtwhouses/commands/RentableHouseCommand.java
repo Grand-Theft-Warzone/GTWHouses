@@ -3,6 +3,7 @@ package com.edgarssilva.gtwhouses.commands;
 import com.edgarssilva.gtwhouses.GTWHouses;
 import com.edgarssilva.gtwhouses.manager.HouseManager;
 import com.edgarssilva.gtwhouses.util.House;
+import com.edgarssilva.gtwhouses.util.HouseRent;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
@@ -14,48 +15,44 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class SellHouseCommand extends AtumSubcommand {
+public class RentableHouseCommand extends AtumSubcommand {
 
-    public SellHouseCommand(GTWHouses plugin, AtumCommand parent) {
-        super(plugin, "sell", parent);
+    public RentableHouseCommand(GTWHouses plugin, AtumCommand parent) {
+        super(plugin, "rentable", parent);
     }
 
     @Override
     protected void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) throws NotificationException {
         Player player = (Player) sender;
 
-        if (args.size() < 2) {
-            throw new NotificationException("You must specify a house and a cost");
-        }
+        if (args.size() < 2)
+            throw new NotificationException("Usage: " + getUsage());
 
         String houseName = args.get(0);
-        double cost;
+        double costPerDay;
         try {
-            cost = Double.parseDouble(args.get(1));
+            costPerDay = Double.parseDouble(args.get(1));
+            if (costPerDay < 0)
+                throw new NotificationException("Cost per day must be a positive number");
         } catch (NumberFormatException e) {
-            throw new NotificationException("The cost must be a number");
+            throw new NotificationException("Cost per day must be a valid number");
         }
 
         House house = HouseManager.getHouse(houseName);
-        if (house == null) {
+
+        if (house == null)
             throw new NotificationException("House not found");
-        }
 
-        if (!house.getOwner().equals(player.getUniqueId())) {
+        if (!house.getOwner().equals(player.getUniqueId()))
             throw new NotificationException("You are not the owner of this house");
-        }
 
-        if (house.isSellable()) {
-            throw new NotificationException("This house is already for sale");
-        }
+        if (house.getRent() != null && house.getRent().isRented())
+            throw new NotificationException("This house is already rented");
 
-        house.setSellable(cost);
+        house.setRentable(costPerDay);
         HouseManager.setDirty();
-        player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is now for sale for " + cost);
 
-        if (house.isRentable()) {
-            //TODO: Notifiy the player that the rent is not renewable
-        }
+        player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is available for rent for " + ChatColor.GREEN + "$" + costPerDay + ChatColor.RESET + " per day");
     }
 
     @Override
@@ -65,11 +62,11 @@ public class SellHouseCommand extends AtumSubcommand {
 
     @Override
     public @NotNull String getDescription() {
-        return "Set a house for sale";
+        return "Makes a house available for rent";
     }
 
     @Override
     public @NotNull String getUsage() {
-        return "/house sell <house> <cost>";
+        return "/house rent <house> <cost per day>";
     }
 }

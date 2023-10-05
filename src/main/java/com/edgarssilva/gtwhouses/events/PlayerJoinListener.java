@@ -4,7 +4,6 @@ import com.edgarssilva.gtwhouses.GTWHouses;
 import com.edgarssilva.gtwhouses.manager.HouseManager;
 import com.edgarssilva.gtwhouses.util.House;
 import com.edgarssilva.gtwhouses.util.HouseRent;
-import com.edgarssilva.gtwhouses.util.HouseUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,10 +12,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 
-public class PlayerLoginListener implements Listener {
+public class PlayerJoinListener implements Listener {
 
     @EventHandler
-    public void onPlayerLogin(PlayerJoinEvent event) {
+    public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
         ArrayList<String> warnings = new ArrayList<>();

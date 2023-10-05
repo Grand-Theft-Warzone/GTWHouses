@@ -115,7 +115,7 @@ public class HouseRent implements Serializable {
 
             switch (house.getRent().getStatus()) {
                 case EXPIRED:
-                    return "§cYour house " + houseName + " rent has expired. You have until today to pay it.";
+                    return "§cYour house " + houseName + " rent has expired." + (house.getRent().isRenewable() ? " You have until today to pay it." : " Resetting house... ");
                 case CLOSE_TO_EXPIRE:
                     return "§cYour house " + houseName + " rent will expire in 1 day.";
                 case EXPIRING:
@@ -124,6 +124,17 @@ public class HouseRent implements Serializable {
                     return "§cYour house " + houseName + " rent is overdue. Resetting house...";
                 default:
                     return "You house " + houseName + ChatColor.RESET + " rent will expire in " + ChatColor.YELLOW + daysLeft + ChatColor.RESET + " day" + (daysLeft > 1 ? "s" : "") + ".";
+            }
+        }
+
+        public boolean shouldReset(House house) {
+            switch (house.getRent().getStatus()) {
+                case EXPIRED:
+                    return !house.getRent().isRenewable();
+                case OVERDUE:
+                    return true;
+                default:
+                    return false;
             }
         }
     }

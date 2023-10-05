@@ -14,48 +14,36 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class SellHouseCommand extends AtumSubcommand {
+public class UnrentableHouseCommand extends AtumSubcommand {
 
-    public SellHouseCommand(GTWHouses plugin, AtumCommand parent) {
-        super(plugin, "sell", parent);
+    public UnrentableHouseCommand(GTWHouses plugin, AtumCommand parent) {
+        super(plugin, "unrentable", parent);
     }
 
     @Override
     protected void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) throws NotificationException {
         Player player = (Player) sender;
 
-        if (args.size() < 2) {
-            throw new NotificationException("You must specify a house and a cost");
-        }
+        if (args.isEmpty())
+            throw new NotificationException("Usage: " + getUsage());
 
         String houseName = args.get(0);
-        double cost;
-        try {
-            cost = Double.parseDouble(args.get(1));
-        } catch (NumberFormatException e) {
-            throw new NotificationException("The cost must be a number");
-        }
 
         House house = HouseManager.getHouse(houseName);
-        if (house == null) {
+        if (house == null)
             throw new NotificationException("House not found");
-        }
 
-        if (!house.getOwner().equals(player.getUniqueId())) {
+        if (!house.getOwner().equals(player.getUniqueId()))
             throw new NotificationException("You are not the owner of this house");
-        }
-
-        if (house.isSellable()) {
-            throw new NotificationException("This house is already for sale");
-        }
-
-        house.setSellable(cost);
-        HouseManager.setDirty();
-        player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is now for sale for " + cost);
 
         if (house.isRentable()) {
-            //TODO: Notifiy the player that the rent is not renewable
+            if (!house.getRent().isRented()) house.setUnrentable();
+            else house.getRent().setRenewable(false);
         }
+
+        HouseManager.setDirty();
+        player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is no longer for rent");
+        //TODO: Add a message to the player who is renting the house
     }
 
     @Override
@@ -65,11 +53,11 @@ public class SellHouseCommand extends AtumSubcommand {
 
     @Override
     public @NotNull String getDescription() {
-        return "Set a house for sale";
+        return "Makes a house not available for rent";
     }
 
     @Override
     public @NotNull String getUsage() {
-        return "/house sell <house> <cost>";
+        return "/house unrentable <house>";
     }
 }

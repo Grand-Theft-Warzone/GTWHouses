@@ -36,6 +36,7 @@ public class UnsellHouseCommand extends AtumSubcommand {
             throw new NotificationException("You are not the owner of this house");
 
         house.setSellable(-1);
+        HouseManager.setDirty();
         player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is no longer for sale");
     }
 

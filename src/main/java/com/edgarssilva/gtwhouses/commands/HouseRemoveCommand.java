@@ -61,6 +61,6 @@ public class HouseRemoveCommand extends AtumSubcommand {
 
     @Override
     public @NotNull String getUsage() {
-        return "/house remove <house_name>";
+        return "/house remove <house>";
     }
 }

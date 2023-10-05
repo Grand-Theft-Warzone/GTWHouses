@@ -46,8 +46,11 @@ public class PayRentCommand extends AtumSubcommand {
 
         House house = HouseManager.getHouse(houseName);
         if (house == null) throw new NotificationException("House not found.");
-        if (!house.isRentable() || !house.getRent().getRenter().equals(player.getUniqueId()))
-            throw new NotificationException(ChatColor.RED + "You are not the owner of this house.");
+
+        if (!house.isRentable()) throw new NotificationException(ChatColor.RED + "This house is not rentable.");
+
+        if (!house.getRent().getRenter().equals(player.getUniqueId()))
+            throw new NotificationException(ChatColor.RED + "You are not paying rent for this house.");
 
         Server server = sender.getServer();
         World world = server.getWorld(house.getWorldUUID());
@@ -76,6 +79,7 @@ public class PayRentCommand extends AtumSubcommand {
 
         house.getRent().renewRent(totalRentDays);
 
+        HouseManager.setDirty();
         player.sendMessage("You've paid " + ChatColor.GREEN + "$" + rentPrice + ChatColor.RESET + " rent of the house " + ChatColor.GOLD + houseName + ChatColor.RESET + " for " + ChatColor.YELLOW + rentDays + ChatColor.RESET + " day" + (rentDays > 1 ? "s" : "") + ".");
         //TODO: Add message to the house owner
     }

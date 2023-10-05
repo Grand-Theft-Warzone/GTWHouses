@@ -28,6 +28,17 @@ public class HouseUtils {
         region.getMembers().removeAll();
         region.getOwners().removeAll();
 
+        resetHouseBlocks(house, region, world);
+
+        house.setOwner(null); //TODO: Send message to owner and renter
+        house.resetRent();
+
+        rm.save();
+        HouseManager.setDirty();
+        return true;
+    }
+
+    public static void resetHouseBlocks(House house, ProtectedRegion region, World world) {
         Vector min = region.getMinimumPoint();
         Vector max = region.getMaximumPoint();
 
@@ -49,25 +60,7 @@ public class HouseUtils {
                 }
             }
         }
-
-        Server server = GTWHouses.getInstance().getServer();
-
-        if (house.isOwned()) house.setOwner(null); //TODO: Also send message to owner
-        if (house.isRentable()) {
-            if (house.getRent().isRented()) {
-                house.getRent().setRenewable(false);
-                Player renter = server.getPlayer(house.getRent().getRenter());
-                if (renter != null)
-                    renter.sendMessage("Your house" + house.getName() + "has changed owner. You can no longer renew your rent.");
-                //TODO: Send message to renter when he logs in
-            }
-        }
-
-        rm.save();
-        HouseManager.setDirty();
-        return true;
     }
-
 
     public static int getRemainingRentDays(HouseRent rent) {
         if (rent == null || !rent.isRented()) return -1;
@@ -99,19 +92,46 @@ public class HouseUtils {
                 HouseManager.setDirty();
             }
 
-            if (status == HouseRent.RentStatus.OVERDUE) toBeReset.add(h);
+            if (status.shouldReset(h)) toBeReset.add(h);
         }
 
         for (House h : toBeReset) {
             World world = server.getWorld(h.getWorldUUID());
             RegionManager rm = GTWHouses.getInstance().getWorldGuardPlugin().getRegionManager(world);
+            ProtectedRegion region = rm.getRegion(h.getName());
+            if (region == null) continue;
 
-            try {
-                resetHouse(rm, h, world);
-            } catch (StorageException e) {
-                GTWHouses.getInstance().getLogger().warning(e.getLocalizedMessage());
-            }
+            resetHouseBlocks(h, region, world);
+
+            if (h.isRentable()) h.getRent().stopRent();
+
+            updateRegionPermissions(h);
         }
     }
 
+    public static void updateRegionPermissions(House house) {
+        if (house == null) return;
+
+        World world = GTWHouses.getInstance().getServer().getWorld(house.getWorldUUID());
+        if (world == null) return;
+
+        RegionManager rm = GTWHouses.getInstance().getWorldGuardPlugin().getRegionManager(world);
+        if (rm == null) return;
+
+        ProtectedRegion region = rm.getRegion(house.getName());
+        if (region == null) return;
+
+        region.getMembers().removeAll();
+        region.getOwners().removeAll();
+
+        if (house.isRentable() && house.getRent().isRented()) {
+            region.getOwners().addPlayer(house.getRent().getRenter());
+            region.getMembers().addPlayer(house.getRent().getRenter());
+            if (house.isOwned())
+                region.getMembers().addPlayer(house.getOwner());
+        } else if (house.isOwned()) {
+            region.getOwners().addPlayer(house.getOwner());
+            region.getMembers().addPlayer(house.getOwner());
+        }
+    }
 }

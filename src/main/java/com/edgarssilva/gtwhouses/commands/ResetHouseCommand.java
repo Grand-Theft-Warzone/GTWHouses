@@ -62,6 +62,6 @@ public class ResetHouseCommand extends AtumSubcommand {
 
     @Override
     public @NotNull String getUsage() {
-        return "/house reset <house_name>";
+        return "/house reset <house>";
     }
 }

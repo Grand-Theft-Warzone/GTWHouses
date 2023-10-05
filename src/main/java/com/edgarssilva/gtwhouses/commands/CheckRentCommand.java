@@ -22,6 +22,7 @@ public class CheckRentCommand extends AtumSubcommand {
     protected void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) throws NotificationException {
         Player player = (Player) sender;
 
+        player.sendMessage("Checking rent status...");
         HouseUtils.handleRent(player, true);
     }
 

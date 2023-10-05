@@ -49,8 +49,7 @@ public class RentHouseCommand extends AtumSubcommand {
 
         if (!house.isRentable()) throw new NotificationException(ChatColor.RED + "This house is not rentable.");
 
-        if (house.getRent().isRented())
-            throw new NotificationException(ChatColor.RED + "House is already rented.");
+        if (house.getRent().isRented()) throw new NotificationException(ChatColor.RED + "House is already rented.");
 
         Server server = sender.getServer();
         World world = server.getWorld(house.getWorldUUID());
@@ -64,15 +63,21 @@ public class RentHouseCommand extends AtumSubcommand {
             throw new NotificationException("You don't have " + ChatColor.GREEN + "$" + rentPrice + ChatColor.RESET + " to rent this house for " + rentDays + " days.");
 
         OfflinePlayer offlinePlayer = server.getOfflinePlayer(house.getOwner());
-        if (offlinePlayer != null)
-            economy.depositPlayer(offlinePlayer, rentPrice);
+        if (offlinePlayer != null) economy.depositPlayer(offlinePlayer, rentPrice);
         economy.withdrawPlayer(player, rentPrice);
 
         protectedRegion.getOwners().addPlayer(player.getUniqueId());
         house.getRent().startRent(player.getUniqueId(), rentDays);
 
+        HouseUtils.updateRegionPermissions(house);
+        HouseManager.setDirty();
 
-        player.sendMessage("You have rented the house " + ChatColor.GOLD + houseName + ChatColor.RESET + " for " + ChatColor.YELLOW + rentDays + ChatColor.RESET + " day" + (rentDays > 1 ? "s" : "") + ".");
+
+        player.sendMessage(
+                "You have rented the house " + ChatColor.GOLD + houseName + ChatColor.RESET
+                        + " for " + ChatColor.YELLOW + rentDays + ChatColor.RESET + " day" + (rentDays > 1 ? "s" : "")
+                        + " for " + ChatColor.GREEN + "$" + rentPrice + ChatColor.RESET + "."
+        );
         //TODO: Add message to the house owner
     }
 
@@ -88,6 +93,6 @@ public class RentHouseCommand extends AtumSubcommand {
 
     @Override
     public @NotNull String getUsage() {
-        return "/house rent <house_name> <rent_days>";
+        return "/house rent <house> <rent_days>";
     }
 }

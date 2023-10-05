@@ -3,6 +3,7 @@ package com.edgarssilva.gtwhouses.commands;
 import com.edgarssilva.gtwhouses.GTWHouses;
 import com.edgarssilva.gtwhouses.manager.HouseManager;
 import com.edgarssilva.gtwhouses.util.House;
+import com.edgarssilva.gtwhouses.util.HouseUtils;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
@@ -35,18 +36,14 @@ public class BuyHouseCommand extends AtumSubcommand {
         if (house == null)
             throw new NotificationException("House not found");
 
-        double cost;
-        if (!house.isOwned()) cost = house.getDefaultCost();
-        else {
-            if (!house.isSellable())
-                throw new NotificationException("House is not for sale");
+        if (!house.isSellable())
+            throw new NotificationException("House is not for sale");
 
-            cost = house.getSellCost();
-        }
+        double cost = house.getCost();
 
         Economy economy = GTWHouses.getInstance().getEconomy();
         if (!economy.has(player, cost))
-            throw new NotificationException("You don't have " + ChatColor.GREEN + "$" + house.getSellCost() + ChatColor.RESET + " to buy this house");
+            throw new NotificationException("You don't have " + ChatColor.GREEN + "$" + cost + ChatColor.RESET + " to buy this house");
 
         if (house.isOwned()) {
             OfflinePlayer oldOwner = player.getServer().getOfflinePlayer(house.getOwner());
@@ -57,7 +54,9 @@ public class BuyHouseCommand extends AtumSubcommand {
         economy.withdrawPlayer(player, cost);
 
         house.setOwner(player.getUniqueId());
-        player.sendMessage(ChatColor.GREEN + "You bought the house " + house.getName() + " for " + ChatColor.GREEN + "$" + house.getSellCost());
+        HouseUtils.updateRegionPermissions(house);
+        HouseManager.setDirty();
+        player.sendMessage(ChatColor.GREEN + "You bought the house " + house.getName() + " for " + ChatColor.GREEN + "$" + cost);
         //TODO: SEND MESSAGE TO OLD OWNER
     }
 

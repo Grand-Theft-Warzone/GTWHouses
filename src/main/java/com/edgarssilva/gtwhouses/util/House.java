@@ -15,12 +15,8 @@ public class House implements Serializable {
 
     private UUID owner;
 
-    private double rentConst;
-    private double defaultCost;
-
-    private Date lastRent;
-
-    private int rentDaysDuration;
+    private final double rentConst;
+    private final double defaultCost;
 
     private HouseRent rent;
 
@@ -32,16 +28,21 @@ public class House implements Serializable {
         this.blocks = blocks;
         this.rentConst = costPerDay;
         this.defaultCost = buyCost;
+        this.setOwner(null); // Leave this before the rent (it makes the house unrentable)
         this.rent = new HouseRent(costPerDay);
-        this.sellCost = -1;
     }
 
     public boolean isSellable() {
-        return sellCost != -1 && !isOwned();
+        return !isOwned() || sellCost > 0;
     }
 
     public void setSellable(double sellCost) {
         this.sellCost = sellCost;
+    }
+
+    public double getCost() {
+        if (isOwned()) return sellCost;
+        else return defaultCost;
     }
 
     public double getSellCost() {
@@ -49,11 +50,15 @@ public class House implements Serializable {
     }
 
     public boolean isRentable() {
-        return rent != null;
+        return (rent != null && rent.isRenewable());
     }
 
     public void setRentable(HouseRent rent) {
         this.rent = rent;
+    }
+
+    public void setRentable(double costPerDay) {
+        setRentable(new HouseRent(costPerDay));
     }
 
     public void resetRent() {
@@ -83,6 +88,7 @@ public class House implements Serializable {
     public void setOwner(UUID owner) {
         this.owner = owner;
         this.sellCost = -1;
+        this.rent = null;
     }
 
     public boolean isOwned() {
