@@ -1,8 +1,8 @@
 package com.grandtheftwarzone.gtwhouses.events;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.util.House;
-import com.grandtheftwarzone.gtwhouses.util.HouseRent;
+import com.grandtheftwarzone.gtwhouses.dao.House;
+import com.grandtheftwarzone.gtwhouses.dao.HouseRent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

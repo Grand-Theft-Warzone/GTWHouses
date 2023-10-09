@@ -1,7 +1,8 @@
 package com.grandtheftwarzone.gtwhouses.events;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.util.House;
+import com.grandtheftwarzone.gtwhouses.dao.House;
+import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -17,6 +19,7 @@ import java.util.UUID;
 public class HouseEnterEvent implements Listener {
 
     private final HashMap<UUID, Integer> playerHouse = new HashMap<>();
+    private final HashMap<UUID, LastLeft> lastLefts = new HashMap<>();
 
     @EventHandler
     public void onHouseEnter(PlayerMoveEvent event) {
@@ -25,8 +28,19 @@ public class HouseEnterEvent implements Listener {
 
         House house = GTWHouses.getHouseCache().getHouseInLocation(location);
         if (house == null) {
-            playerHouse.remove(player.getUniqueId());
+            if (!lastLefts.containsKey(player.getUniqueId()) && playerHouse.containsKey(player.getUniqueId())) {
+                int id = playerHouse.remove(player.getUniqueId());
+                lastLefts.put(player.getUniqueId(), new LastLeft(System.currentTimeMillis(), id));
+            }
             return;
+        }
+
+        if (lastLefts.containsKey(player.getUniqueId())) {
+            LastLeft lastLeft = lastLefts.get(player.getUniqueId());
+            if (lastLeft.houseId == house.getId()) {
+                if (System.currentTimeMillis() - lastLeft.time < 15000) return; // 15 seconds
+                lastLefts.remove(player.getUniqueId());
+            }
         }
 
         if (playerHouse.containsKey(player.getUniqueId()) && playerHouse.get(player.getUniqueId()) == house.getId())
@@ -59,5 +73,9 @@ public class HouseEnterEvent implements Listener {
         player.sendMessage(message);
     }
 
-
+    @AllArgsConstructor
+    private static class LastLeft {
+        final long time;
+        final int houseId;
+    }
 }

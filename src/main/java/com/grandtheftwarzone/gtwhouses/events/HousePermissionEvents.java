@@ -1,8 +1,8 @@
 package com.grandtheftwarzone.gtwhouses.events;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.util.House;
-import com.grandtheftwarzone.gtwhouses.util.HouseBlock;
+import com.grandtheftwarzone.gtwhouses.dao.House;
+import com.grandtheftwarzone.gtwhouses.dao.HouseBlock;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;

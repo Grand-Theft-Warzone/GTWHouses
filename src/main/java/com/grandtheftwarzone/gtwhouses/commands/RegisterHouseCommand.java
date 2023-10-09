@@ -1,8 +1,8 @@
 package com.grandtheftwarzone.gtwhouses.commands;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.util.House;
-import com.grandtheftwarzone.gtwhouses.util.HouseBlock;
+import com.grandtheftwarzone.gtwhouses.dao.House;
+import com.grandtheftwarzone.gtwhouses.dao.HouseBlock;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;

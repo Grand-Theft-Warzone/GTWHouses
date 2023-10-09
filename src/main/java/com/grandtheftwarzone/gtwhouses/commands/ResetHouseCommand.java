@@ -1,7 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.commands;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.util.House;
+import com.grandtheftwarzone.gtwhouses.dao.House;
 import com.grandtheftwarzone.gtwhouses.util.HouseUtils;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.command.CommandBase;

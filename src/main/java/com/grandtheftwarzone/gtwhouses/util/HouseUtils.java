@@ -1,6 +1,9 @@
 package com.grandtheftwarzone.gtwhouses.util;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
+import com.grandtheftwarzone.gtwhouses.dao.House;
+import com.grandtheftwarzone.gtwhouses.dao.HouseBlock;
+import com.grandtheftwarzone.gtwhouses.dao.HouseRent;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;

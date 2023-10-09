@@ -1,7 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.commands;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.util.House;
+import com.grandtheftwarzone.gtwhouses.dao.House;
 import com.grandtheftwarzone.gtwhouses.util.HouseUtils;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
@@ -35,7 +35,7 @@ public class PayRentCommand extends AtumSubcommand {
             rentDays = Integer.parseInt(rentDaysArg);
             if (rentDays < 1 || rentDays > 7)
                 throw new NotificationException(ChatColor.RED + "Rent days must be greater than 0 and smaller than 7.");
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             throw new NotificationException(ChatColor.RED + "Rent days must be a valid number.");
         }
 

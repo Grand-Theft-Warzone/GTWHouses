@@ -1,9 +1,9 @@
 package com.grandtheftwarzone.gtwhouses.database;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.util.House;
-import com.grandtheftwarzone.gtwhouses.util.HouseBlock;
-import com.grandtheftwarzone.gtwhouses.util.HouseRent;
+import com.grandtheftwarzone.gtwhouses.dao.House;
+import com.grandtheftwarzone.gtwhouses.dao.HouseBlock;
+import com.grandtheftwarzone.gtwhouses.dao.HouseRent;
 import me.phoenixra.atum.core.database.Database;
 import me.phoenixra.atum.core.database.SQLiteDatabase;
 

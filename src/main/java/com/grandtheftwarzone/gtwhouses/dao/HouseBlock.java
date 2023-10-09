@@ -1,4 +1,4 @@
-package com.grandtheftwarzone.gtwhouses.util;
+package com.grandtheftwarzone.gtwhouses.dao;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

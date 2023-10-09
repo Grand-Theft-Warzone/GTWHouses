@@ -1,7 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.database;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.util.House;
+import com.grandtheftwarzone.gtwhouses.dao.House;
 import com.grandtheftwarzone.gtwhouses.util.HouseUtils;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;

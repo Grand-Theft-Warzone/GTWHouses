@@ -1,6 +1,7 @@
-package com.grandtheftwarzone.gtwhouses.util;
+package com.grandtheftwarzone.gtwhouses.dao;
 
 import com.grandtheftwarzone.gtwhouses.database.HouseDatabase;
+import com.grandtheftwarzone.gtwhouses.util.HouseUtils;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 
@@ -98,15 +99,15 @@ public class HouseRent implements Serializable {
 
             switch (house.getRent().getStatus()) {
                 case EXPIRED:
-                    return "§cYour house " + houseName + " rent has expired." + (house.getRent().isRenewable() ? " You have until today to pay it." : " Resetting house... ");
+                    return "§cYour rent for the house " + houseName + " has expired." + (house.getRent().isRenewable() ? " You have until today to pay it." : " Resetting house... ");
                 case CLOSE_TO_EXPIRE:
-                    return "§cYour house " + houseName + " rent will expire in 1 day.";
+                    return "§cYour rent for the house " + houseName + " will expire in 1 day.";
                 case EXPIRING:
-                    return "§cYour house " + houseName + " rent will expire today.";
+                    return "§cYour rent for the house " + houseName + " will expire today.";
                 case OVERDUE:
-                    return "§cYour house " + houseName + " rent is overdue. Resetting house...";
+                    return "§cYour rent for the house " + houseName + " is overdue. Resetting house...";
                 default:
-                    return "You house " + houseName + ChatColor.RESET + " rent will expire in " + ChatColor.YELLOW + daysLeft + ChatColor.RESET + " day" + (daysLeft > 1 ? "s" : "") + ".";
+                    return "Your rent for the house " + houseName + ChatColor.RESET + " will expire in " + ChatColor.YELLOW + daysLeft + ChatColor.RESET + " day" + (daysLeft > 1 ? "s" : "") + ".";
             }
         }
 
