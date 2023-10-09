@@ -1,11 +1,10 @@
 name: GTWHouses
 version: '${version}'
-main: com.edgarssilva.gtwhouses.GTWHouses
+main: com.grandtheftwarzone.gtwhouses.GTWHouses
 author: Edgar Silva
 depend:
   - Vault
   - WorldEdit
-  - WorldGuard
   - AtumCore
 
 commands:
