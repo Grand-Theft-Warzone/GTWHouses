@@ -54,8 +54,13 @@ public class RentHouseCommand extends AtumSubcommand {
         if (!economy.has(player, rentPrice))
             throw new NotificationException("You don't have " + ChatColor.GREEN + "$" + rentPrice + ChatColor.RESET + " to rent this house for " + rentDays + " days.");
 
-        OfflinePlayer offlinePlayer = server.getOfflinePlayer(house.getOwner());
-        if (offlinePlayer != null) economy.depositPlayer(offlinePlayer, rentPrice);
+        if (house.isOwned()) {
+            OfflinePlayer owner = server.getOfflinePlayer(house.getOwner());
+            if (owner == null) throw new NotificationException(ChatColor.RED + "House owner not found.");
+            if (owner.equals(player)) throw new NotificationException(ChatColor.RED + "You can't rent your own house.");
+
+            economy.depositPlayer(owner, rentPrice);
+        }
         economy.withdrawPlayer(player, rentPrice);
 
 
