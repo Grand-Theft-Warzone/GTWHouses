@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 public class HouseDatabase {
     private final Database database;
@@ -134,6 +135,7 @@ public class HouseDatabase {
             blockPs.close();
             ps.close();
 
+            house.setId(houseId);
             GTWHouses.getHouseCache().updateHouse(house);
 
             return true;
@@ -323,7 +325,6 @@ public class HouseDatabase {
 
     public boolean startRent(House house, UUID uniqueId, int rentDays) {
         house.getRent().startRent(uniqueId, rentDays);
-
         boolean res = database.execute("UPDATE rent SET renter_uuid = '" + uniqueId.toString() + "', rented_at = '" + sqliteDateFormat.format(house.getRent().getRentedAt()) + "', days_rented = " + house.getRent().getDaysRented() + ", renewable = 1  WHERE house_id = " + house.getId() + ";");
         if (res) GTWHouses.getHouseCache().updateHouse(house);
         return res;

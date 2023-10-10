@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Getter
 public class House implements Serializable {
-    private int id;
+    @Setter private int id;
     private final String name;
     private final List<HouseBlock> blocks;
     private final UUID world;
