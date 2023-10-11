@@ -14,7 +14,7 @@ public class RentRunnable implements Runnable {
 
 
         GTWHouses.getHouseCache().getHouses().forEach(house -> {
-            if (!house.isRentable()) return;
+            if (house.getRent() == null) return;
             if (!house.getRent().isRented()) return;
             HouseUtils.handleRent(house, server.getPlayer(house.getRent().getRenter()), false);
         });

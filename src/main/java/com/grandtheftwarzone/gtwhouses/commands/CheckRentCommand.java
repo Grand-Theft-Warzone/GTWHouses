@@ -24,7 +24,7 @@ public class CheckRentCommand extends AtumSubcommand {
 
         player.sendMessage("Checking rent status...");
         GTWHouses.getHouseDatabase().getPlayerRenterHouses(player.getUniqueId()).forEach(house -> {
-            if (!house.isRentable()) return;
+            if (house.getRent() == null) return;
             HouseUtils.handleRent(house, player, true);
         });
     }

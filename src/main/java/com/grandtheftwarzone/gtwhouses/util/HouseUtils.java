@@ -62,7 +62,7 @@ public class HouseUtils {
 
         if (status.shouldReset(house)) {
             resetHouseBlocks(house, GTWHouses.getInstance().getServer());
-            if (house.isRentable())
+            if (house.getRent() != null)
                 GTWHouses.getHouseDatabase().stopRent(house);
         }
 

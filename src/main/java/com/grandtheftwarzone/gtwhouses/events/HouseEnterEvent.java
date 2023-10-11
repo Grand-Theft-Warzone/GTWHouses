@@ -50,7 +50,7 @@ public class HouseEnterEvent implements Listener {
         String message;
 
         if (house.isOwned()) {
-            if (house.getOwner().equals(event.getPlayer().getUniqueId()))
+            if (event.getPlayer().getUniqueId().equals(house.getOwner()))
                 message = "You entered your house " + ChatColor.GOLD + house.getName() + ".";
             else {
                 Server server = event.getPlayer().getServer();

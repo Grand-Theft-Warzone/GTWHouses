@@ -31,7 +31,7 @@ public class UnrentableHouseCommand extends AtumSubcommand {
         House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
         if (house == null) throw new NotificationException("House not found");
 
-        if (!house.getOwner().equals(player.getUniqueId()))
+        if (!player.getUniqueId().equals(house.getOwner()))
             throw new NotificationException("You are not the owner of this house");
 
         if (GTWHouses.getHouseDatabase().setUnrentable(house))

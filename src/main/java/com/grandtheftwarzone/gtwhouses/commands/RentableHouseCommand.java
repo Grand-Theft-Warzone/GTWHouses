@@ -40,7 +40,7 @@ public class RentableHouseCommand extends AtumSubcommand {
 
         if (house == null) throw new NotificationException("House not found");
 
-        if (!house.getOwner().equals(player.getUniqueId()))
+        if (!player.getUniqueId().equals(house.getOwner()))
             throw new NotificationException("You are not the owner of this house");
 
         if (house.getRent() != null && house.getRent().isRented())

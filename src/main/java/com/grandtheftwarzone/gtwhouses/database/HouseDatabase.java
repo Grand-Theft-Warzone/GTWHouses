@@ -383,13 +383,12 @@ public class HouseDatabase {
     }
 
     public boolean setUnrentable(House house) {
-        house.setUnrentable();
         // Check if it's currently rented if so make it not renewable
         //otherwise delete the rent
-        boolean res = house.isRentable() && house.getRent().isRented()
+        boolean res = house.getRent() != null && house.getRent().isRented()
                 ? database.execute("UPDATE rent SET renewable = 0 WHERE house_id = " + house.getId() + ";")
                 : database.execute("DELETE FROM rent WHERE house_id = " + house.getId() + ";");
-
+        house.setUnrentable();
         if (res) GTWHouses.getHouseCache().updateHouse(house);
         return res;
     }

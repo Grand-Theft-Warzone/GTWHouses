@@ -39,7 +39,7 @@ public class SellHouseCommand extends AtumSubcommand {
         if (house == null) throw new NotificationException("House not found");
 
 
-        if (!house.getOwner().equals(player.getUniqueId())) {
+        if (!player.getUniqueId().equals(house.getOwner())) {
             throw new NotificationException("You are not the owner of this house");
         }
 

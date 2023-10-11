@@ -19,7 +19,7 @@ public class PlayerJoinListener implements Listener {
 
         ArrayList<String> warnings = new ArrayList<>();
         for (House h : GTWHouses.getHouseDatabase().getPlayerRenterHouses(player.getUniqueId())) {
-            if (!h.isRentable()) continue;
+            if (h.getRent() == null) continue;
             HouseRent rent = h.getRent();
             if (rent.getStatus() == HouseRent.RentStatus.RENTED || rent.getStatus() == HouseRent.RentStatus.NOT_RENTED)
                 continue;
