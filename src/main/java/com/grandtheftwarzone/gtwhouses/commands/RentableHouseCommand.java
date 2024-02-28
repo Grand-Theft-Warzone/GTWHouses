@@ -23,31 +23,23 @@ public class RentableHouseCommand extends AtumSubcommand {
     protected void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) throws NotificationException {
         Player player = (Player) sender;
 
-        if (args.size() < 2)
+        if (args.size() != 1)
             throw new NotificationException("Usage: " + getUsage());
 
         String houseName = args.get(0);
-        double costPerDay;
-        try {
-            costPerDay = Double.parseDouble(args.get(1));
-            if (costPerDay < 0)
-                throw new NotificationException("Cost per day must be a positive number");
-        } catch (NumberFormatException e) {
-            throw new NotificationException("Cost per day must be a valid number");
-        }
-
         House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
-
         if (house == null) throw new NotificationException("House not found");
+
+        double costPerDay = house.getRentCost();
 
         if (!player.getUniqueId().equals(house.getOwner()))
             throw new NotificationException("You are not the owner of this house");
 
-        if (house.getRent() != null && house.getRent().isRented())
-            throw new NotificationException("This house is already rented. Wait until the rent expires");
+        if (house.isRented())
+            throw new NotificationException("This house is already rented.");
 
-        if (GTWHouses.getHouseDatabase().setRentable(house, costPerDay))
-            player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is available for rent for " + ChatColor.GREEN + "$" + costPerDay + ChatColor.RESET + " per day");
+        if (GTWHouses.getHouseDatabase().startRent(house))
+            player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is being rent for " + ChatColor.GREEN + "$" + costPerDay + ChatColor.RESET + " per day");
         else throw new NotificationException("Could not set house as rentable");
     }
 
@@ -63,6 +55,6 @@ public class RentableHouseCommand extends AtumSubcommand {
 
     @Override
     public @NotNull String getUsage() {
-        return "/house rent <house> <cost per day>";
+        return "/house rentable <house>";
     }
 }

@@ -252,7 +252,7 @@ public class HouseDatabase {
     public boolean startRent(House house) {
         house.startRent();
         try {
-            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE house SET rented_at = ? , rent_due = ?  WHERE house_id = " + house.getId() + ";");
+            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET rented_at = ? , rent_due = ?  WHERE id = " + house.getId() + ";");
             ps.setString(1, sqliteDateFormat.format(house.getRentedAt()));
             ps.setString(2, sqliteDateFormat.format(house.getRentDueDate()));
             ps.executeUpdate();
@@ -302,7 +302,7 @@ public class HouseDatabase {
     public boolean payRent(House house) {
         house.renewRent();
         try {
-            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET rent_due = ? WHERE house_id = " + house.getId() + ";");
+            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET rent_due = ? WHERE id = " + house.getId() + ";");
             ps.setString(1, sqliteDateFormat.format(house.getRentDueDate()));
             ps.executeUpdate();
             ps.close();
@@ -318,7 +318,7 @@ public class HouseDatabase {
         house.resetRent();
 
         try {
-            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET rented_at = ?, rent_due = ? WHERE house_id = " + house.getId() + ";");
+            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET rented_at = ?, rent_due = ? WHERE id = " + house.getId() + ";");
             ps.setString(1, null);
             ps.setString(2, null);
             ps.executeUpdate();

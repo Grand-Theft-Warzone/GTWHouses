@@ -25,34 +25,37 @@ public class BuyHouseCommand extends AtumSubcommand {
 
     @Override
     protected void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) throws NotificationException {
-            Player player = (Player) sender;
+        Player player = (Player) sender;
 
-            if (args.size() != 1) throw new NotificationException("Usage: " + getUsage());
+        if (args.size() != 1) throw new NotificationException("Usage: " + getUsage());
 
-            House house = GTWHouses.getHouseDatabase().getHouseByName(args.get(0));
+        House house = GTWHouses.getHouseDatabase().getHouseByName(args.get(0));
 
-            if (house == null) throw new NotificationException("House not found");
-            if (!house.isForSale()) throw new NotificationException("House is not for sale");
+        if (house == null) throw new NotificationException("House not found");
+        if (!house.isForSale()) throw new NotificationException("House is not for sale");
 
-            double cost = house.isOwned() ? house.getSellCost() : house.getBuyCost();
+        double cost = house.isOwned() ? house.getSellCost() : house.getBuyCost();
 
-            Economy economy = GTWHouses.getEconomy();
-            if (!economy.has(player, cost))
-                throw new NotificationException("You don't have " + GREEN + "$" + cost + RESET + " to buy this house");
+        Economy economy = GTWHouses.getEconomy();
+        if (!economy.has(player, cost))
+            throw new NotificationException("You don't have " + GREEN + "$" + cost + RESET + " to buy this house");
 
-            if (house.isOwned()) {
-                OfflinePlayer oldOwner = player.getServer().getOfflinePlayer(house.getOwner());
-                if (oldOwner != null)
-                    economy.depositPlayer(oldOwner, cost);
-            }
+        if (house.isOwned()) {
+            if (house.getOwner().equals(player.getUniqueId()))
+                throw new NotificationException("You already own this house");
 
-            economy.withdrawPlayer(player, cost);
+            OfflinePlayer oldOwner = player.getServer().getOfflinePlayer(house.getOwner());
+            if (oldOwner != null)
+                economy.depositPlayer(oldOwner, cost);
+        }
 
-            if (GTWHouses.getHouseDatabase().updateHouseOwner(house, player.getUniqueId()))
-                player.sendMessage(GREEN + "You bought the house " + house.getName() + " for " + GREEN + "$" + cost);
-            else throw new NotificationException("An error occurred while trying to buy the house");
+        economy.withdrawPlayer(player, cost);
 
-            //TODO: SEND MESSAGE TO OLD OWNER
+        if (GTWHouses.getHouseDatabase().updateHouseOwner(house, player.getUniqueId()))
+            player.sendMessage(GREEN + "You bought the house " + house.getName() + " for " + GREEN + "$" + cost);
+        else throw new NotificationException("An error occurred while trying to buy the house");
+
+        //TODO: SEND MESSAGE TO OLD OWNER
     }
 
     @Override
