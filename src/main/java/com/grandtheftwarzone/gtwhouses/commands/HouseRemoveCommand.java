@@ -49,7 +49,7 @@ public class HouseRemoveCommand extends AtumSubcommand {
 
     @Override
     public @NotNull String getDescription() {
-        return "Removes a house";
+        return "Removes a house and resets its blocks";
     }
 
     @Override

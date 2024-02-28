@@ -5,7 +5,6 @@ import com.grandtheftwarzone.gtwhouses.database.HouseCache;
 import com.grandtheftwarzone.gtwhouses.database.HouseDatabase;
 import com.grandtheftwarzone.gtwhouses.events.HouseEnterEvent;
 import com.grandtheftwarzone.gtwhouses.events.HousePermissionEvents;
-import com.grandtheftwarzone.gtwhouses.events.PlayerJoinListener;
 import com.grandtheftwarzone.gtwhouses.runnables.RentRunnable;
 import com.google.common.collect.Lists;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -69,7 +68,6 @@ public final class GTWHouses extends AtumPlugin {
     protected List<Listener> loadListeners() {
         return Lists.newArrayList(
                 new HousePermissionEvents(),
-                new PlayerJoinListener(),
                 new HouseEnterEvent()
         );
     }

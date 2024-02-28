@@ -3,6 +3,7 @@ package com.grandtheftwarzone.gtwhouses.runnables;
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
 import com.grandtheftwarzone.gtwhouses.util.HouseUtils;
 import org.bukkit.Server;
+import org.bukkit.entity.Player;
 
 public class RentRunnable implements Runnable {
     @Override
@@ -14,9 +15,10 @@ public class RentRunnable implements Runnable {
 
 
         GTWHouses.getHouseCache().getHouses().forEach(house -> {
-            if (house.getRent() == null) return;
-            if (!house.getRent().isRented()) return;
-            HouseUtils.handleRent(house, server.getPlayer(house.getRent().getRenter()), false);
+            if (!house.isRented()) return;
+            Player player = server.getPlayer(house.getOwner());
+            if (player == null) return;
+            HouseUtils.handleRent(house, player);
         });
     }
 }

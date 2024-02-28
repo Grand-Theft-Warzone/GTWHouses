@@ -3,7 +3,6 @@ package com.grandtheftwarzone.gtwhouses.database;
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
 import com.grandtheftwarzone.gtwhouses.dao.House;
 import com.grandtheftwarzone.gtwhouses.dao.HouseBlock;
-import com.grandtheftwarzone.gtwhouses.dao.HouseRent;
 import me.phoenixra.atum.core.database.Database;
 import me.phoenixra.atum.core.database.SQLiteDatabase;
 
@@ -17,7 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 public class HouseDatabase {
     private final Database database;
@@ -85,8 +83,8 @@ public class HouseDatabase {
             database.getConnection().setAutoCommit(false);
 
             PreparedStatement ps = database.getConnection().prepareStatement("INSERT INTO houses " +
-                    "(name, world_uuid, minX, minY, minZ, maxX, maxY, maxZ, owner_uuid, base_buy_cost, base_rent_cost, sell_cost) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+                    "(name, world_uuid, minX, minY, minZ, maxX, maxY, maxZ, owner_uuid, buy_cost, rent_cost, rented_at, rent_due, sell_cost) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
             ps.setString(1, house.getName());
             ps.setString(2, house.getWorld().toString());
@@ -97,25 +95,16 @@ public class HouseDatabase {
             ps.setInt(7, house.getMaxPos().getBlockY());
             ps.setInt(8, house.getMaxPos().getBlockZ());
             ps.setString(9, house.getOwner() == null ? null : house.getOwner().toString());
-            ps.setDouble(10, house.getDefaultCost());
-            ps.setDouble(11, house.getDefaultRentConst());
-            ps.setDouble(12, house.getSellCost());
+            ps.setDouble(10, house.getBuyCost());
+            ps.setDouble(11, house.getRentCost());
+            ps.setDate(12, /*house.getRentedAt()*/ null);
+            ps.setDate(13, /*house.getRentDueDate()*/ null);
+            ps.setDouble(14, house.getSellCost());
 
             ps.executeUpdate();
             ResultSet generatedKeys = ps.getGeneratedKeys();
             int houseId = -1;
             if (generatedKeys.next()) houseId = generatedKeys.getInt(1);
-
-            PreparedStatement rentPs = database.getConnection().prepareStatement("INSERT INTO rent (house_id, renter_uuid, rent_cost, rented_at, days_rented, renewable) VALUES (?, ?, ?, ?, ?, ?);");
-
-            rentPs.setInt(1, houseId);
-            rentPs.setString(2, null);
-            rentPs.setDouble(3, house.getRent().getCostPerDay());
-            rentPs.setString(4, null/*sqliteDateFormat.format(house.getRent().getRentedAt())*/);
-            rentPs.setInt(5, house.getRent().getDaysRented());
-            rentPs.setInt(6, 1);
-
-            rentPs.executeUpdate();
 
             PreparedStatement blockPs = database.getConnection().prepareStatement("INSERT INTO house_blocks (house_id, x, y, z) VALUES (?, ?, ?, ?);");
 
@@ -131,7 +120,6 @@ public class HouseDatabase {
 
             database.getConnection().commit();
 
-            rentPs.close();
             blockPs.close();
             ps.close();
 
@@ -163,10 +151,6 @@ public class HouseDatabase {
         return getHouses("SELECT * FROM houses WHERE owner_uuid = '" + player.toString() + "';");
     }
 
-    public List<House> getPlayerRenterHouses(UUID player) {
-        return getHouses("SELECT * FROM houses, rent WHERE id = rent.house_id AND rent.renter_uuid = '" + player.toString() + "';");
-    }
-
     public House getHouseByName(String name) {
         List<House> houses = getHouses("SELECT * FROM houses WHERE name = '" + name + "';");
         return houses.isEmpty() ? null : houses.get(0);
@@ -184,29 +168,15 @@ public class HouseDatabase {
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                houses.add(new House(rs, getRent(id), getBlocks(id)));
+                houses.add(new House(rs, getBlocks(id)));
             }
 
-            rs.close();
-        } catch (SQLException ignored) {
-            ignored.printStackTrace();
-        }
-
-        return houses;
-    }
-
-    public HouseRent getRent(int houseId) {
-        HouseRent rent = null;
-        try {
-            ResultSet rs = database.select("SELECT * FROM rent WHERE house_id = " + houseId + ";");
-            if (rs == null) return null;
-            if (rs.next()) rent = new HouseRent(rs);
             rs.close();
         } catch (Exception ignored) {
             ignored.printStackTrace();
         }
 
-        return rent;
+        return houses;
     }
 
     public List<HouseBlock> getBlocks(int houseId) {
@@ -228,28 +198,17 @@ public class HouseDatabase {
         house.setOwner(uniqueId);
         GTWHouses.getInstance().getLogger().info("Updating house owner");
         try {
-            database.getConnection().setAutoCommit(false);
 
-            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET owner_uuid = ?, sell_cost = -1 WHERE id = ?;");
+            PreparedStatement ps = database.getConnection()
+                    .prepareStatement("UPDATE houses SET owner_uuid = ?, rented_at = ?, rent_due = ?, sell_cost = ? WHERE id = ?;");
             ps.setString(1, uniqueId.toString());
-            ps.setInt(2, house.getId());
+            ps.setDate(2, null);
+            ps.setDate(3, null);
+            ps.setDouble(4, -1);
+            ps.setInt(5, house.getId());
 
             ps.executeUpdate();
-
-            PreparedStatement rentPs = database.getConnection().prepareStatement(
-                    (house.isRentable() && house.getRent().isRented()
-                            ? "UPDATE rent SET renewable = 0 WHERE house_id = ?;"
-                            : "DELETE FROM rent WHERE house_id = ?;"));
-
-            rentPs.setInt(1, house.getId());
-
-            rentPs.executeUpdate();
-
-            database.getConnection().commit();
-            database.getConnection().setAutoCommit(true);
-
             ps.close();
-            rentPs.close();
 
             GTWHouses.getHouseCache().updateHouse(house);
 
@@ -270,11 +229,6 @@ public class HouseDatabase {
             ps.setInt(1, houseId);
             ps.executeUpdate();
 
-            PreparedStatement rentPs = database.getConnection().prepareStatement("DELETE FROM rent WHERE house_id = ?;");
-            rentPs.setInt(1, houseId);
-            rentPs.executeUpdate();
-
-
             PreparedStatement blockPs = database.getConnection().prepareStatement("DELETE FROM house_blocks WHERE house_id = ?;");
             blockPs.setInt(1, houseId);
             blockPs.executeUpdate();
@@ -285,7 +239,6 @@ public class HouseDatabase {
             GTWHouses.getHouseCache().removeHouse(houseId);
 
             ps.close();
-            rentPs.close();
             blockPs.close();
 
             return true;
@@ -295,71 +248,35 @@ public class HouseDatabase {
         }
     }
 
-    public boolean setRentable(House house, double costPerDay) {
-        house.setRentable(costPerDay);
+
+    public boolean startRent(House house) {
+        house.startRent();
         try {
-            database.getConnection().setAutoCommit(false);
-
-            PreparedStatement ps = database.getConnection().prepareStatement("DELETE FROM rent WHERE house_id = ?;");
-            ps.setInt(1, house.getId());
+            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE house SET rented_at = ? , rent_due = ?  WHERE house_id = " + house.getId() + ";");
+            ps.setString(1, sqliteDateFormat.format(house.getRentedAt()));
+            ps.setString(2, sqliteDateFormat.format(house.getRentDueDate()));
             ps.executeUpdate();
-
-            PreparedStatement rentPs = database.getConnection().prepareStatement("INSERT INTO rent (house_id, renter_uuid, rent_cost, rented_at, days_rented, renewable) VALUES (?, NULL, ?, NULL, -1, 1);");
-            rentPs.setInt(1, house.getId());
-            rentPs.setDouble(2, costPerDay);
-            rentPs.executeUpdate();
-
-            database.getConnection().commit();
-            database.getConnection().setAutoCommit(true);
-
-            GTWHouses.getHouseCache().updateHouse(house);
-
             ps.close();
-            rentPs.close();
+            GTWHouses.getHouseCache().updateHouse(house);
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public boolean startRent(House house, UUID uniqueId, int rentDays) {
-        house.getRent().startRent(uniqueId, rentDays);
-        boolean res = database.execute("UPDATE rent SET renter_uuid = '" + uniqueId.toString() + "', rented_at = '" + sqliteDateFormat.format(house.getRent().getRentedAt()) + "', days_rented = " + house.getRent().getDaysRented() + ", renewable = 1  WHERE house_id = " + house.getId() + ";");
-        if (res) GTWHouses.getHouseCache().updateHouse(house);
-        return res;
-    }
-
-    public boolean resetHouse(House house, boolean rentable) {
+    public boolean resetHouse(House house) {
         house.setOwner(null);
-        if (rentable) house.resetRent();
+        house.resetRent();
 
         try {
-            database.getConnection().setAutoCommit(false);
-
-            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET owner_uuid = NULL, sell_cost = -1 WHERE id = ?;");
+            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET owner_uuid = NULL, rented_at = NULL, rent_due = NULL, sell_cost = -1 WHERE id = ?;");
             ps.setInt(1, house.getId());
             ps.executeUpdate();
-
-            PreparedStatement rentPs = database.getConnection().prepareStatement("DELETE FROM rent WHERE house_id = ?;");
-            rentPs.setInt(1, house.getId());
-            rentPs.executeUpdate();
-
-            if (rentable) {
-                PreparedStatement newRentPs = database.getConnection().prepareStatement("INSERT INTO rent (house_id, renter_uuid, rent_cost, rented_at, days_rented, renewable) VALUES (?, NULL, ?, NULL, -1, 1);");
-                newRentPs.setInt(1, house.getId());
-                newRentPs.setDouble(2, house.getDefaultRentConst());
-                newRentPs.executeUpdate();
-                newRentPs.close();
-            }
-
-            database.getConnection().commit();
-            database.getConnection().setAutoCommit(true);
 
             GTWHouses.getHouseCache().updateHouse(house);
 
             ps.close();
-            rentPs.close();
 
             return true;
         } catch (SQLException e) {
@@ -369,41 +286,49 @@ public class HouseDatabase {
     }
 
     public boolean setSellable(House house, double cost) {
-        house.setSellable(cost);
+        house.setSellCost(cost);
         boolean res = database.execute("UPDATE houses SET sell_cost = " + cost + " WHERE id = " + house.getId() + ";");
         if (res) GTWHouses.getHouseCache().updateHouse(house);
         return res;
     }
 
     public boolean setUnsellable(House house) {
-        house.setSellable(-1);
+        house.setSellCost(-1);
         boolean res = database.execute("UPDATE houses SET sell_cost = -1 WHERE id = " + house.getId() + ";");
         if (res) GTWHouses.getHouseCache().updateHouse(house);
         return res;
     }
 
-    public boolean setUnrentable(House house) {
-        // Check if it's currently rented if so make it not renewable
-        //otherwise delete the rent
-        boolean res = house.getRent() != null && house.getRent().isRented()
-                ? database.execute("UPDATE rent SET renewable = 0 WHERE house_id = " + house.getId() + ";")
-                : database.execute("DELETE FROM rent WHERE house_id = " + house.getId() + ";");
-        house.setUnrentable();
-        if (res) GTWHouses.getHouseCache().updateHouse(house);
-        return res;
-    }
-
-    public boolean setPayedRent(House house, int rentDays) {
-        house.getRent().renewRent(rentDays);
-        boolean res = database.execute("UPDATE rent SET rented_at = DATE('now'), days_rented = " + house.getRent().getDaysRented() + " WHERE house_id = " + house.getId() + ";");
-        if (res) GTWHouses.getHouseCache().updateHouse(house);
-        return res;
+    public boolean payRent(House house) {
+        house.renewRent();
+        try {
+            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET rent_due = ? WHERE house_id = " + house.getId() + ";");
+            ps.setString(1, sqliteDateFormat.format(house.getRentDueDate()));
+            ps.executeUpdate();
+            ps.close();
+            GTWHouses.getHouseCache().updateHouse(house);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean stopRent(House house) {
-        house.getRent().stopRent();
-        boolean res = database.execute("DELETE FROM rent WHERE house_id = " + house.getId() + ";");
-        if (res) GTWHouses.getHouseCache().updateHouse(house);
-        return res;
+        house.resetRent();
+
+        try {
+            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET rented_at = ?, rent_due = ? WHERE house_id = " + house.getId() + ";");
+            ps.setString(1, null);
+            ps.setString(2, null);
+            ps.executeUpdate();
+            ps.close();
+            GTWHouses.getHouseCache().updateHouse(house);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 }

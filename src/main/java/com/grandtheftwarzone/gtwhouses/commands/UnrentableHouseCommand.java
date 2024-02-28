@@ -34,10 +34,9 @@ public class UnrentableHouseCommand extends AtumSubcommand {
         if (!player.getUniqueId().equals(house.getOwner()))
             throw new NotificationException("You are not the owner of this house");
 
-        if (GTWHouses.getHouseDatabase().setUnrentable(house))
+        if (GTWHouses.getHouseDatabase().stopRent(house))
             player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is no longer for rent");
         else throw new NotificationException("Failed to make house un-rentable");
-        //TODO: Add a message to the player who is renting the house
     }
 
     @Override

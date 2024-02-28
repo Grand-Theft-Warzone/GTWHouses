@@ -43,17 +43,18 @@ public class SellHouseCommand extends AtumSubcommand {
             throw new NotificationException("You are not the owner of this house");
         }
 
-        if (house.isSellable()) {
+        if (house.isForSale()) {
             throw new NotificationException("This house is already for sale");
+        }
+
+        if (house.isRented()) {
+            throw new NotificationException("This house is already rented. Make sure to cancel the rent first.");
         }
 
         if (GTWHouses.getHouseDatabase().setSellable(house, cost))
             player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is now for sale for " + cost);
         else
             throw new NotificationException("Could not set the house for sale");
-
-//        if (house.isRentable())
-        //TODO: Notifiy the player that the rent is not renewable
     }
 
     @Override

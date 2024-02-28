@@ -32,22 +32,22 @@ public class BuyHouseCommand extends AtumSubcommand {
             House house = GTWHouses.getHouseDatabase().getHouseByName(args.get(0));
 
             if (house == null) throw new NotificationException("House not found");
-            if (!house.isSellable()) throw new NotificationException("House is not for sale");
+            if (!house.isForSale()) throw new NotificationException("House is not for sale");
 
+            double cost = house.isOwned() ? house.getSellCost() : house.getBuyCost();
 
             Economy economy = GTWHouses.getEconomy();
-            if (!economy.has(player, house.getCost()))
-                throw new NotificationException("You don't have " + GREEN + "$" + house.getCost() + RESET + " to buy this house");
+            if (!economy.has(player, cost))
+                throw new NotificationException("You don't have " + GREEN + "$" + cost + RESET + " to buy this house");
 
             if (house.isOwned()) {
                 OfflinePlayer oldOwner = player.getServer().getOfflinePlayer(house.getOwner());
                 if (oldOwner != null)
-                    economy.depositPlayer(oldOwner, house.getCost());
+                    economy.depositPlayer(oldOwner, cost);
             }
 
-            economy.withdrawPlayer(player, house.getCost());
+            economy.withdrawPlayer(player, cost);
 
-            double cost = house.getCost(); // Cost will be different after the update
             if (GTWHouses.getHouseDatabase().updateHouseOwner(house, player.getUniqueId()))
                 player.sendMessage(GREEN + "You bought the house " + house.getName() + " for " + GREEN + "$" + cost);
             else throw new NotificationException("An error occurred while trying to buy the house");

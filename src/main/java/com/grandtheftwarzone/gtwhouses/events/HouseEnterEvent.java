@@ -59,14 +59,11 @@ public class HouseEnterEvent implements Listener {
 
                 message = "You entered " + ChatColor.YELLOW + owner.getName() + ChatColor.RESET + "'s house " + ChatColor.GOLD + house.getName() + ChatColor.RESET + ".";
 
-                if (house.isSellable())
+                if (house.isForSale())
                     message += " It's for sale for " + ChatColor.GREEN + "$" + house.getSellCost() + ChatColor.RESET + ".";
-
-                if (house.isRentable() && !house.getRent().isRented())
-                    message += " You can rent it for " + ChatColor.GREEN + "$" + house.getRent().getCostPerDay() + ChatColor.RESET + " per day.";
             }
         } else {
-            message = "You entered house " + ChatColor.GOLD + house.getName() + ChatColor.RESET + " (unowned) you can buy it for " + ChatColor.GREEN + "$" + house.getCost() + ChatColor.RESET + " or rent it for " + ChatColor.GREEN + "$" + house.getRent().getCostPerDay() + ChatColor.RESET + " per day.";
+            message = "You entered house " + ChatColor.GOLD + house.getName() + ChatColor.RESET + " (unowned) you can buy it for " + ChatColor.GREEN + "$" + house.getBuyCost() + ChatColor.RESET + " and then rent it for " + ChatColor.GREEN + "$" + house.getRentCost() + ChatColor.RESET + " per day.";
         }
 
         player.sendMessage(message);

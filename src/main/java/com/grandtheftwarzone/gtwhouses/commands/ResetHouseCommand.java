@@ -28,8 +28,7 @@ public class ResetHouseCommand extends AtumSubcommand {
         House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
         if (house == null) throw new NotificationException("House not found.");
 
-
-        if (!GTWHouses.getHouseDatabase().resetHouse(house, true))
+        if (!GTWHouses.getHouseDatabase().resetHouse(house))
             throw new NotificationException("Could not reset house.");
 
         HouseUtils.resetHouseBlocks(house, sender.getServer());
