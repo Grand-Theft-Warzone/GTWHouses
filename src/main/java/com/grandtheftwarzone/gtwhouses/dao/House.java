@@ -66,6 +66,13 @@ public class House implements Serializable {
         this.sellCost = -1;
     }
 
+    public void setUnowned() {
+        owner = null;
+        sellCost = -1;
+        rentedAt = null;
+        rentDueDate = null;
+    }
+
     public boolean isOwned() {
         return owner != null;
     }

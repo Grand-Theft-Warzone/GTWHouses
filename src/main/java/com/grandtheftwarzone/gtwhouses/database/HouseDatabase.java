@@ -198,7 +198,6 @@ public class HouseDatabase {
         house.setOwner(uniqueId);
         GTWHouses.getInstance().getLogger().info("Updating house owner");
         try {
-
             PreparedStatement ps = database.getConnection()
                     .prepareStatement("UPDATE houses SET owner_uuid = ?, rented_at = ?, rent_due = ?, sell_cost = ? WHERE id = ?;");
             ps.setString(1, uniqueId.toString());
@@ -215,6 +214,21 @@ public class HouseDatabase {
             return true;
         } catch (SQLException e) {
             GTWHouses.getInstance().getLogger().severe("Could not update house owner!");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean setUnowned(House house) {
+        house.setUnowned();
+        try {
+            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET owner_uuid = NULL, rented_at = NULL, rent_due = NULL, sell_cost = -1 WHERE id = ?;");
+            ps.setInt(1, house.getId());
+            ps.executeUpdate();
+            ps.close();
+            GTWHouses.getHouseCache().updateHouse(house);
+            return true;
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
