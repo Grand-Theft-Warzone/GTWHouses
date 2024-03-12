@@ -6,6 +6,7 @@ import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +34,17 @@ public class UnrentableHouseCommand extends AtumSubcommand {
 
         if (!player.getUniqueId().equals(house.getOwner()))
             throw new NotificationException("You are not the owner of this house");
+
+        //Make the renter leave the house in 3 days
+        if (house.isRentedByPlayer()) {
+            if (!GTWHouses.getHouseDatabase().startKicking(house))
+                throw new NotificationException("Failed to \"kick\" the renter!");
+            player.sendMessage("The house renter has been given 3 days to leave the house.");
+
+            OfflinePlayer renter = GTWHouses.getInstance().getServer().getOfflinePlayer(house.getRenter());
+            GTWHouses.getLoginMessageSystem().sendOrStore(renter, "You have 3 days to leave the house " + house.getName() + " before being kicked out.");
+            return;
+        }
 
         if (GTWHouses.getHouseDatabase().stopRent(house))
             player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is no longer for rent");

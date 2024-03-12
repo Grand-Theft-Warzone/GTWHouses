@@ -39,7 +39,9 @@ public class HouseRemoveCommand extends AtumSubcommand {
         HouseUtils.resetHouseBlocks(house, player.getServer());
 
         player.sendMessage("House " + GOLD + houseName + ChatColor.RESET + " removed.");
-        //TODO: Add message to the house owner and renter
+
+        GTWHouses.getLoginMessageSystem().storeMessage(house.getOwner(), "Your house " + houseName + " has been removed.");
+        if (house.isRented()) GTWHouses.getLoginMessageSystem().storeMessage(house.getRenter(), "The house " + houseName + " you rented has been removed.");
     }
 
     @Override

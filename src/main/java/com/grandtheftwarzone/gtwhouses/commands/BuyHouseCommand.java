@@ -40,11 +40,12 @@ public class BuyHouseCommand extends AtumSubcommand {
         if (!economy.has(player, cost))
             throw new NotificationException("You don't have " + GREEN + "$" + cost + RESET + " to buy this house");
 
+        OfflinePlayer oldOwner = null;
         if (house.isOwned()) {
             if (house.getOwner().equals(player.getUniqueId()))
                 throw new NotificationException("You already own this house");
 
-            OfflinePlayer oldOwner = player.getServer().getOfflinePlayer(house.getOwner());
+            oldOwner = player.getServer().getOfflinePlayer(house.getOwner());
             if (oldOwner != null)
                 economy.depositPlayer(oldOwner, cost);
         }
@@ -55,7 +56,11 @@ public class BuyHouseCommand extends AtumSubcommand {
             player.sendMessage(GREEN + "You bought the house " + house.getName() + " for " + GREEN + "$" + cost);
         else throw new NotificationException("An error occurred while trying to buy the house");
 
-        //TODO: SEND MESSAGE TO OLD OWNER
+        if (oldOwner != null) {
+            if (oldOwner.isOnline())
+                oldOwner.getPlayer().sendMessage(GREEN + "Your house " + house.getName() + " has been sold to " + player.getName() + " for " + GREEN + "$" + cost);
+            else  GTWHouses.getLoginMessageSystem().storeMessage(oldOwner.getUniqueId(), "Your house " + house.getName() + " has been sold to " + player.getName() + " for " + GREEN + "$" + cost);
+        }
     }
 
     @Override

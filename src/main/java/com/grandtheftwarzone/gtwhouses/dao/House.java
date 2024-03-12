@@ -28,8 +28,10 @@ public class House implements Serializable {
     private final double buyCost;
 
     //Rent
+    @Setter private UUID renter;
     @Setter private Date rentedAt;
     @Setter private Date rentDueDate;
+    @Setter private boolean kicked;
 
     //Selling
     @Setter private double sellCost;
@@ -42,6 +44,8 @@ public class House implements Serializable {
         this.maxPos = new Vector(rs.getInt("maxX"), rs.getInt("maxY"), rs.getInt("maxZ"));
         String ownerUUIDString = rs.getString("owner_uuid");
         this.owner = ownerUUIDString == null ? null : UUID.fromString(ownerUUIDString);
+        String renterUUIDString = rs.getString("renter_uuid");
+        this.renter = renterUUIDString == null ? null : UUID.fromString(renterUUIDString);
         this.blocks = blocks;
         this.rentCost = rs.getDouble("rent_cost");
         this.buyCost = rs.getDouble("buy_cost");
@@ -50,6 +54,7 @@ public class House implements Serializable {
         String rentDueDateString = rs.getString("rent_due");
         this.rentDueDate = rentDueDateString == null ? null : HouseDatabase.sqliteDateFormat.parse(rentDueDateString);
         this.sellCost = rs.getDouble("sell_cost");
+        this.kicked = rs.getBoolean("kicked");
     }
 
     public House(String name, UUID world, Vector minPos, Vector maxPos, List<HouseBlock> blocks, double rentCost, double buyCost) {
@@ -63,6 +68,7 @@ public class House implements Serializable {
         this.rentedAt = null;
         this.rentDueDate = null;
         this.owner = null;
+        this.renter = null;
         this.sellCost = -1;
     }
 
@@ -71,6 +77,8 @@ public class House implements Serializable {
         sellCost = -1;
         rentedAt = null;
         rentDueDate = null;
+        renter = null;
+        kicked = false;
     }
 
     public boolean isOwned() {
@@ -81,20 +89,31 @@ public class House implements Serializable {
         return rentedAt != null || rentDueDate != null;
     }
 
+    public boolean isRentable() {
+        return isRented() && renter == null; // If it's rented to the city but not to a player
+    }
+
+    public boolean isRentedByPlayer() {
+        return isRented() && (renter != null || kicked);
+    }
+
     public boolean isForSale() {
         return !isOwned() || sellCost != -1;
     }
 
     public void resetRent() {
+        renter = null;
         rentedAt = null;
         rentDueDate = null;
         sellCost = -1;
+        kicked = false;
     }
 
     public void startRent() {
         sellCost = -1;
         rentedAt = new Date();
         rentDueDate = new Date(rentedAt.getTime() + 24L * 60L * 60L * 1000L);  // 1 day
+        kicked = false;
     }
 
     public void renewRent() {

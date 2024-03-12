@@ -7,6 +7,7 @@ import com.grandtheftwarzone.gtwhouses.events.HouseEnterEvent;
 import com.grandtheftwarzone.gtwhouses.events.HousePermissionEvents;
 import com.grandtheftwarzone.gtwhouses.runnables.RentRunnable;
 import com.google.common.collect.Lists;
+import com.grandtheftwarzone.gtwhouses.util.LoginMessageSystem;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import lombok.Getter;
 import me.phoenixra.atum.core.AtumPlugin;
@@ -25,6 +26,7 @@ public final class GTWHouses extends AtumPlugin {
     @Getter private static WorldEditPlugin worldEditPlugin;
     @Getter private static HouseDatabase houseDatabase;
     @Getter private static HouseCache houseCache;
+    @Getter private static final LoginMessageSystem loginMessageSystem = new LoginMessageSystem();
 
     @Override
     protected void handleEnable() {
@@ -68,7 +70,8 @@ public final class GTWHouses extends AtumPlugin {
     protected List<Listener> loadListeners() {
         return Lists.newArrayList(
                 new HousePermissionEvents(),
-                new HouseEnterEvent()
+                new HouseEnterEvent(),
+                loginMessageSystem
         );
     }
 

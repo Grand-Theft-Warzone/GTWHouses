@@ -3,6 +3,7 @@ package com.grandtheftwarzone.gtwhouses.database;
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
 import com.grandtheftwarzone.gtwhouses.dao.House;
 import com.grandtheftwarzone.gtwhouses.dao.HouseBlock;
+import lombok.Getter;
 import me.phoenixra.atum.core.database.Database;
 import me.phoenixra.atum.core.database.SQLiteDatabase;
 
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class HouseDatabase {
-    private final Database database;
+    @Getter private final Database database;
 
     public static final SimpleDateFormat sqliteDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -199,12 +200,13 @@ public class HouseDatabase {
         GTWHouses.getInstance().getLogger().info("Updating house owner");
         try {
             PreparedStatement ps = database.getConnection()
-                    .prepareStatement("UPDATE houses SET owner_uuid = ?, rented_at = ?, rent_due = ?, sell_cost = ? WHERE id = ?;");
+                    .prepareStatement("UPDATE houses SET owner_uuid = ?, rented_at = ?, rent_due = ?,renter_uuid = ?, sell_cost = ? WHERE id = ?;");
             ps.setString(1, uniqueId.toString());
             ps.setDate(2, null);
             ps.setDate(3, null);
-            ps.setDouble(4, -1);
-            ps.setInt(5, house.getId());
+            ps.setString(4, null);
+            ps.setDouble(5, -1);
+            ps.setInt(6, house.getId());
 
             ps.executeUpdate();
             ps.close();
@@ -222,7 +224,7 @@ public class HouseDatabase {
     public boolean setUnowned(House house) {
         house.setUnowned();
         try {
-            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET owner_uuid = NULL, rented_at = NULL, rent_due = NULL, sell_cost = -1 WHERE id = ?;");
+            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET owner_uuid = NULL, rented_at = NULL, rent_due = NULL, renter_uuid = NULL, sell_cost = -1 WHERE id = ?;");
             ps.setInt(1, house.getId());
             ps.executeUpdate();
             ps.close();
@@ -266,9 +268,10 @@ public class HouseDatabase {
     public boolean startRent(House house) {
         house.startRent();
         try {
-            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET rented_at = ? , rent_due = ?  WHERE id = " + house.getId() + ";");
+            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET rented_at = ? , rent_due = ?, renter_uuid = ?  WHERE id = " + house.getId() + ";");
             ps.setString(1, sqliteDateFormat.format(house.getRentedAt()));
             ps.setString(2, sqliteDateFormat.format(house.getRentDueDate()));
+            ps.setString(3, house.getRenter() == null ? null : house.getRenter().toString());
             ps.executeUpdate();
             ps.close();
             GTWHouses.getHouseCache().updateHouse(house);
@@ -284,7 +287,7 @@ public class HouseDatabase {
         house.resetRent();
 
         try {
-            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET owner_uuid = NULL, rented_at = NULL, rent_due = NULL, sell_cost = -1 WHERE id = ?;");
+            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET owner_uuid = NULL, rented_at = NULL, rent_due = NULL, renter_uuid = NULL, sell_cost = -1 WHERE id = ?;");
             ps.setInt(1, house.getId());
             ps.executeUpdate();
 
@@ -332,7 +335,7 @@ public class HouseDatabase {
         house.resetRent();
 
         try {
-            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET rented_at = ?, rent_due = ? WHERE id = " + house.getId() + ";");
+            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET rented_at = ?, rent_due = ?, renter_uuid = NULL WHERE id = " + house.getId() + ";");
             ps.setString(1, null);
             ps.setString(2, null);
             ps.executeUpdate();
@@ -343,6 +346,22 @@ public class HouseDatabase {
             return false;
         }
 
+        return true;
+    }
+
+    public boolean startKicking(House house) {
+        house.setRentedAt(null);
+        house.setKicked(true);
+
+        try {
+            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET kicked = 1 WHERE id = " + house.getId() + ";");
+            ps.executeUpdate();
+            ps.close();
+            GTWHouses.getHouseCache().updateHouse(house);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 }

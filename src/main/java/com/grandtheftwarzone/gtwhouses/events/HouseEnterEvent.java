@@ -61,6 +61,9 @@ public class HouseEnterEvent implements Listener {
 
                 if (house.isForSale())
                     message += " It's for sale for " + ChatColor.GREEN + "$" + house.getSellCost() + ChatColor.RESET + ".";
+
+                if (house.isRentable() && !house.isRented())
+                    message += " You can rent it for " + ChatColor.GREEN + "$" + house.getRentCost() + ChatColor.RESET + " per day.";
             }
         } else {
             message = "You entered house " + ChatColor.GOLD + house.getName() + ChatColor.RESET + " (unowned) you can buy it for " + ChatColor.GREEN + "$" + house.getBuyCost() + ChatColor.RESET + " and then rent it for " + ChatColor.GREEN + "$" + house.getRentCost() + ChatColor.RESET + " per day.";

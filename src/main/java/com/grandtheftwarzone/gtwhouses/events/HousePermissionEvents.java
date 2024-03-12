@@ -27,9 +27,10 @@ public class HousePermissionEvents implements Listener {
         if (house == null) return; // If the block is not in a house, return
 
         boolean isOwner = player.getUniqueId().equals(house.getOwner());
+        boolean isRenter = player.getUniqueId().equals(house.getRenter());
 
-        // If the player is the owner, he can't break blocks
-        if (!isOwner) {
+        // If the player is the owner or the renter, he can't break blocks
+        if (!isOwner && !isRenter) {
             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Hey! " + ChatColor.RESET + ChatColor.GRAY + "You don't have permissions to do that.");
             event.setCancelled(true);
             return;
@@ -50,6 +51,8 @@ public class HousePermissionEvents implements Listener {
             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Hey! " + ChatColor.RESET + ChatColor.GRAY + "You can't break blocks while your house is rented.");
             event.setCancelled(true);
         }
+
+        // Renter can break non house blocks
     }
 
 
@@ -66,18 +69,20 @@ public class HousePermissionEvents implements Listener {
         if (house == null) return; // If the block is not in a house, return
 
         boolean isOwner = player.getUniqueId().equals(house.getOwner());
+        boolean isRenter = player.getUniqueId().equals(house.getRenter());
 
-        // If the player is not the owner, he can't interact with blocks
-        if (!isOwner) {
+        // If the player is not the owner or the renter, he can't interact with blocks
+        if (!isOwner && !isRenter) {
             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Hey! " + ChatColor.RESET + ChatColor.GRAY + "You don't have permissions to do that.");
             event.setCancelled(true);
             return;
         }
 
-        // If the player is the owner and the house is rented, he can't break blocks
+        // If the player is the owner and the house is rented, he can't use blocks
         if (block.getType().toString().contains("DOOR")) return; // Allow doors
 
-        if (house.isRented()) {
+        // If the player is the owner and the house is rented, he can't use blocks except doors
+        if (isOwner && house.isRented()) {
             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Hey! " + ChatColor.RESET + ChatColor.GRAY + "You can't interact with blocks while your house is rented.");
             event.setCancelled(true);
         }

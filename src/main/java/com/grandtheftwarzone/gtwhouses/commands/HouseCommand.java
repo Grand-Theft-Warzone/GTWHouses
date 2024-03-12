@@ -24,6 +24,8 @@ public class HouseCommand extends AtumCommand {
 
         addSubcommand(new BuyHouseCommand(plugin, this));
         addSubcommand(new SellHouseCommand(plugin, this));
+        addSubcommand(new RentHouseCommand(plugin, this));
+        addSubcommand(new UnrentHouseCommand(plugin, this));
         addSubcommand(new UnsellHouseCommand(plugin, this));
         addSubcommand(new CitySellHouseCommand(plugin, this));
         addSubcommand(new RentableHouseCommand(plugin, this));
