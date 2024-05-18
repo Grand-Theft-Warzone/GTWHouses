@@ -40,7 +40,7 @@ public class HouseRemoveCommand extends AtumSubcommand {
 
         player.sendMessage("House " + GOLD + houseName + ChatColor.RESET + " removed.");
 
-        GTWHouses.getLoginMessageSystem().storeMessage(house.getOwner(), "Your house " + houseName + " has been removed.");
+        if (house.isOwned()) GTWHouses.getLoginMessageSystem().storeMessage(house.getOwner(), "Your house " + houseName + " has been removed.");
         if (house.isRented()) GTWHouses.getLoginMessageSystem().storeMessage(house.getRenter(), "The house " + houseName + " you rented has been removed.");
     }
 

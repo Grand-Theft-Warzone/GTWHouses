@@ -60,9 +60,16 @@ public class RegisterHouseCommand extends AtumSubcommand {
 
         World world = player.getWorld();
 
-        for (int x = minPoint.getBlockX(); x <= maxPoint.getBlockX(); x++)
-            for (int y = minPoint.getBlockY(); y <= maxPoint.getBlockZ(); y++)
-                for (int z = minPoint.getBlockZ(); z <= maxPoint.getBlockZ(); z++)
+        int minX = minPoint.getBlockX();
+        int minY = minPoint.getBlockY();
+        int minZ = minPoint.getBlockZ();
+        int maxX = maxPoint.getBlockX();
+        int maxY = maxPoint.getBlockY();
+        int maxZ = maxPoint.getBlockZ();
+
+        for (int x = minX; x <= maxX; x++)
+            for (int y = minY; y <= maxY; y++)
+                for (int z = minZ; z <= maxZ; z++)
                     if (world.getBlockAt(x, y, z).getType() != Material.AIR)
                         houseBlocks.add(new HouseBlock(-1, x, y, z));
 

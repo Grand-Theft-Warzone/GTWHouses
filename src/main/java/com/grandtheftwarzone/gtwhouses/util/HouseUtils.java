@@ -24,9 +24,9 @@ public class HouseUtils {
         Vector max = house.getMaxPos();
 
         //TODO: This can be optimized
-        for (int x = min.getBlockX(); x <= max.getBlockX(); x++) {
-            for (int y = min.getBlockY(); y <= max.getBlockY(); y++) {
-                for (int z = min.getBlockZ(); z <= max.getBlockZ(); z++) {
+        for (int x = min.getBlockX(); x < max.getBlockX(); x++) {
+            for (int y = min.getBlockY(); y < max.getBlockY(); y++) {
+                for (int z = min.getBlockZ(); z < max.getBlockZ(); z++) {
                     if (world.getBlockAt(x, y, z).getType() == Material.AIR) continue;
                     boolean isHouseBlock = false;
 

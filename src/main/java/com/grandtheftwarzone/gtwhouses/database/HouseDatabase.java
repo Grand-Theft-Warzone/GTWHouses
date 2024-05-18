@@ -109,6 +109,8 @@ public class HouseDatabase {
 
             PreparedStatement blockPs = database.getConnection().prepareStatement("INSERT INTO house_blocks (house_id, x, y, z) VALUES (?, ?, ?, ?);");
 
+            GTWHouses.getInstance().getLogger().info("Registering house blocks" + house.getBlocks().size());
+
             for (HouseBlock block : house.getBlocks()) {
                 blockPs.setInt(1, houseId);
                 blockPs.setInt(2, block.getX());
@@ -128,8 +130,8 @@ public class HouseDatabase {
             GTWHouses.getHouseCache().updateHouse(house);
 
             return true;
-        } catch (SQLException ignored) {
-            ignored.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
             try {
                 database.getConnection().rollback();
             } catch (SQLException ignored2) {
