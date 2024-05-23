@@ -17,7 +17,7 @@ public class HouseCache {
 
     public HouseCache() {
         houses = Caffeine.newBuilder()
-                .expireAfterAccess(10, TimeUnit.MINUTES)
+                //.expireAfterAccess(10, TimeUnit.MINUTES)
                 .build(k -> GTWHouses.getHouseDatabase().getHouseById(k));
 
         houses.putAll(GTWHouses.getHouseDatabase().getHouses().stream().collect(Collectors.toMap(House::getId, house -> house)));

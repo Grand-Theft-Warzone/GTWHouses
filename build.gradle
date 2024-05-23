@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.grandtheftwarzone'
-version = '2.1'
+version = '3.0'
 
 repositories {
     mavenCentral()
@@ -19,6 +19,11 @@ repositories {
     maven { url 'https://jitpack.io' }
 
     maven { url "https://maven.enginehub.org/repo/" }
+    
+    maven { url "https://maven.mohistmc.com/"}
+    maven { url 'https://hub.spigotmc.org/nexus/content/groups/public/' }
+    maven { url 'https://libraries.minecraft.net/' }
+    maven { url 'https://maven.minecraftforge.net/' }
 }
 
 dependencies {
@@ -35,6 +40,11 @@ dependencies {
 
     compileOnly 'com.sk89q.worldedit:worldedit-bukkit:6.1.3-SNAPSHOT'
 //    compileOnly 'com.sk89q.worldguard:worldguard-legacy:6.2'
+
+    //Add all jars from libs folder
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+
+
 }
 
 def targetJavaVersion = 8
