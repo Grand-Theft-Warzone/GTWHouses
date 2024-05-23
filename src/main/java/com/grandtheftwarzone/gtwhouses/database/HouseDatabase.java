@@ -337,9 +337,11 @@ public class HouseDatabase {
         house.resetRent();
 
         try {
-            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET rented_at = ?, rent_due = ?, renter_uuid = NULL WHERE id = " + house.getId() + ";");
+            PreparedStatement ps = database.getConnection().prepareStatement("UPDATE houses SET rented_at = ?, rent_due = ?, renter_uuid = NULL, sell_cost = ?, kicked = ? WHERE id = " + house.getId() + ";");
             ps.setString(1, null);
             ps.setString(2, null);
+            ps.setDouble(3, house.getSellCost());
+            ps.setBoolean(4, house.isKicked());
             ps.executeUpdate();
             ps.close();
             GTWHouses.getHouseCache().updateHouse(house);
