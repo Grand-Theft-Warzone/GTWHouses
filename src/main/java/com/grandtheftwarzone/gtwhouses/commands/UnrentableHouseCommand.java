@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Date;
 import java.util.List;
 
 public class UnrentableHouseCommand extends AtumSubcommand {
@@ -39,6 +40,7 @@ public class UnrentableHouseCommand extends AtumSubcommand {
         if (house.isRentedByPlayer()) {
             house.setRentedAt(null);
             house.setKicked(true);
+            GTWHouses.getManager().save();
 
             player.sendMessage("The house renter has been given 3 days to leave the house.");
 

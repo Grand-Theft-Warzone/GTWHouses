@@ -32,7 +32,7 @@ public class UnrentHouseCommand extends AtumSubcommand {
             throw new NotificationException("This house is not rented by you.");
 
         house.resetRent();
-        GTWHouses.getManager().removeHouse(house);
+        GTWHouses.getManager().save();
         HouseUtils.resetHouseBlocks(house, sender.getServer());
 
 

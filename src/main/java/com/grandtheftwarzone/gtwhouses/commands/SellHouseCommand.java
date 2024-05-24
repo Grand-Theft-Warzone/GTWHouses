@@ -49,7 +49,10 @@ public class SellHouseCommand extends AtumSubcommand {
         }
 
         if (house.isRented()) {
-            throw new NotificationException("This house is already rented. Make sure to cancel the rent first.");
+            if (house.isKicked())
+                throw new NotificationException("The renter has been kicked out. You must wait 3 days before making the house rentable again.");
+            else
+                throw new NotificationException("This house is already rented. Make sure to cancel the rent first.");
         }
 
         house.setSellCost(cost);

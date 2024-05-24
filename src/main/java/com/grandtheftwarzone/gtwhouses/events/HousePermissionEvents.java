@@ -24,7 +24,8 @@ public class HousePermissionEvents implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
     public void onBlockBreak(BreakBlockEvent worldGuardEvent) {
-        if (!(worldGuardEvent.getOriginalEvent() instanceof BlockBreakEvent)) return; // If the event is not a block break event, return
+        if (!(worldGuardEvent.getOriginalEvent() instanceof BlockBreakEvent))
+            return; // If the event is not a block break event, return
 
         BlockBreakEvent event = (BlockBreakEvent) worldGuardEvent.getOriginalEvent();
         Player player = event.getPlayer();
@@ -48,6 +49,7 @@ public class HousePermissionEvents implements Listener {
         if (isOwner && house.isRented()) {
 //            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Hey! " + ChatColor.RESET + ChatColor.GRAY + "You can't break blocks while your house is rented.");
             worldGuardEvent.setResult(BreakBlockEvent.Result.DENY);
+            return;
         }
 
         World world = player.getServer().getWorld(house.getWorld());
@@ -71,7 +73,8 @@ public class HousePermissionEvents implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
     public void onUseBlocks(UseBlockEvent worldGuardEvent) {
-        if (!(worldGuardEvent.getOriginalEvent() instanceof PlayerInteractEvent)) return; // If the event is not a player interact event, return
+        if (!(worldGuardEvent.getOriginalEvent() instanceof PlayerInteractEvent))
+            return; // If the event is not a player interact event, return
 
         PlayerInteractEvent event = (PlayerInteractEvent) worldGuardEvent.getOriginalEvent();
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return; // Only right click
@@ -96,7 +99,7 @@ public class HousePermissionEvents implements Listener {
         }
 
         // If the player is the owner and the house is rented, he can't use blocks
-        if (block.getType().toString().contains("DOOR")){
+        if (block.getType().toString().contains("DOOR")) {
             worldGuardEvent.setResult(UseBlockEvent.Result.ALLOW);
             return; // Allow doors
         }
@@ -104,7 +107,7 @@ public class HousePermissionEvents implements Listener {
         // If the player is the owner and the house is rented, he can't use blocks except doors
         if (isOwner && house.isRented()) {
 //            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Hey! " + ChatColor.RESET + ChatColor.GRAY + "You can't interact with blocks while your house is rented.");
-           // event.setCancelled(true);
+            // event.setCancelled(true);
             worldGuardEvent.setResult(UseBlockEvent.Result.DENY);
         }
 
@@ -114,7 +117,8 @@ public class HousePermissionEvents implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
     public void onPlaceBlock(PlaceBlockEvent worldGuardEvent) {
-        if (!(worldGuardEvent.getOriginalEvent() instanceof BlockPlaceEvent)) return; // If the event is not a block place event, return
+        if (!(worldGuardEvent.getOriginalEvent() instanceof BlockPlaceEvent))
+            return; // If the event is not a block place event, return
 
         BlockPlaceEvent event = (BlockPlaceEvent) worldGuardEvent.getOriginalEvent();
         Player player = event.getPlayer();
@@ -138,9 +142,10 @@ public class HousePermissionEvents implements Listener {
         if (isOwner && house.isRented()) {
             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Hey! " + ChatColor.RESET + ChatColor.GRAY + "You can't place blocks while your house is rented.");
             worldGuardEvent.setResult(PlaceBlockEvent.Result.DENY);
+            return;
         }
 
         worldGuardEvent.setResult(PlaceBlockEvent.Result.ALLOW);
-      //  event.setCancelled(false);
+        //  event.setCancelled(false);
     }
 }

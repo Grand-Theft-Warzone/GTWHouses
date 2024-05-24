@@ -36,8 +36,12 @@ public class RentableHouseCommand extends AtumSubcommand {
         if (!player.getUniqueId().equals(house.getOwner()))
             throw new NotificationException("You are not the owner of this house");
 
-        if (house.isRented())
-            throw new NotificationException("This house is already rented.");
+        if (house.isRented()) {
+            if (house.isKicked())
+                throw new NotificationException("The renter has been kicked out. You must wait 3 days before making the house rentable again.");
+            else
+                throw new NotificationException("This house is already rented.");
+        }
 
         house.startRent();
         GTWHouses.getManager().save();

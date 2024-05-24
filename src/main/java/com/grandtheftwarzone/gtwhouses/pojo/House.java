@@ -65,11 +65,11 @@ public class House implements ConfigurationSerializable {
     }
 
     public boolean isRented() {
-        return rentedAt != null || rentDueDate != null;
+        return rentDueDate != null;
     }
 
     public boolean isRentable() {
-        return isRented() && renter == null; // If it's rented to the city but not to a player
+        return rentedAt != null && renter == null; // If it's rented to the city but not to a player
     }
 
     public boolean isRentedByPlayer() {
