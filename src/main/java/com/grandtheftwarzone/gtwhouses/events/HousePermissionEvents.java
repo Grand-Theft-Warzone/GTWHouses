@@ -1,8 +1,8 @@
 package com.grandtheftwarzone.gtwhouses.events;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.dao.House;
-import com.grandtheftwarzone.gtwhouses.dao.HouseBlock;
+import com.grandtheftwarzone.gtwhouses.pojo.House;
+import com.grandtheftwarzone.gtwhouses.pojo.HouseBlock;
 import com.sk89q.worldguard.bukkit.event.block.BreakBlockEvent;
 import com.sk89q.worldguard.bukkit.event.block.PlaceBlockEvent;
 import com.sk89q.worldguard.bukkit.event.block.UseBlockEvent;
@@ -31,7 +31,7 @@ public class HousePermissionEvents implements Listener {
         Block block = event.getBlock();
         Location location = block.getLocation();
 
-        House house = GTWHouses.getHouseCache().getHouseInLocation(location);
+        House house = GTWHouses.getManager().getHouseInLocation(location);
         if (house == null) return; // If the block is not in a house, return
 
         boolean isOwner = player.getUniqueId().equals(house.getOwner());
@@ -52,7 +52,7 @@ public class HousePermissionEvents implements Listener {
 
         World world = player.getServer().getWorld(house.getWorld());
         // Every house block is a block that can't be broken
-        for (HouseBlock houseBlock : house.getBlocks()) {
+        for (HouseBlock houseBlock : GTWHouses.getManager().getHouseBlocks(house.getName())) {
             if (!houseBlock.getLocation(world).equals(location)) continue;
 
 //            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Hey! " + ChatColor.RESET + ChatColor.GRAY + "You can't break a house block.");
@@ -81,7 +81,7 @@ public class HousePermissionEvents implements Listener {
         Block block = event.getClickedBlock();
         Location location = block.getLocation();
 
-        House house = GTWHouses.getHouseCache().getHouseInLocation(location);
+        House house = GTWHouses.getManager().getHouseInLocation(location);
         if (house == null) return; // If the block is not in a house, return
 
         boolean isOwner = player.getUniqueId().equals(house.getOwner());
@@ -121,7 +121,7 @@ public class HousePermissionEvents implements Listener {
         Block block = event.getBlockPlaced();
         Location location = block.getLocation();
 
-        House house = GTWHouses.getHouseCache().getHouseInLocation(location);
+        House house = GTWHouses.getManager().getHouseInLocation(location);
         if (house == null) return; // If the block is not in a house, return
 
         boolean isOwner = player.getUniqueId().equals(house.getOwner());

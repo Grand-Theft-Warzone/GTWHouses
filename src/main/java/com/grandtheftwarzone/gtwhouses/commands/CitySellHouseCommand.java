@@ -1,7 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.commands;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.dao.House;
+import com.grandtheftwarzone.gtwhouses.pojo.House;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
@@ -28,7 +28,8 @@ public class CitySellHouseCommand extends AtumSubcommand {
 
         String houseName = args.get(0);
 
-        House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
+//        House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
+        House house = GTWHouses.getManager().getHouse(houseName);
         if (house == null) throw new NotificationException("House not found");
 
         if (!player.getUniqueId().equals(house.getOwner())) {
@@ -45,10 +46,11 @@ public class CitySellHouseCommand extends AtumSubcommand {
 
         double cost = house.getBuyCost() / 2;
 
-        if (GTWHouses.getHouseDatabase().setUnowned(house)) {
-            GTWHouses.getEconomy().depositPlayer(player, cost);
-            player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " has been sold to the city for " + cost);
-        } else throw new NotificationException("Failed to sell the house");
+        house.setUnowned();
+        GTWHouses.getManager().save();
+
+        GTWHouses.getEconomy().depositPlayer(player, cost);
+        player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " has been sold to the city for " + cost);
     }
 
     @Override

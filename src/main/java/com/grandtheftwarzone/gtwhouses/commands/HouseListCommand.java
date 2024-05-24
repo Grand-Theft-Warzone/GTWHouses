@@ -1,7 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.commands;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.dao.House;
+import com.grandtheftwarzone.gtwhouses.pojo.House;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.List;
 
 public class HouseListCommand extends AtumSubcommand {
@@ -22,7 +23,8 @@ public class HouseListCommand extends AtumSubcommand {
     protected void onCommandExecute(@NotNull CommandSender commandSender, @NotNull List<String> list) throws NotificationException {
         Player player = (Player) commandSender;
 
-        List<House> houses = GTWHouses.getHouseDatabase().getHouses();
+//        List<House> houses = GTWHouses.getHouseDatabase().getHouses();
+        Collection<House> houses = GTWHouses.getManager().getHouses();
 
         if (houses.isEmpty()) {
             player.sendMessage("No houses found.");

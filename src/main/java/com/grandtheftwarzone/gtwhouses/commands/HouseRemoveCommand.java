@@ -1,7 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.commands;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.dao.House;
+import com.grandtheftwarzone.gtwhouses.pojo.House;
 import com.grandtheftwarzone.gtwhouses.util.HouseUtils;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
@@ -30,11 +30,12 @@ public class HouseRemoveCommand extends AtumSubcommand {
 
         String houseName = args.get(0);
 
-        House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
+//        House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
+        House house = GTWHouses.getManager().getHouse(houseName);
         if (house == null) throw new NotificationException("House not found.");
 
-        if (!GTWHouses.getHouseDatabase().removeHouse(house.getId()))
-            throw new NotificationException("An error occurred while removing the house.");
+        GTWHouses.getManager().removeHouse(house);
+        GTWHouses.getManager().save();
 
         HouseUtils.resetHouseBlocks(house, player.getServer());
 

@@ -1,7 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.commands;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.dao.House;
+import com.grandtheftwarzone.gtwhouses.pojo.House;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
@@ -27,7 +27,8 @@ public class RentableHouseCommand extends AtumSubcommand {
             throw new NotificationException("Usage: " + getUsage());
 
         String houseName = args.get(0);
-        House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
+//        House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
+        House house = GTWHouses.getManager().getHouse(houseName);
         if (house == null) throw new NotificationException("House not found");
 
         double costPerDay = house.getRentCost();
@@ -38,9 +39,10 @@ public class RentableHouseCommand extends AtumSubcommand {
         if (house.isRented())
             throw new NotificationException("This house is already rented.");
 
-        if (GTWHouses.getHouseDatabase().startRent(house))
-            player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is being rent for " + ChatColor.GREEN + "$" + costPerDay + ChatColor.RESET + " per day");
-        else throw new NotificationException("Could not set house as rentable");
+        house.startRent();
+        GTWHouses.getManager().save();
+
+        player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is being rent for " + ChatColor.GREEN + "$" + costPerDay + ChatColor.RESET + " per day");
     }
 
     @Override

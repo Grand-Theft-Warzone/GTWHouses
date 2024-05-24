@@ -2,24 +2,71 @@ package com.grandtheftwarzone.gtwhouses.util;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
 import lombok.Getter;
-import me.phoenixra.atum.core.database.Database;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class LoginMessageSystem implements Listener {
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private final HashMap<UUID, ArrayList<Message>> messages = new HashMap<>();
+
+    private FileConfiguration messageConfig;
+
+    public void init() {
+        File messageFile = new File(GTWHouses.getInstance().getDataFolder(), "messages.yml");
+        if (!messageFile.exists()) GTWHouses.getInstance().saveResource("messages.yml", false);
+
+        messageConfig = YamlConfiguration.loadConfiguration(messageFile);
+        loadMessages();
+    }
+
+    private void loadMessages() {
+        for (String key : messageConfig.getKeys(false)) {
+            UUID uuid = UUID.fromString(key);
+            ArrayList<Message> messages = new ArrayList<>();
+
+            messageConfig.getLongList(key).forEach(time -> {
+                String message = messageConfig.getString(key + "." + time);
+                messages.add(new Message(message, new Date(time)));
+            });
+
+            this.messages.put(uuid, messages);
+        }
+
+    }
+
+    private BukkitTask runningTask;
+
+    private void saveSync() {
+        GTWHouses.getInstance().saveResource("messages.yml", true);
+
+        for (UUID uuid : messages.keySet())
+            for (Message message : messages.get(uuid))
+                messageConfig.set(uuid.toString() + "." + message.getDate().getTime(), message.getMessage());
+    }
+
+    private void save() {
+        if (runningTask != null) runningTask.cancel();
+        runningTask = new BukkitRunnable() {
+            @Override
+            public void run() {
+                saveSync();
+            }
+        }.runTaskLaterAsynchronously(GTWHouses.getInstance(), 20 * 2);
+    }
 
     public void sendOrStore(OfflinePlayer player, String message) {
         if (player.isOnline()) {
@@ -30,49 +77,24 @@ public class LoginMessageSystem implements Listener {
     }
 
     public void storeMessage(UUID uuid, String message) {
-        Database db = GTWHouses.getHouseDatabase().getDatabase();
-        try {
-            PreparedStatement statement = db.getConnection().prepareStatement("INSERT INTO messages (uuid, message, time) VALUES (?, ?, ?)");
-            statement.setString(1, uuid.toString());
-            statement.setString(2, message);
-            statement.setLong(3, System.currentTimeMillis());
-            statement.executeUpdate();
-            statement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        messages.computeIfAbsent(uuid, k -> new ArrayList<>()).add(new Message(message, new Date()));
+        save();
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        Database db = GTWHouses.getHouseDatabase().getDatabase();
-
         Player player = event.getPlayer();
         if (player == null) return;
 
-        try {
-            PreparedStatement statement = db.getConnection().prepareStatement("SELECT * FROM messages WHERE uuid = ?");
-            statement.setString(1, player.getUniqueId().toString());
-            ResultSet rs = statement.executeQuery();
+        ArrayList<Message> playerMessages = messages.get(player.getUniqueId());
+        if (playerMessages == null || playerMessages.isEmpty()) return;
 
-            ArrayList<Message> messages = new ArrayList<>();
-            while (rs.next()) messages.add(new Message(rs.getString("message"), new Date(rs.getLong("time"))));
-            if (messages.isEmpty()) return;
+        player.sendMessage("You have " + playerMessages.size() + " unread messages:");
+        for (Message message : playerMessages)
+            player.sendMessage(ChatColor.YELLOW + GTWHouses.dateFormat.format(message.getDate()) + ChatColor.RESET + " - " + message.getMessage());
 
-            player.sendMessage("You have " + messages.size() + " unread messages:");
-            for (Message message : messages) {
-                player.sendMessage(ChatColor.YELLOW + dateFormat.format(message.getDate()) + ChatColor.RESET + " - " + message.getMessage());
-            }
-
-            PreparedStatement deleteStatement = db.getConnection().prepareStatement("DELETE FROM messages WHERE uuid = ?");
-            deleteStatement.setString(1, player.getUniqueId().toString());
-            deleteStatement.executeUpdate();
-
-            statement.close();
-            deleteStatement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        messages.remove(player.getUniqueId());
+        save();
     }
 
     @Getter

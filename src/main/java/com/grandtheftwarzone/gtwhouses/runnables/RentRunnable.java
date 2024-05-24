@@ -14,7 +14,7 @@ public class RentRunnable implements Runnable {
         plugin.getLogger().info("Checking rent...");
 
 
-        GTWHouses.getHouseCache().getHouses().forEach(house -> {
+        GTWHouses.getManager().getHouses().forEach(house -> {
             if (!house.isRented()) return;
             Player player = server.getPlayer(house.getOwner());
             if (player == null) return;

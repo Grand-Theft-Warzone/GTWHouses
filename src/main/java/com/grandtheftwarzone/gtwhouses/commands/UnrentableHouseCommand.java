@@ -1,7 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.commands;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.dao.House;
+import com.grandtheftwarzone.gtwhouses.pojo.House;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
@@ -29,7 +29,7 @@ public class UnrentableHouseCommand extends AtumSubcommand {
 
         String houseName = args.get(0);
 
-        House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
+        House house = GTWHouses.getManager().getHouse(houseName);
         if (house == null) throw new NotificationException("House not found");
 
         if (!player.getUniqueId().equals(house.getOwner()))
@@ -37,8 +37,9 @@ public class UnrentableHouseCommand extends AtumSubcommand {
 
         //Make the renter leave the house in 3 days
         if (house.isRentedByPlayer()) {
-            if (!GTWHouses.getHouseDatabase().startKicking(house))
-                throw new NotificationException("Failed to \"kick\" the renter!");
+            house.setRentedAt(null);
+            house.setKicked(true);
+
             player.sendMessage("The house renter has been given 3 days to leave the house.");
 
             OfflinePlayer renter = GTWHouses.getInstance().getServer().getOfflinePlayer(house.getRenter());
@@ -46,9 +47,8 @@ public class UnrentableHouseCommand extends AtumSubcommand {
             return;
         }
 
-        if (GTWHouses.getHouseDatabase().stopRent(house))
-            player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is no longer for rent");
-        else throw new NotificationException("Failed to make house un-rentable");
+        house.resetRent();
+        player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is no longer for rent");
     }
 
     @Override

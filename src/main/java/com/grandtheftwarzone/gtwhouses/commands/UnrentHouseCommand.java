@@ -1,10 +1,8 @@
 package com.grandtheftwarzone.gtwhouses.commands;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.dao.House;
-import com.grandtheftwarzone.gtwhouses.database.HouseDatabase;
+import com.grandtheftwarzone.gtwhouses.pojo.House;
 import com.grandtheftwarzone.gtwhouses.util.HouseUtils;
-import com.grandtheftwarzone.gtwhouses.util.LoginMessageSystem;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
@@ -20,25 +18,26 @@ public class UnrentHouseCommand extends AtumSubcommand {
     public UnrentHouseCommand(GTWHouses plugin, AtumCommand parent) {
         super(plugin, "unrent", parent);
     }
+
     @Override
     protected void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) throws NotificationException {
         Player player = (Player) sender;
         if (args.size() != 1) throw new NotificationException("Usage: " + getUsage());
 
         String houseName = args.get(0);
-        House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
+        House house = GTWHouses.getManager().getHouse(houseName);
         if (house == null) throw new NotificationException("House not found.");
 
-        if (!house.isRentedByPlayer() || house.getRenter() != player.getUniqueId()) throw new NotificationException("This house is not rented by you.");
+        if (!house.isRentedByPlayer() || house.getRenter() != player.getUniqueId())
+            throw new NotificationException("This house is not rented by you.");
 
         house.resetRent();
+        GTWHouses.getManager().removeHouse(house);
         HouseUtils.resetHouseBlocks(house, sender.getServer());
-        if (!GTWHouses.getHouseDatabase().stopRent(house)){
-            throw new NotificationException("Failed to unrent the house.");
-        }
+
 
         player.sendMessage("You are no longer renting this house. And its blocks have been reset.");
-        GTWHouses.getLoginMessageSystem().storeMessage(house.getOwner(), "You house " + houseName + " is no longer being rented by " + player.getDisplayName()+".");
+        GTWHouses.getLoginMessageSystem().storeMessage(house.getOwner(), "You house " + houseName + " is no longer being rented by " + player.getDisplayName() + ".");
     }
 
     @Override

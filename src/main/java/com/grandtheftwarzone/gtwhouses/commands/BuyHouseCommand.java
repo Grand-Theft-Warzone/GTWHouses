@@ -1,7 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.commands;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.dao.House;
+import com.grandtheftwarzone.gtwhouses.pojo.House;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
@@ -29,7 +29,9 @@ public class BuyHouseCommand extends AtumSubcommand {
 
         if (args.size() != 1) throw new NotificationException("Usage: " + getUsage());
 
-        House house = GTWHouses.getHouseDatabase().getHouseByName(args.get(0));
+//        House house = GTWHouses.getHouseDatabase().getHouseByName(args.get(0));
+        House house = GTWHouses.getManager().getHouse(args.get(0));
+
 
         if (house == null) throw new NotificationException("House not found");
         if (!house.isForSale()) throw new NotificationException("House is not for sale");
@@ -52,14 +54,18 @@ public class BuyHouseCommand extends AtumSubcommand {
 
         economy.withdrawPlayer(player, cost);
 
-        if (GTWHouses.getHouseDatabase().updateHouseOwner(house, player.getUniqueId()))
-            player.sendMessage(GREEN + "You bought the house " + house.getName() + " for " + GREEN + "$" + cost);
-        else throw new NotificationException("An error occurred while trying to buy the house");
+
+        house.setOwner(player.getUniqueId());
+        house.resetRent();
+        GTWHouses.getManager().save();
+
+        player.sendMessage(GREEN + "You bought the house " + house.getName() + " for " + GREEN + "$" + cost);
 
         if (oldOwner != null) {
             if (oldOwner.isOnline())
                 oldOwner.getPlayer().sendMessage(GREEN + "Your house " + house.getName() + " has been sold to " + player.getName() + " for " + GREEN + "$" + cost);
-            else  GTWHouses.getLoginMessageSystem().storeMessage(oldOwner.getUniqueId(), "Your house " + house.getName() + " has been sold to " + player.getName() + " for " + GREEN + "$" + cost);
+            else
+                GTWHouses.getLoginMessageSystem().storeMessage(oldOwner.getUniqueId(), "Your house " + house.getName() + " has been sold to " + player.getName() + " for " + GREEN + "$" + cost);
         }
     }
 

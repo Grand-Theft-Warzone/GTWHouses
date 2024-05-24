@@ -1,8 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.commands;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.dao.House;
-import com.grandtheftwarzone.gtwhouses.util.HouseUtils;
+import com.grandtheftwarzone.gtwhouses.pojo.House;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.command.CommandBase;
 import me.phoenixra.atum.core.exceptions.NotificationException;
@@ -25,11 +24,12 @@ public class UnregisterHouseCommand extends AtumSubcommand {
 
         String houseName = args.get(0);
 
-        House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
+//        House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
+        House house = GTWHouses.getManager().getHouse(houseName);
         if (house == null) throw new NotificationException("House not found.");
 
-        if (!GTWHouses.getHouseDatabase().removeHouse(house.getId()))
-            throw new NotificationException("Could not unregister house.");
+        GTWHouses.getManager().removeHouse(house);
+        GTWHouses.getManager().save();
 
         sender.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " has been unregistered successfully!");
     }

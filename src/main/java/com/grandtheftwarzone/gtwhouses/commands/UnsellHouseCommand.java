@@ -1,7 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.commands;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.dao.House;
+import com.grandtheftwarzone.gtwhouses.pojo.House;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
@@ -27,15 +27,16 @@ public class UnsellHouseCommand extends AtumSubcommand {
 
         String houseName = args.get(0);
 
-        House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
+        House house = GTWHouses.getManager().getHouse(houseName);
         if (house == null) throw new NotificationException("House not found");
 
         if (!player.getUniqueId().equals(house.getOwner()))
             throw new NotificationException("You are not the owner of this house");
 
-        if (GTWHouses.getHouseDatabase().setUnsellable(house))
-            player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is no longer for sale");
-        else throw new NotificationException("Could not update house");
+        house.setSellCost(-1);
+        GTWHouses.getManager().save();
+
+        player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is no longer for sale");
     }
 
     @Override

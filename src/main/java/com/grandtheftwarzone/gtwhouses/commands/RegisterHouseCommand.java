@@ -1,8 +1,8 @@
 package com.grandtheftwarzone.gtwhouses.commands;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.dao.House;
-import com.grandtheftwarzone.gtwhouses.dao.HouseBlock;
+import com.grandtheftwarzone.gtwhouses.pojo.House;
+import com.grandtheftwarzone.gtwhouses.pojo.HouseBlock;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
@@ -50,7 +50,7 @@ public class RegisterHouseCommand extends AtumSubcommand {
         Selection selection = GTWHouses.getWorldEditPlugin().getSelection(player);
         if (selection == null) throw new NotificationException("You must select a region first.");
 
-        if (GTWHouses.getHouseDatabase().hasName(houseName))
+        if (GTWHouses.getManager().hasName(houseName))
             throw new NotificationException("A house with this name already exists.");
 
 
@@ -71,11 +71,11 @@ public class RegisterHouseCommand extends AtumSubcommand {
             for (int y = minY; y <= maxY; y++)
                 for (int z = minZ; z <= maxZ; z++)
                     if (world.getBlockAt(x, y, z).getType() != Material.AIR)
-                        houseBlocks.add(new HouseBlock(-1, x, y, z));
+                        houseBlocks.add(new HouseBlock(x, y, z));
 
-        if (GTWHouses.getHouseDatabase().registerHouse(new House(houseName, world.getUID(), minPoint, maxPoint, houseBlocks, rent, buyCost)))
-            player.sendMessage(ChatColor.GREEN + "House registered successfully.");
-        else throw new NotificationException("An error occurred while registering the house.");
+        GTWHouses.getManager().addHouse(new House(houseName, world.getName(), minPoint, maxPoint, rent, buyCost), houseBlocks);
+        GTWHouses.getManager().save();
+        player.sendMessage(ChatColor.GREEN + "House registered successfully.");
     }
 
     @Override

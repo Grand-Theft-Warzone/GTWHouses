@@ -1,7 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.commands;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.dao.House;
+import com.grandtheftwarzone.gtwhouses.pojo.House;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
@@ -35,7 +35,8 @@ public class SellHouseCommand extends AtumSubcommand {
             throw new NotificationException("The cost must be a number");
         }
 
-        House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
+//        House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
+        House house = GTWHouses.getManager().getHouse(houseName);
         if (house == null) throw new NotificationException("House not found");
 
 
@@ -51,10 +52,10 @@ public class SellHouseCommand extends AtumSubcommand {
             throw new NotificationException("This house is already rented. Make sure to cancel the rent first.");
         }
 
-        if (GTWHouses.getHouseDatabase().setSellable(house, cost))
-            player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is now for sale for " + cost);
-        else
-            throw new NotificationException("Could not set the house for sale");
+        house.setSellCost(cost);
+        GTWHouses.getManager().save();
+
+        player.sendMessage("House " + ChatColor.GOLD + houseName + ChatColor.RESET + " is now for sale for " + cost);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.commands;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.dao.House;
+import com.grandtheftwarzone.gtwhouses.pojo.House;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
@@ -29,7 +29,8 @@ public class RentHouseCommand extends AtumSubcommand {
 
         String houseName = args.get(0);
 
-        House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
+//        House house = GTWHouses.getHouseDatabase().getHouseByName(houseName);
+        House house = GTWHouses.getManager().getHouse(houseName);
         if (house == null) throw new NotificationException(ChatColor.RED + "House not found.");
 
         if (!house.isRentable()) throw new NotificationException(ChatColor.RED + "This house is not rentable.");
@@ -47,14 +48,15 @@ public class RentHouseCommand extends AtumSubcommand {
             throw new NotificationException(ChatColor.RED + "Failed to rent the house.");
 
         house.setRenter(player.getUniqueId());
-        if (!GTWHouses.getHouseDatabase().startRent(house))
-            throw new NotificationException(ChatColor.RED + "Failed to rent the house.");
+        house.startRent();
+        GTWHouses.getManager().save();
 
         player.sendMessage(ChatColor.GREEN + "You have rented the house " + ChatColor.GOLD + houseName + ChatColor.GREEN + " for " + ChatColor.GOLD + house.getRentCost() + ChatColor.GREEN + ".");
 
         if (owner.isOnline())
             owner.getPlayer().sendMessage(ChatColor.GREEN + "Your house " + ChatColor.GOLD + houseName + ChatColor.GREEN + " has been rented by " + ChatColor.GOLD + player.getName() + ChatColor.GREEN + " for " + ChatColor.GOLD + house.getRentCost() + ChatColor.GREEN + ".");
-        else GTWHouses.getLoginMessageSystem().storeMessage(owner.getUniqueId(), "Your house " + houseName + " has been rented by " + player.getName() + " for " + house.getRentCost() + ".");
+        else
+            GTWHouses.getLoginMessageSystem().storeMessage(owner.getUniqueId(), "Your house " + houseName + " has been rented by " + player.getName() + " for " + house.getRentCost() + ".");
     }
 
     @Override

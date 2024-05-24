@@ -1,7 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.events;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.dao.House;
+import com.grandtheftwarzone.gtwhouses.pojo.House;
 import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public class HouseEnterEvent implements Listener {
 
-    private final HashMap<UUID, Integer> playerHouse = new HashMap<>();
+    private final HashMap<UUID, String> playerHouse = new HashMap<>();
     private final HashMap<UUID, LastLeft> lastLefts = new HashMap<>();
 
     @EventHandler
@@ -25,27 +25,27 @@ public class HouseEnterEvent implements Listener {
         Player player = event.getPlayer();
         Location location = event.getTo();
 
-        House house = GTWHouses.getHouseCache().getHouseInLocation(location);
+        House house = GTWHouses.getManager().getHouseInLocation(location);
         if (house == null) {
             if (!lastLefts.containsKey(player.getUniqueId()) && playerHouse.containsKey(player.getUniqueId())) {
-                int id = playerHouse.remove(player.getUniqueId());
-                lastLefts.put(player.getUniqueId(), new LastLeft(System.currentTimeMillis(), id));
+                String name = playerHouse.remove(player.getUniqueId());
+                lastLefts.put(player.getUniqueId(), new LastLeft(System.currentTimeMillis(), name));
             }
             return;
         }
 
         if (lastLefts.containsKey(player.getUniqueId())) {
             LastLeft lastLeft = lastLefts.get(player.getUniqueId());
-            if (lastLeft.houseId == house.getId()) {
+            if (lastLeft.houseName.equals(house.getName())) {
                 if (System.currentTimeMillis() - lastLeft.time < 15000) return; // 15 seconds
                 lastLefts.remove(player.getUniqueId());
             }
         }
 
-        if (playerHouse.containsKey(player.getUniqueId()) && playerHouse.get(player.getUniqueId()) == house.getId())
+        if (playerHouse.containsKey(player.getUniqueId()) && playerHouse.get(player.getUniqueId()).equals(house.getName()))
             return;
 
-        playerHouse.put(player.getUniqueId(), house.getId());
+        playerHouse.put(player.getUniqueId(), house.getName());
 
         String message;
 
@@ -75,6 +75,6 @@ public class HouseEnterEvent implements Listener {
     @AllArgsConstructor
     private static class LastLeft {
         final long time;
-        final int houseId;
+        final String houseName;
     }
 }

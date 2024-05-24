@@ -1,16 +1,14 @@
 package com.grandtheftwarzone.gtwhouses.util;
 
 import com.grandtheftwarzone.gtwhouses.GTWHouses;
-import com.grandtheftwarzone.gtwhouses.dao.House;
-import com.grandtheftwarzone.gtwhouses.dao.HouseBlock;
-import com.grandtheftwarzone.gtwhouses.database.HouseDatabase;
+import com.grandtheftwarzone.gtwhouses.pojo.House;
+import com.grandtheftwarzone.gtwhouses.pojo.HouseBlock;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.UUID;
 
 public class HouseUtils {
@@ -30,7 +28,7 @@ public class HouseUtils {
                     if (world.getBlockAt(x, y, z).getType() == Material.AIR) continue;
                     boolean isHouseBlock = false;
 
-                    for (HouseBlock block : house.getBlocks()) {
+                    for (HouseBlock block : GTWHouses.getManager().getHouseBlocks(house.getName())) {
                         if (block.x == x && block.y == y && block.z == z) {
                             isHouseBlock = true;
                             break;
@@ -62,7 +60,10 @@ public class HouseUtils {
                 house.setRentDueDate(null);
 
                 resetHouseBlocks(house, GTWHouses.getInstance().getServer());
-                GTWHouses.getHouseDatabase().stopRent(house);
+
+                house.resetRent();
+                GTWHouses.getManager().save();
+
                 GTWHouses.getLoginMessageSystem().sendOrStore(player, ChatColor.GREEN + "You have been kicked from house " + ChatColor.YELLOW + house.getName() + ChatColor.GREEN + " because the house is no longer being for rent.");
                 return;
             }
@@ -83,7 +84,8 @@ public class HouseUtils {
             if (payDays > 3) {
                 rentWarnings.remove(renter.getUniqueId());
                 house.resetRent();
-                GTWHouses.getHouseDatabase().stopRent(house);
+                GTWHouses.getManager().save();
+
                 resetHouseBlocks(house, GTWHouses.getInstance().getServer());
                 GTWHouses.getLoginMessageSystem().sendOrStore(renter, ChatColor.RED + "You have been kicked from house " + ChatColor.YELLOW + house.getName() + ChatColor.RED + " for not paying rent.");
                 return;
@@ -103,13 +105,16 @@ public class HouseUtils {
             }
         }
 
-        if (!GTWHouses.getHouseDatabase().payRent(house)) return;
+        house.renewRent();
+        GTWHouses.getManager().save();
 
         GTWHouses.getEconomy().depositPlayer(player, cost);
         GTWHouses.getLoginMessageSystem().sendOrStore(player, "You have received " + cost + " for " + payDays + " days of rent for house " + house.getName() + "!");
     }
 
     public static boolean isLocationInHouse(Location location, House house) {
+        if (!location.getWorld().getName().equals(house.getWorld())) return false;
+
         Vector min = house.getMinPos();
         Vector max = house.getMaxPos();
 
