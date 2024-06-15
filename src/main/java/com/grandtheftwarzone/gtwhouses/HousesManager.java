@@ -3,6 +3,8 @@ package com.grandtheftwarzone.gtwhouses;
 import com.grandtheftwarzone.gtwhouses.pojo.House;
 import com.grandtheftwarzone.gtwhouses.pojo.HouseBlock;
 import com.grandtheftwarzone.gtwhouses.util.HouseUtils;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,8 +16,12 @@ import java.io.File;
 import java.util.*;
 
 public class HousesManager {
-    private static final HashMap<String, House> houses = new HashMap<>();
-    private static final HashMap<String, List<HouseBlock>> houseBlocks = new HashMap<>();
+    private final HashMap<String, House> houses = new HashMap<>();
+    private final HashMap<String, List<HouseBlock>> houseBlocks = new HashMap<>();
+
+    // Helper maps for player data (calculated on save)
+    @Getter private HashMap<UUID, List<String>> playerHouses = new HashMap<>();
+    @Getter private ArrayList<HouseHolder> playerAmounts = new ArrayList<>();
 
     private final File housesFile;
     private final FileConfiguration housesConfig;
@@ -72,6 +78,31 @@ public class HousesManager {
         return null;
     }
 
+    private void updatePlayerHelpers() {
+        playerHouses.clear();
+        playerAmounts.clear();
+
+        HashMap<UUID, HouseHolder> holders = new HashMap<>();
+
+        for (House house : houses.values()) {
+            if (!house.isOwned()) continue;
+
+            List<String> houseList = playerHouses.putIfAbsent(house.getOwner(), new ArrayList<>());
+            if (houseList == null) houseList = new ArrayList<>();
+
+            HouseHolder holder = holders.putIfAbsent(house.getOwner(), new HouseHolder(house.getOwner(), 0, 0));
+            if (holder == null) holder = holders.get(house.getOwner());
+
+            houseList.add(house.getName());
+            holder.add(house);
+
+            playerHouses.put(house.getOwner(), houseList);
+        }
+
+        playerAmounts.addAll(holders.values());
+        playerAmounts.sort(Comparator.comparingDouble(HouseHolder::getValue).reversed());
+    }
+
     public void load() {
         houses.clear();
         houseBlocks.clear();
@@ -90,6 +121,8 @@ public class HousesManager {
             houseBlocks.put(house.getName(), blocks);
             houses.put(house.getName(), house);
         }
+
+        updatePlayerHelpers();
         GTWHouses.getInstance().getLogger().info("Loaded " + houses.size() + " houses.");
     }
 
@@ -108,6 +141,8 @@ public class HousesManager {
     public void saveSync() {
         GTWHouses.getInstance().saveResource("blocks.yml", true);
 
+        updatePlayerHelpers();
+
         for (House house : houses.values()) {
             housesConfig.set("houses." + house.getName(), house);
             houseBlocksConfig.set(house.getName(), houseBlocks.get(house.getName()));
@@ -123,4 +158,18 @@ public class HousesManager {
         }
     }
 
+
+    @Getter
+    @AllArgsConstructor
+    static
+    public class HouseHolder {
+        private final UUID player;
+        private int count;
+        private double value;
+
+        private void add(House house) {
+            count++;
+            value += house.getBuyCost();
+        }
+    }
 }
