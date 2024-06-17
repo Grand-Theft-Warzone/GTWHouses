@@ -27,7 +27,8 @@ public class TopBuyersCommand extends AtumSubcommand {
             HousesManager.HouseHolder houseHolder = GTWHouses.getManager().getPlayerAmounts().get(i);
 
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(houseHolder.getPlayer());
-            commandSender.sendMessage((i + 1) + ". " + offlinePlayer.getName() + " - " + houseHolder.getCount() + " properties:  " + houseHolder.getValue() + " value");
+            String value = String.format("%,d", houseHolder.getValue());
+            commandSender.sendMessage((i + 1) + ". " + offlinePlayer.getName() + " - " + houseHolder.getCount() + " properties:  " + value + " value");
         }
     }
 
