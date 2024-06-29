@@ -49,9 +49,10 @@ public class HouseUtils {
         return (int) diff / (24 * 60 * 60 * 1000);
     }
 
-    public static void handleRent(House house, Player player) {
+    public static void handleRent(House house, OfflinePlayer player) {
         // First check for house kicking
         if (house.isKicked() && house.getRenter() != null) {
+            GTWHouses.getInstance().getLogger().info("House " + house.getName() + " is kicked");
             int daysSince = (int) ((new Date().getTime() - house.getRentDueDate().getTime()) / (24 * 60 * 60 * 1000));
 
             if (daysSince >= 3) {
@@ -68,7 +69,6 @@ public class HouseUtils {
                 return;
             }
         }
-
 
         if (!house.isRented()) return;
 
