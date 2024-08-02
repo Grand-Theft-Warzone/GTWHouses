@@ -4,7 +4,6 @@ import com.grandtheftwarzone.gtwhouses.GTWHouses;
 import com.grandtheftwarzone.gtwhouses.pojo.House;
 import com.grandtheftwarzone.gtwhouses.pojo.HouseBlock;
 import org.bukkit.*;
-import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -42,12 +41,13 @@ public class HouseUtils {
     }
 
     //TODO: Test this function
-    public static int getRentDaysToPay(House house) {
+    public static long getRentTimeToPay(House house) {
         if (!house.isRented()) return 0;
 
-        long diff = new Date().getTime() - house.getRentDueDate().getTime();
-        return (int) diff / (24 * 60 * 60 * 1000);
+        return new Date().getTime() - house.getRentDueDate().getTime();
     }
+
+    static final long oneDay = 24 * 60 * 60 * 1000;
 
     public static void handleRent(House house, OfflinePlayer player) {
         // First check for house kicking
@@ -55,7 +55,7 @@ public class HouseUtils {
             GTWHouses.getInstance().getLogger().info("House " + house.getName() + " is kicked");
             int daysSince = (int) ((new Date().getTime() - house.getRentDueDate().getTime()) / (24 * 60 * 60 * 1000));
 
-            if (daysSince >= 3) {
+            if (daysSince >= 3 * oneDay) {
                 house.setRenter(null);
                 house.setKicked(false);
                 house.setRentDueDate(null);
@@ -72,16 +72,16 @@ public class HouseUtils {
 
         if (!house.isRented()) return;
 
-        int payDays = getRentDaysToPay(house);
-        if (payDays <= 0) return;
+        long rentTime = getRentTimeToPay(house);
+        if (rentTime < oneDay) return;
 
-        double cost = house.getRentCost() * payDays;
+        double cost = house.getRentCost() * (int) (rentTime / oneDay);
 
         if (house.isRentedByPlayer()) {
             OfflinePlayer renter = GTWHouses.getInstance().getServer().getOfflinePlayer(house.getRenter());
 
             // 3 days have passed since the rent was due
-            if (payDays > 3) {
+            if (rentTime > 3 * oneDay) {
                 rentWarnings.remove(renter.getUniqueId());
                 house.resetRent();
                 GTWHouses.getManager().save();
@@ -95,11 +95,11 @@ public class HouseUtils {
             if (GTWHouses.getEconomy().has(renter, cost)) {
                 rentWarnings.remove(renter.getUniqueId());
                 GTWHouses.getEconomy().withdrawPlayer(renter, cost);
-                GTWHouses.getLoginMessageSystem().sendOrStore(renter, "You have paid " + cost + " for " + payDays + " days of rent");
+                GTWHouses.getLoginMessageSystem().sendOrStore(renter, "You have paid " + cost + " for " + rentTime + " days of rent");
             } else {
                 //Warn the player that he has 3 days to pay
                 if (!rentWarnings.contains(renter.getUniqueId())) {
-                    GTWHouses.getLoginMessageSystem().sendOrStore(renter, "You don't have enough money to pay for " + payDays + " days of rent. You have 3 days to pay it all.");
+                    GTWHouses.getLoginMessageSystem().sendOrStore(renter, "You don't have enough money to pay for " + rentTime + " days of rent. You have 3 days to pay it all.");
                     rentWarnings.add(renter.getUniqueId());
                 } else return;
             }
@@ -109,7 +109,7 @@ public class HouseUtils {
         GTWHouses.getManager().save();
 
         GTWHouses.getEconomy().depositPlayer(player, cost);
-        GTWHouses.getLoginMessageSystem().sendOrStore(player, "You have received " + cost + " for " + payDays + " days of rent for house " + house.getName() + "!");
+        GTWHouses.getLoginMessageSystem().sendOrStore(player, "You have received " + cost + " for " + rentTime + " days of rent for house " + house.getName() + "!");
     }
 
     public static boolean isLocationInHouse(Location location, House house) {

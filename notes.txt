@@ -1,0 +1,8 @@
+ x Missing amount when paying rent for the first time
+ x Missing amount when paying rent
+ x Limit rent amount to 7 days
+ x Don't allow to rent a house already rented
+ x Print house on enter region
+
+ - Buy/sell houses
+ - Use correct permissions
