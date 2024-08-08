@@ -1,0 +1,23 @@
+name: GTWHouses
+version: '${version}'
+main: com.grandtheftwarzone.gtwhouses.server.GTWHouses
+author: Edgar Silva
+depend:
+  - Vault
+  - WorldEdit
+  - AtumCore
+
+commands:
+  house:
+    description: Buy, sell, rent and all about houses!
+    usage: "/house [register|reset|remove|list|rent...]"
+    permission: house.player
+    aliases:
+      - houses
+permissions:
+  house.houseplayer:
+    description: Allows the player to buy and rent houses.
+    default: true
+  house.houseadmin:
+    description: Allows the player to manage houses.
+    default: op

@@ -1,0 +1,12 @@
+subprojects {
+    group 'com.grandtheftwarzone'
+    version '1.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}

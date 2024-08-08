@@ -1,0 +1,123 @@
+---- Minecraft Crash Report ----
+// Who set us up the TNT?
+
+Time: 8/8/24 3:26 PM
+Description: Unexpected error
+
+java.lang.NullPointerException: Unexpected error
+	at com.grandtheftwarzone.gtwhouses.common.GTWHousesPacket.toBytes(GTWHousesPacket.java:37)
+	at com.grandtheftwarzone.gtwhouses.client.network.NetworkHandler.sendToServer(NetworkHandler.java:27)
+	at com.grandtheftwarzone.gtwhouses.client.GTWHousesUI.onPress(GTWHousesUI.java:49)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_16_GTWHousesUI_onPress_KeyInputEvent.invoke(.dynamic)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:90)
+	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:182)
+	at net.minecraftforge.fml.common.FMLCommonHandler.fireKeyInput(FMLCommonHandler.java:565)
+	at net.minecraft.client.Minecraft.runTickKeyboard(Minecraft.java:2017)
+	at net.minecraft.client.Minecraft.runTick(Minecraft.java:1808)
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1098)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:398)
+	at net.minecraft.client.main.Main.main(Main.java:118)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraftforge.legacydev.Main.start(Main.java:86)
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Client thread
+Stacktrace:
+	at com.grandtheftwarzone.gtwhouses.common.GTWHousesPacket.toBytes(GTWHousesPacket.java:37)
+	at com.grandtheftwarzone.gtwhouses.client.network.NetworkHandler.sendToServer(NetworkHandler.java:27)
+	at com.grandtheftwarzone.gtwhouses.client.GTWHousesUI.onPress(GTWHousesUI.java:49)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_16_GTWHousesUI_onPress_KeyInputEvent.invoke(.dynamic)
+	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:90)
+	at net.minecraftforge.fml.common.eventhandler.EventBus.post(EventBus.java:182)
+	at net.minecraftforge.fml.common.FMLCommonHandler.fireKeyInput(FMLCommonHandler.java:565)
+	at net.minecraft.client.Minecraft.runTickKeyboard(Minecraft.java:2017)
+
+-- Affected level --
+Details:
+	Level name: MpServer
+	All players: 1 total; [EntityPlayerSP['Player718'/251, l='MpServer', x=54.49, y=67.00, z=234.86]]
+	Chunk stats: MultiplayerChunkCache: 441, 441
+	Level seed: 0
+	Level generator: ID 00 - default, ver 1. Features enabled: false
+	Level generator options: 
+	Level spawn location: World: (50,64,238), Chunk: (at 2,4,14 in 3,14; contains blocks 48,0,224 to 63,255,239), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+	Level time: 415863 game time, 439780 day time
+	Level dimension: 0
+	Level storage version: 0x00000 - Unknown?
+	Level weather: Rain time: 0 (now: false), thunder time: 0 (now: false)
+	Level game mode: Game mode: survival (ID 0). Hardcore: false. Cheats: false
+	Forced entities: 37 total; [EntityPlayerSP['Player718'/251, l='MpServer', x=54.49, y=67.00, z=234.86], EntityCow['Cow'/64, l='MpServer', x=7.50, y=64.00, z=268.59], EntityCow['Cow'/65, l='MpServer', x=7.50, y=64.00, z=267.49], EntityCow['Cow'/129, l='MpServer', x=86.23, y=74.00, z=191.46], EntityCow['Cow'/130, l='MpServer', x=90.15, y=76.00, z=211.71], EntityCow['Cow'/131, l='MpServer', x=88.42, y=75.00, z=224.77], EntityCow['Cow'/132, l='MpServer', x=83.19, y=64.00, z=266.15], EntityCreeper['Creeper'/133, l='MpServer', x=82.50, y=30.00, z=274.50], EntityCow['Cow'/134, l='MpServer', x=86.72, y=69.00, z=278.42], EntitySkeleton['Skeleton'/76, l='MpServer', x=28.50, y=29.00, z=214.50], EntityZombie['Zombie'/77, l='MpServer', x=30.50, y=34.00, z=212.50], EntitySkeleton['Skeleton'/78, l='MpServer', x=18.50, y=34.00, z=215.50], EntitySkeleton['Skeleton'/79, l='MpServer', x=29.77, y=49.00, z=242.53], EntityCow['Cow'/84, l='MpServer', x=42.84, y=77.00, z=203.33], EntityCow['Cow'/85, l='MpServer', x=44.52, y=77.00, z=207.18], EntityBat['Bat'/86, l='MpServer', x=33.39, y=53.10, z=250.75], EntityZombie['Zombie'/87, l='MpServer', x=43.52, y=26.00, z=273.26], EntitySpider['Spider'/88, l='MpServer', x=53.39, y=43.47, z=264.70], EntityCow['Cow'/93, l='MpServer', x=48.12, y=77.00, z=205.50], EntityWitch['Witch'/94, l='MpServer', x=51.50, y=37.00, z=223.50], EntityZombie['Zombie'/95, l='MpServer', x=58.50, y=26.00, z=232.50], EntityZombie['Zombie'/96, l='MpServer', x=62.77, y=34.00, z=234.46], EntitySpider['Spider'/97, l='MpServer', x=56.50, y=37.00, z=239.50], EntityZombie['Zombie'/98, l='MpServer', x=45.42, y=38.00, z=254.82], EntitySpider['Spider'/99, l='MpServer', x=61.98, y=65.00, z=252.30], EntityZombie['Zombie'/100, l='MpServer', x=58.50, y=26.00, z=264.50], EntityCreeper['Creeper'/101, l='MpServer', x=48.15, y=38.00, z=262.40], EntityBat['Bat'/102, l='MpServer', x=61.19, y=36.77, z=280.48], EntityCow['Cow'/103, l='MpServer', x=66.44, y=70.14, z=280.45], EntityCow['Cow'/115, l='MpServer', x=72.57, y=75.00, z=192.79], EntitySpider['Spider'/116, l='MpServer', x=67.30, y=74.00, z=234.00], EntitySkeleton['Skeleton'/117, l='MpServer', x=74.50, y=33.00, z=253.50], EntityZombie['Zombie'/118, l='MpServer', x=71.50, y=26.00, z=276.50], EntityCow['Cow'/119, l='MpServer', x=78.53, y=70.00, z=275.85], EntityCow['Cow'/120, l='MpServer', x=69.47, y=69.00, z=273.20], EntityZombie['Zombie'/62, l='MpServer', x=14.50, y=35.00, z=219.50], EntityCreeper['Creeper'/63, l='MpServer', x=12.82, y=50.00, z=232.57]]
+	Retry entities: 0 total; []
+	Server brand: Magma
+	Server type: Non-integrated multiplayer server
+Stacktrace:
+	at net.minecraft.client.multiplayer.WorldClient.addWorldInfoToCrashReport(WorldClient.java:420)
+	at net.minecraft.client.Minecraft.addGraphicsAndWorldToCrashReport(Minecraft.java:2741)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:427)
+	at net.minecraft.client.main.Main.main(Main.java:118)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraftforge.legacydev.Main.start(Main.java:86)
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.12.2
+	Operating System: Windows 11 (amd64) version 10.0
+	Java Version: 1.8.0_422, Amazon.com Inc.
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode), Amazon.com Inc.
+	Memory: 541166392 bytes (516 MB) / 998244352 bytes (952 MB) up to 2830106624 bytes (2699 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: MCP 9.42 Powered by Forge 14.23.5.2860 6 mods loaded, 6 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+
+	| State  | ID          | Version      | Source                                                     | Signature |
+	|:------ |:----------- |:------------ |:---------------------------------------------------------- |:--------- |
+	| LCHIJA | minecraft   | 1.12.2       | minecraft.jar                                              | None      |
+	| LCHIJA | mcp         | 9.42         | minecraft.jar                                              | None      |
+	| LCHIJA | FML         | 8.0.99.99    | forge-1.12.2-14.23.5.2860_mapped_stable_39-1.12-recomp.jar | None      |
+	| LCHIJA | forge       | 14.23.5.2860 | forge-1.12.2-14.23.5.2860_mapped_stable_39-1.12-recomp.jar | None      |
+	| LCHIJA | gtwhousesui | 1.0          | client-1.0-SNAPSHOT.jar                                    | None      |
+	| LCHIJA | acslib      | 1.2.4        | ACsGuis-1.2.11-all.jar                                     | None      |
+
+	Loaded coremods (and transformers): 
+	GL info: ' Vendor: 'Intel' Version: '4.5.0 - Build 25.20.100.6617' Renderer: 'Intel(R) UHD Graphics 630'
+	Launched Version: ${MC_VERSION}
+	LWJGL: 2.9.4
+	OpenGL: Intel(R) UHD Graphics 630 GL version 4.5.0 - Build 25.20.100.6617, Intel
+	GL Caps: Using GL 1.3 multitexturing.
+Using GL 1.3 texture combiners.
+Using framebuffer objects because OpenGL 3.0 is supported and separate blending is supported.
+Shaders are available because OpenGL 2.1 is supported.
+VBOs are available because OpenGL 1.5 is supported.
+
+	Using VBOs: Yes
+	Is Modded: Definitely; Client brand changed to 'fml,forge'
+	Type: Client (map_client.txt)
+	Resource Packs: 
+	Current Language: English (US)
+	Profiler Position: N/A (disabled)
+	CPU: 12x Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz

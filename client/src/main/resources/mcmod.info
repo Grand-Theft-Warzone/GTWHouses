@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "gtwhousesui",
+    "name": "Grand Theft Warzone Houses UI",
+    "description": "A mod to display UI for houses in the Grand Theft Warzone server.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["EdgarSilva"],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

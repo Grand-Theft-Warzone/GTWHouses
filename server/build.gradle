@@ -1,0 +1,79 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        name = "spigotmc-repo"
+        url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
+    }
+    maven { url 'https://jitpack.io' }
+    maven { url "https://maven.enginehub.org/repo/" }
+    maven { url "https://repo.dmulloy2.net/repository/public/" }
+}
+
+
+dependencies {
+    compileOnly 'com.github.ben-manes.caffeine:caffeine:2.9.3'
+
+    compileOnly "org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT"
+    compileOnly "org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT"
+
+    // compileOnly files('libs/server/spigot-1.12.2.jar')
+    //  compileOnly files('libs/server/spigot-api-1.12.2-R0.1-SNAPSHOT.jar')
+
+    compileOnly 'com.github.Phoenix-Ra:AtumCore:v2.13.0-old'
+
+    compileOnly "com.github.MilkBowl:VaultAPI:1.7"
+
+    compileOnly 'com.sk89q.worldedit:worldedit-bukkit:6.1.3-SNAPSHOT'
+    compileOnly 'com.sk89q.worldguard:worldguard-legacy:6.1.3-SNAPSHOT'
+
+    compileOnly fileTree(dir: 'libs/server', include: ['*.jar'])
+
+    implementation(project(':common'))
+
+    //compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.8.0";
+
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+}
+
+shadowJar {
+    archiveClassifier.set('')
+    configurations = [project.configurations.runtimeClasspath]
+    exclude('META-INF/*.DSA', 'META-INF/*.SF', 'META-INF/*.RSA')
+}
+
+build.dependsOn shadowJar
+
+jar {
+    enabled = false
+}
+
+def targetJavaVersion = 8
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release = targetJavaVersion
+    }
+}
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand props
+    }
+}
