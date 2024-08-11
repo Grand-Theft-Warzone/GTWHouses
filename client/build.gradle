@@ -14,7 +14,7 @@ repositories {
     }
 
     flatDir {
-        dirs 'libs'
+        dirs 'libs/ui'
     }
 }
 
@@ -45,9 +45,10 @@ dependencies {
 
     implementation project(':common')
 
-    compileOnly fg.deobf("curse.maven:acsguis-541347:4756627")
+    //compileOnly fg.deobf("curse.maven:acsguis-541347:4756627")
 
-    compileOnly fileTree(dir: 'libs/ui', include: ['*.jar'])
+    compileOnly files('../libs/ui/ACsGuis-1.2.13-all.jar')
+   // compileOnly fileTree(dir: 'libs/ui', include: ['*.jar'])
 
     compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'

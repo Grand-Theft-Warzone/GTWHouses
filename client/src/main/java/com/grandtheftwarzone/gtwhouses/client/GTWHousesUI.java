@@ -2,6 +2,7 @@ package com.grandtheftwarzone.gtwhouses.client;
 
 import com.grandtheftwarzone.gtwhouses.client.network.NetworkHandler;
 import com.grandtheftwarzone.gtwhouses.client.ui.frames.HouseFrame;
+import com.grandtheftwarzone.gtwhouses.client.ui.frames.MyHousesFrame;
 import com.grandtheftwarzone.gtwhouses.common.packets.HouseUIPacket;
 import fr.aym.acsguis.api.ACsGuiApi;
 import io.netty.buffer.ByteBuf;
@@ -30,7 +31,7 @@ public class GTWHousesUI {
     public void preInit(FMLPreInitializationEvent event) {
         logger = (Logger) event.getModLog();
         MinecraftForge.EVENT_BUS.register(this);
-        ACsGuiApi.registerStyleSheetToPreload(HouseFrame.CSS_LOCATION);
+
     }
 
     @Mod.EventHandler
@@ -42,7 +43,10 @@ public class GTWHousesUI {
     @SubscribeEvent
     public void onPress(InputEvent.KeyInputEvent event) {
         if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
-            NetworkHandler.sendToServer(new HouseUIPacket(null));
+            // NetworkHandler.sendToServer(new HouseUIPacket(null));
+            ACsGuiApi.registerStyleSheetToPreload(HouseFrame.CSS_LOCATION);
+            ACsGuiApi.registerStyleSheetToPreload(MyHousesFrame.CSS_LOCATION);
+            ACsGuiApi.asyncLoadThenShowGui("my_houses", MyHousesFrame::new);
         } else if (Keyboard.isKeyDown(Keyboard.KEY_O)) {
             NetworkHandler.sendToServer(new IMessage() {
                 @Override
