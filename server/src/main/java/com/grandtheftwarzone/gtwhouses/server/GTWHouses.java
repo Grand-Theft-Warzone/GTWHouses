@@ -6,6 +6,7 @@ import com.grandtheftwarzone.gtwhouses.server.events.HouseEnterEvent;
 import com.grandtheftwarzone.gtwhouses.server.events.HousePermissionEvents;
 import com.grandtheftwarzone.gtwhouses.server.network.GTWHousesPacketManager;
 import com.grandtheftwarzone.gtwhouses.server.network.TinyProtocol.TinyProtocol;
+import com.grandtheftwarzone.gtwhouses.server.network.handlers.HouseCoordsHandler;
 import com.grandtheftwarzone.gtwhouses.server.runnables.RentRunnable;
 import com.grandtheftwarzone.gtwhouses.server.util.LoginMessageSystem;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -84,6 +85,7 @@ public class GTWHouses extends AtumPlugin {
         return Lists.newArrayList(
                 new HousePermissionEvents(),
                 new HouseEnterEvent(),
+                new HouseCoordsHandler(),
                 loginMessageSystem
         );
     }

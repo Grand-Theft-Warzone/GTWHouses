@@ -73,13 +73,11 @@
 }
 
 .houseButtons {
-    height: 15px;
+    height: 17px;
     width: 200px;
 
-    right: 20px;
+    right: 75px;
     bottom: 5px;
-
-    background-color: red;
 }
 
 .houseBtn {
@@ -89,7 +87,7 @@
     bottom: auto;
 
     width: 50px;
-    height: 15px;
+    height: 17px;
 
     background-image: none;
 }
@@ -110,4 +108,25 @@
     background-color: green;
 }
 
+
+#rentTitle {
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+}
+
+#moneyField {
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+}
+
+#rentButton {
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+}
 

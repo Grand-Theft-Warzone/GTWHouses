@@ -1,0 +1,137 @@
+.auto {
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+}
+
+.input {
+    left: 75px;
+
+    width: 60%;
+
+    border-color: rgb(255, 208, 52);
+
+    background-color: rgb(101, 140, 180);
+}
+
+#adminCreateHouseFrame {
+    max-width: 500px;
+    max-height: 200px;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+
+    horizontal-position: center;
+    vertical-position: center;
+
+    background-color: rgb(101, 140, 180);
+}
+
+#titleLabel {
+    font-size: 20px;
+    height: 30px;
+    text-align: center;
+    horizontal-position: center;
+}
+
+#leftPanel {
+    width: 50%;
+    height: 150px;
+
+    top: 40px;
+    left: 20px;
+
+    padding-right: 5px;
+}
+
+#rightPanel {
+    width: 50%;
+    height: 100%;
+
+    top: 40px;
+    right: 0;
+}
+
+#namePanel {
+}
+
+#nameField {
+}
+
+#buyCostPanel {
+}
+
+#buyCostField {
+}
+
+#rentCostPanel {
+}
+
+#rentCostField {
+}
+
+#buttonPanel {
+    height: 50px;
+}
+
+#createButton {
+    width: 100px;
+    background-image: none;
+
+    background-color: green;
+}
+
+#cancelButton {
+    width: 50px;
+    background-image: none;
+
+    background-color: red;
+}
+
+#createButton:hover {
+    background-color: darkgreen;
+}
+
+#cancelButton:hover {
+    background-color: darkred;
+}
+
+
+/* RIGHT SIDE */
+#houseCoordsLabel {
+
+    font-size: 13px;
+
+    text-align: center;
+    horizontal-position: center;
+}
+
+#coordsPanel {
+    width: 125px;
+    right: 0;
+    horizontal-position: center;
+}
+
+#maxCoordsLabel {
+    top: 25px;
+}
+
+#protectedBlocksLabel {
+    top: 50px;
+}
+
+#setCoordsButton {
+    top: 80px;
+    width: 125px;
+
+    background-color: rgb(255, 208, 52);
+    background-image: none;
+    horizontal-position: center;
+}
+
+#setCoordsButton:hover {
+    background-color: rgb(235, 188, 32);
+}

@@ -1,7 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.client.network;
 
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import com.grandtheftwarzone.gtwhouses.common.network.IGTWPacket;
 
-public interface GTWHouseHandler<T extends IMessage > {
+public interface GTWHouseHandler<T extends IGTWPacket> {
     void handle(T message);
 }

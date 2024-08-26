@@ -1,0 +1,93 @@
+#topPanel {
+    width: 100%;
+}
+
+#createHouseButton {
+    top: 5px;
+    right: 10px;
+
+    width: 80px;
+    background-image: none;
+    background-color: green;
+}
+
+.houseButtons {
+    right: 125px;
+}
+
+.houseButtons > button{
+    width: 75px;
+
+    background-color: red;
+}
+
+.houseButtons > button:hover{
+    background-color: darkred;
+}
+
+
+#confirmModal {
+    width: 100%;
+    height: 100%;
+
+    background-color: white;
+}
+
+#confirmModal > label {
+
+    horizontal-position: center;
+
+    text-align: center;
+
+    height: 25px;
+    font-size: 15px;
+    text-shadow: none;
+    color: black;
+
+    left: auto;
+    right: auto;
+    top: 20px;
+    bottom: auto;
+}
+
+#confirmModal .buttonPanel {
+
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+
+    width: 175px;
+
+    horizontal-position: center;
+}
+
+.yesButton {
+    width: 75px;
+    height: 15px;
+
+    left: auto;
+    right: auto;
+
+    background-image: none;
+    background-color: green;
+}
+
+.yesButton:hover {
+    background-color: darkgreen;
+}
+
+.noButton {
+    width: 75px;
+    height: 15px;
+
+    left: auto;
+    right: auto;
+
+    background-image: none;
+    background-color: red;
+}
+
+.noButton:hover {
+    background-color: darkred;
+}

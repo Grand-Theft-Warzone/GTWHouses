@@ -2,6 +2,7 @@ package com.grandtheftwarzone.gtwhouses.client.ui.frames;
 
 import com.grandtheftwarzone.gtwhouses.client.GTWHousesUI;
 import com.grandtheftwarzone.gtwhouses.client.ui.panels.HousePanel;
+import com.grandtheftwarzone.gtwhouses.common.data.House;
 import fr.aym.acsguis.component.layout.GridLayout;
 import fr.aym.acsguis.component.layout.GuiScaler;
 import fr.aym.acsguis.component.panel.GuiFrame;
@@ -13,6 +14,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,8 +23,12 @@ import java.util.List;
 public class HouseFrame extends GuiFrame {
     public static final ResourceLocation CSS_LOCATION = new ResourceLocation(GTWHousesUI.MODID, "css/house_frame.css");
 
-    public HouseFrame() {
+    Collection<House> houses;
+
+    public HouseFrame(Collection<House> houses) {
         super(new GuiScaler.Identity());
+        this.houses = houses;
+
         setCssClass("frame");
 
         add(new GuiLabel("Grand Theft Warzone").setCssId("titleId"));
@@ -41,8 +48,8 @@ public class HouseFrame extends GuiFrame {
         scrollPane.setCssId("houseScrollPane");
         scrollPane.setLayout(GridLayout.columnLayout(200, 10));
 
-        for (int i = 0; i < 10; i++)
-            scrollPane.add(new HousePanel().setCssClass("housePanel"));
+        for(House house : houses)
+            scrollPane.add(new HousePanel(house).setCssClass("housePanel"));
 
         contentPanel.add(scrollPane);
         contentPanel.add(new GuiPanel().setCssId("map"));

@@ -5,8 +5,8 @@ Time: 8/8/24 3:26 PM
 Description: Unexpected error
 
 java.lang.NullPointerException: Unexpected error
-	at com.grandtheftwarzone.gtwhouses.common.GTWHousesPacket.toBytes(GTWHousesPacket.java:37)
-	at com.grandtheftwarzone.gtwhouses.client.network.NetworkHandler.sendToServer(NetworkHandler.java:27)
+	at com.grandtheftwarzone.gtwhouses.common.network.GTWHousesPacket.toBytes(GTWHousesPacket.java:37)
+	at com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler.sendToServer(NetworkHandler.java:27)
 	at com.grandtheftwarzone.gtwhouses.client.GTWHousesUI.onPress(GTWHousesUI.java:49)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_16_GTWHousesUI_onPress_KeyInputEvent.invoke(.dynamic)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:90)
@@ -37,8 +37,8 @@ A detailed walkthrough of the error, its code path and all known details is as f
 -- Head --
 Thread: Client thread
 Stacktrace:
-	at com.grandtheftwarzone.gtwhouses.common.GTWHousesPacket.toBytes(GTWHousesPacket.java:37)
-	at com.grandtheftwarzone.gtwhouses.client.network.NetworkHandler.sendToServer(NetworkHandler.java:27)
+	at com.grandtheftwarzone.gtwhouses.common.network.GTWHousesPacket.toBytes(GTWHousesPacket.java:37)
+	at com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler.sendToServer(NetworkHandler.java:27)
 	at com.grandtheftwarzone.gtwhouses.client.GTWHousesUI.onPress(GTWHousesUI.java:49)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_16_GTWHousesUI_onPress_KeyInputEvent.invoke(.dynamic)
 	at net.minecraftforge.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:90)

@@ -5,10 +5,10 @@ Time: 8/8/24 1:02 PM
 Description: There was a severe problem during mod loading that has caused the game to fail
 
 net.minecraftforge.fml.common.LoaderExceptionModCrash: Caught exception from Grand Theft Warzone Houses UI (gtwhousesui)
-Caused by: java.lang.RuntimeException: java.lang.IllegalAccessException: Class net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper can not access a member of class com.grandtheftwarzone.gtwhouses.client.network.NetworkHandler$CustomPacket with modifiers ""
+Caused by: java.lang.RuntimeException: java.lang.IllegalAccessException: Class net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper can not access a member of class com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler$CustomPacket with modifiers ""
 	at net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper.instantiate(SimpleNetworkWrapper.java:170)
 	at net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper.registerMessage(SimpleNetworkWrapper.java:159)
-	at com.grandtheftwarzone.gtwhouses.client.network.NetworkHandler.init(NetworkHandler.java:21)
+	at com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler.init(NetworkHandler.java:21)
 	at com.grandtheftwarzone.gtwhouses.client.GTWHousesUI.init(GTWHousesUI.java:40)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
@@ -57,7 +57,7 @@ Caused by: java.lang.RuntimeException: java.lang.IllegalAccessException: Class n
 	at java.lang.reflect.Method.invoke(Method.java:498)
 	at net.minecraftforge.legacydev.Main.start(Main.java:86)
 	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29)
-Caused by: java.lang.IllegalAccessException: Class net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper can not access a member of class com.grandtheftwarzone.gtwhouses.client.network.NetworkHandler$CustomPacket with modifiers ""
+Caused by: java.lang.IllegalAccessException: Class net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper can not access a member of class com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler$CustomPacket with modifiers ""
 	at sun.reflect.Reflection.ensureMemberAccess(Reflection.java:102)
 	at java.lang.Class.newInstance(Class.java:436)
 	at net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper.instantiate(SimpleNetworkWrapper.java:166)

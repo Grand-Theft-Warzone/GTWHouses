@@ -1,8 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.server.commands;
 
-import com.grandtheftwarzone.gtwhouses.common.packets.HouseUIPacket;
-import com.grandtheftwarzone.gtwhouses.server.GTWHouses;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
+import com.grandtheftwarzone.gtwhouses.server.GTWHouses;
 import me.phoenixra.atum.core.command.AtumCommand;
 import me.phoenixra.atum.core.command.AtumSubcommand;
 import me.phoenixra.atum.core.exceptions.NotificationException;
@@ -28,8 +27,6 @@ public class BuyHouseCommand extends AtumSubcommand {
     protected void onCommandExecute(@NotNull CommandSender sender, @NotNull List<String> args) throws NotificationException {
         Player player = (Player) sender;
 
-        GTWHouses.getPacketManager().sendPacket(player, new HouseUIPacket(null));
-    /*
         if (args.size() != 1) throw new NotificationException("Usage: " + getUsage());
 
 //        House house = GTWHouses.getHouseDatabase().getHouseByName(args.get(0));
@@ -69,7 +66,7 @@ public class BuyHouseCommand extends AtumSubcommand {
                 oldOwner.getPlayer().sendMessage(GREEN + "Your house " + house.getName() + " has been sold to " + player.getName() + " for " + GREEN + "$" + cost);
             else
                 GTWHouses.getLoginMessageSystem().storeMessage(oldOwner.getUniqueId(), "Your house " + house.getName() + " has been sold to " + player.getName() + " for " + GREEN + "$" + cost);
-        }*/
+        }
     }
 
     @Override
