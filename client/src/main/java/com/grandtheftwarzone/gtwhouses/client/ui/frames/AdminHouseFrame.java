@@ -2,7 +2,7 @@ package com.grandtheftwarzone.gtwhouses.client.ui.frames;
 
 import com.grandtheftwarzone.gtwhouses.client.GTWHousesUI;
 import com.grandtheftwarzone.gtwhouses.client.ui.panels.AdminHousePanel;
-import com.grandtheftwarzone.gtwhouses.client.ui.panels.MyHousePanel;
+import com.grandtheftwarzone.gtwhouses.client.ui.panels.MyHousesPanel;
 import fr.aym.acsguis.component.button.GuiButton;
 import fr.aym.acsguis.component.layout.GridLayout;
 import fr.aym.acsguis.component.layout.GuiScaler;
@@ -51,7 +51,6 @@ public class AdminHouseFrame extends GuiFrame {
     public List<ResourceLocation> getCssStyles() {
         ArrayList<ResourceLocation> css = new ArrayList<>();
         css.add(HouseFrame.CSS_LOCATION);
-        css.add(MyHousesFrame.CSS_LOCATION);
         css.add(CSS_LOCATION);
         return css;
     }

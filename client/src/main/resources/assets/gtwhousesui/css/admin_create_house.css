@@ -102,8 +102,8 @@
 
 /* RIGHT SIDE */
 #houseCoordsLabel {
-
     font-size: 13px;
+    height: 40px;
 
     text-align: center;
     horizontal-position: center;

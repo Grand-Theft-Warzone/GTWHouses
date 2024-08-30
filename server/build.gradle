@@ -24,7 +24,7 @@ dependencies {
     // compileOnly files('libs/server/spigot-1.12.2.jar')
     //  compileOnly files('libs/server/spigot-api-1.12.2-R0.1-SNAPSHOT.jar')
 
-    compileOnly 'com.github.Phoenix-Ra:AtumCore:v2.13.0-old'
+   // compileOnly 'com.github.Phoenix-Ra:AtumCore:v2.13.0-old'
 
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
 

@@ -4,6 +4,7 @@ import com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler;
 import com.grandtheftwarzone.gtwhouses.client.ui.frames.AdminCreateHouseFrame;
 import com.grandtheftwarzone.gtwhouses.client.ui.frames.AdminHouseFrame;
 import com.grandtheftwarzone.gtwhouses.client.ui.frames.HouseFrame;
+import com.grandtheftwarzone.gtwhouses.client.ui.panels.MyHousesPanel;
 import com.grandtheftwarzone.gtwhouses.common.network.IGTWPacket;
 import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket;
 import fr.aym.acsguis.api.ACsGuiApi;
@@ -34,7 +35,6 @@ public class GTWHousesUI {
         MinecraftForge.EVENT_BUS.register(this);
 
         ACsGuiApi.registerStyleSheetToPreload(HouseFrame.CSS_LOCATION);
-        //ACsGuiApi.registerStyleSheetToPreload(MyHousesFrame.CSS_LOCATION);
         ACsGuiApi.registerStyleSheetToPreload(AdminCreateHouseFrame.CSS_LOCATION);
         //ACsGuiApi.registerStyleSheetToPreload(AdminHouseFrame.CSS_LOCATION);
     }

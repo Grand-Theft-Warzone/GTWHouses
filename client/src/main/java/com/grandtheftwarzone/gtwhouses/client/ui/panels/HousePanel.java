@@ -1,11 +1,13 @@
 package com.grandtheftwarzone.gtwhouses.client.ui.panels;
 
 import com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler;
+import com.grandtheftwarzone.gtwhouses.common.HouseActions;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
-import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.BuyHouseC2SPacket;
+import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.HouseActionC2SPacket;
 import fr.aym.acsguis.component.button.GuiButton;
 import fr.aym.acsguis.component.panel.GuiPanel;
 import fr.aym.acsguis.component.textarea.GuiLabel;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -17,18 +19,31 @@ public class HousePanel extends GuiPanel {
         imagePanel.add(new GuiLabel("Image").setCssId("image"));
         add(imagePanel);
 
+
+        String price = house.isForSale() ? "$" + house.getBuyCost() : house.isRentable() ? "$" + house.getRentCost() + "/day" : "Unavailable";
+
         GuiPanel pricePanel = new GuiPanel();
         pricePanel.setCssClass("pricePanel");
-        pricePanel.add(new GuiLabel("$"+house.getBuyCost()).setCssClass("price"));
+        pricePanel.add(new GuiLabel(price).setCssClass("price"));
 
-        GuiButton buyButton = new GuiButton().setText("Buy");
-        buyButton.setCssClass("buyButton");
+
+        String action = house.isForSale() ? "Buy" : house.isRentable() ? "Rent" : "Unavailable";
+        String buttonCss = house.isForSale() ? "buyButton" : house.isRentable() ? "rentButton" : "unavailableButton";
+
+
+        GuiButton buyButton = new GuiButton().setText(action);
+        buyButton.setCssClass(buttonCss);
         buyButton.addClickListener((mouseX, mouseY, mouseButton) -> {
             //TODO: Add confirm
-            GTWNetworkHandler.sendToServer(new BuyHouseC2SPacket(house.getName()));
+            if (house.isForSale())
+                GTWNetworkHandler.sendToServer(new HouseActionC2SPacket(HouseActions.Buy, house.getName(), null));
+            else if (house.isRentable())
+                GTWNetworkHandler.sendToServer(new HouseActionC2SPacket(HouseActions.Rent, house.getName(), null));
+
+            if (house.isForSale() || house.isRentable())
+                Minecraft.getMinecraft().player.closeScreen();
         });
         pricePanel.add(buyButton);
-
 
 
         add(pricePanel);

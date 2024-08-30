@@ -1,43 +1,42 @@
 package com.grandtheftwarzone.gtwhouses.server;
 
-import com.google.common.collect.Lists;
-import com.grandtheftwarzone.gtwhouses.server.commands.HouseCommand;
 import com.grandtheftwarzone.gtwhouses.server.events.HouseEnterEvent;
 import com.grandtheftwarzone.gtwhouses.server.events.HousePermissionEvents;
-import com.grandtheftwarzone.gtwhouses.server.network.GTWHousesPacketManager;
-import com.grandtheftwarzone.gtwhouses.server.network.TinyProtocol.TinyProtocol;
-import com.grandtheftwarzone.gtwhouses.server.network.handlers.HouseCoordsHandler;
+import com.grandtheftwarzone.gtwhouses.server.network.HousesPacketManager;
+import com.grandtheftwarzone.gtwhouses.server.handlers.HouseCoordsHandler;
 import com.grandtheftwarzone.gtwhouses.server.runnables.RentRunnable;
 import com.grandtheftwarzone.gtwhouses.server.util.LoginMessageSystem;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import lombok.Getter;
-import me.phoenixra.atum.core.AtumPlugin;
-import me.phoenixra.atum.core.command.AtumCommand;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.event.Listener;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
-import java.util.List;
-
-
-public class GTWHouses extends AtumPlugin {
+public class GTWHouses extends JavaPlugin {
 
     @Getter
     private static GTWHouses instance;
+
     @Getter
     private static HousesManager manager;
+    @Getter
+    private static HousesPacketManager packetManager;
+
     @Getter
     private static Economy economy;
     @Getter
     private static WorldEditPlugin worldEditPlugin;
     @Getter
-    private static GTWHousesPacketManager packetManager;
-    @Getter
     private static LoginMessageSystem loginMessageSystem = new LoginMessageSystem();
 
+    @Getter
+    private BukkitTask rentTask;
+
     @Override
-    protected void handleEnable() {
+    public void onEnable() {
         instance = this;
 
         if (!setupEconomy()) {
@@ -50,49 +49,36 @@ public class GTWHouses extends AtumPlugin {
             getServer().getPluginManager().disablePlugin(this);
         }
 
-        // ConfigurationSerialization.registerClass(House.class, "House");
+        //ConfigurationSerialization.registerClass(House.class, "House");
         //ConfigurationSerialization.registerClass(HouseBlock.class, "HouseBlock");
 
+
         manager = new HousesManager();
-        packetManager = new GTWHousesPacketManager(this);
+        packetManager = new HousesPacketManager(this);
         loginMessageSystem.init();
+
+        getCommand("house").setExecutor(new GTWHouseCommand());
+
+        getServer().getPluginManager().registerEvents(new HousePermissionEvents(), this);
+        getServer().getPluginManager().registerEvents(new HouseEnterEvent(), this);
+        getServer().getPluginManager().registerEvents(new HouseCoordsHandler(), this);
+        getServer().getPluginManager().registerEvents(loginMessageSystem, this);
     }
 
+
     @Override
-    protected void handleReload() {
-        super.handleReload();
+    public void onLoad() {
         manager.load();
 
         //TODO: Check if this can be done asynchronously
-        this.getScheduler().runTimer(20 * 10, 20 * 60 * 30, new RentRunnable()); //30 minutes
+        if (rentTask != null) rentTask.cancel();
+        rentTask = Bukkit.getScheduler().runTaskTimer(this, new RentRunnable(), 20 * 10, 20 * 60 * 30); //30 minutes
     }
 
     @Override
-    protected void handleDisable() {
+    public void onDisable() {
         manager.saveSync();
         getLogger().info("&GTW Houses has been disabled!");
-    }
-
-    @Override
-    protected List<AtumCommand> loadPluginCommands() {
-        return Lists.newArrayList(
-                new HouseCommand(this)
-        );
-    }
-
-    @Override
-    protected List<Listener> loadListeners() {
-        return Lists.newArrayList(
-                new HousePermissionEvents(),
-                new HouseEnterEvent(),
-                new HouseCoordsHandler(),
-                loginMessageSystem
-        );
-    }
-
-    @Override
-    protected int getAtumAPIVersion() {
-        return 12;
     }
 
     private boolean setupEconomy() {

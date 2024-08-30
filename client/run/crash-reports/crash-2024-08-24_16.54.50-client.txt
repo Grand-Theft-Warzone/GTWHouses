@@ -1,0 +1,143 @@
+---- Minecraft Crash Report ----
+// Shall we play a game?
+
+Time: 8/24/24 4:54 PM
+Description: Updating screen events
+
+java.lang.IndexOutOfBoundsException: readerIndex(83) + length(4) exceeds writerIndex(83): UnpooledByteBufAllocator$InstrumentedUnpooledUnsafeHeapByteBuf(ridx: 83, widx: 83, cap: 256)
+	at io.netty.buffer.AbstractByteBuf.checkReadableBytes0(AbstractByteBuf.java:1396)
+	at io.netty.buffer.AbstractByteBuf.readInt(AbstractByteBuf.java:766)
+	at net.minecraft.network.PacketBuffer.readInt(PacketBuffer.java:914)
+	at com.grandtheftwarzone.gtwhouses.common.data.House.fromBytes(House.java:128)
+	at com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.CreateHouseC2SPacket.toBytes(CreateHouseC2SPacket.java:33)
+	at com.grandtheftwarzone.gtwhouses.common.network.GTWHousesPacket.toBytes(GTWHousesPacket.java:44)
+	at com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler.sendToServer(GTWNetworkHandler.java:48)
+	at com.grandtheftwarzone.gtwhouses.client.ui.frames.AdminCreateHouseFrame.lambda$new$2(AdminCreateHouseFrame.java:151)
+	at fr.aym.acsguis.component.GuiComponent.mouseClicked(GuiComponent.java:482)
+	at fr.aym.acsguis.component.GuiComponent.mouseClicked(GuiComponent.java:507)
+	at fr.aym.acsguis.component.GuiComponent.mouseClicked(GuiComponent.java:507)
+	at fr.aym.acsguis.component.GuiComponent.mouseClicked(GuiComponent.java:507)
+	at fr.aym.acsguis.component.panel.GuiFrame$APIGuiScreen.mouseClicked(GuiFrame.java:351)
+	at net.minecraft.client.gui.GuiScreen.handleMouseInput(GuiScreen.java:533)
+	at fr.aym.acsguis.component.panel.GuiFrame$APIGuiScreen.handleMouseInput(GuiFrame.java:339)
+	at net.minecraft.client.gui.GuiScreen.handleInput(GuiScreen.java:501)
+	at net.minecraft.client.Minecraft.runTick(Minecraft.java:1759)
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1098)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:398)
+	at net.minecraft.client.main.Main.main(Main.java:118)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraftforge.legacydev.Main.start(Main.java:86)
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Client thread
+Stacktrace:
+	at io.netty.buffer.AbstractByteBuf.checkReadableBytes0(AbstractByteBuf.java:1396)
+	at io.netty.buffer.AbstractByteBuf.readInt(AbstractByteBuf.java:766)
+	at net.minecraft.network.PacketBuffer.readInt(PacketBuffer.java:914)
+	at com.grandtheftwarzone.gtwhouses.common.data.House.fromBytes(House.java:128)
+	at com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.CreateHouseC2SPacket.toBytes(CreateHouseC2SPacket.java:33)
+	at com.grandtheftwarzone.gtwhouses.common.network.GTWHousesPacket.toBytes(GTWHousesPacket.java:44)
+	at com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler.sendToServer(GTWNetworkHandler.java:48)
+	at com.grandtheftwarzone.gtwhouses.client.ui.frames.AdminCreateHouseFrame.lambda$new$2(AdminCreateHouseFrame.java:151)
+	at fr.aym.acsguis.component.GuiComponent.mouseClicked(GuiComponent.java:482)
+	at fr.aym.acsguis.component.GuiComponent.mouseClicked(GuiComponent.java:507)
+	at fr.aym.acsguis.component.GuiComponent.mouseClicked(GuiComponent.java:507)
+	at fr.aym.acsguis.component.GuiComponent.mouseClicked(GuiComponent.java:507)
+	at fr.aym.acsguis.component.panel.GuiFrame$APIGuiScreen.mouseClicked(GuiFrame.java:351)
+	at net.minecraft.client.gui.GuiScreen.handleMouseInput(GuiScreen.java:533)
+	at fr.aym.acsguis.component.panel.GuiFrame$APIGuiScreen.handleMouseInput(GuiFrame.java:339)
+	at net.minecraft.client.gui.GuiScreen.handleInput(GuiScreen.java:501)
+
+-- Affected screen --
+Details:
+	Screen name: fr.aym.acsguis.component.panel.GuiFrame.APIGuiScreen
+
+-- Affected level --
+Details:
+	Level name: MpServer
+	All players: 1 total; [EntityPlayerSP['Player688'/35, l='MpServer', x=-269.99, y=4.00, z=-381.95]]
+	Chunk stats: MultiplayerChunkCache: 441, 441
+	Level seed: 0
+	Level generator: ID 01 - flat, ver 0. Features enabled: false
+	Level generator options: 
+	Level spawn location: World: (-257,4,-395), Chunk: (at 15,0,5 in -17,-25; contains blocks -272,0,-400 to -257,255,-385), Region: (-1,-1; contains chunks -32,-32 to -1,-1, blocks -512,0,-512 to -1,255,-1)
+	Level time: 30341 game time, 30341 day time
+	Level dimension: 0
+	Level storage version: 0x00000 - Unknown?
+	Level weather: Rain time: 0 (now: false), thunder time: 0 (now: false)
+	Level game mode: Game mode: creative (ID 1). Hardcore: false. Cheats: false
+	Forced entities: 24 total; [EntityPlayerSP['Player688'/35, l='MpServer', x=-269.99, y=4.00, z=-381.95], EntityCreeper['Creeper'/3, l='MpServer', x=-307.50, y=4.00, z=-361.50], EntitySpider['Spider'/7, l='MpServer', x=-294.50, y=4.00, z=-347.50], EntitySlime['Slime'/775, l='MpServer', x=-269.74, y=4.00, z=-350.17], EntitySheep['Sheep'/10, l='MpServer', x=-274.17, y=4.00, z=-343.07], EntitySheep['Sheep'/11, l='MpServer', x=-273.00, y=4.00, z=-343.39], EntitySlime['Slime'/15, l='MpServer', x=-271.18, y=4.52, z=-399.97], EntitySlime['Slime'/1359, l='MpServer', x=-264.36, y=4.72, z=-349.21], EntityCreeper['Creeper'/16, l='MpServer', x=-250.45, y=4.00, z=-400.19], EntityCreeper['Creeper'/17, l='MpServer', x=-266.20, y=4.00, z=-374.83], EntitySpider['Spider'/18, l='MpServer', x=-256.05, y=4.00, z=-351.96], EntitySheep['Sheep'/19, l='MpServer', x=-266.06, y=4.00, z=-338.52], EntityEnderman['Enderman'/20, l='MpServer', x=-317.29, y=4.00, z=-392.33], EntitySpider['Spider'/23, l='MpServer', x=-244.04, y=4.00, z=-356.97], EntityEnderman['Enderman'/27, l='MpServer', x=-276.79, y=4.00, z=-343.97], EntityHorse['Horse'/28, l='MpServer', x=-232.89, y=4.00, z=-411.84], EntitySlime['Slime'/30, l='MpServer', x=-238.81, y=4.00, z=-415.83], EntityItem['item.item.arrow'/550, l='MpServer', x=-287.09, y=4.00, z=-403.59], EntitySlime['Slime'/3558, l='MpServer', x=-309.14, y=4.00, z=-358.68], EntitySlime['Slime'/5422, l='MpServer', x=-302.03, y=4.00, z=-389.43], EntitySlime['Slime'/2801, l='MpServer', x=-310.06, y=4.50, z=-362.18], EntitySlime['Slime'/1074, l='MpServer', x=-266.99, y=4.00, z=-406.88], EntitySlime['Slime'/5042, l='MpServer', x=-300.21, y=4.92, z=-393.53], EntitySlime['Slime'/3320, l='MpServer', x=-288.92, y=4.00, z=-393.27]]
+	Retry entities: 0 total; []
+	Server brand: Magma
+	Server type: Non-integrated multiplayer server
+Stacktrace:
+	at net.minecraft.client.multiplayer.WorldClient.addWorldInfoToCrashReport(WorldClient.java:420)
+	at net.minecraft.client.Minecraft.addGraphicsAndWorldToCrashReport(Minecraft.java:2741)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:419)
+	at net.minecraft.client.main.Main.main(Main.java:118)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraftforge.legacydev.Main.start(Main.java:86)
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.12.2
+	Operating System: Windows 11 (amd64) version 10.0
+	Java Version: 1.8.0_422, Amazon.com Inc.
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode), Amazon.com Inc.
+	Memory: 322190600 bytes (307 MB) / 936902656 bytes (893 MB) up to 2830106624 bytes (2699 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: MCP 9.42 Powered by Forge 14.23.5.2860 6 mods loaded, 6 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+
+	| State  | ID          | Version      | Source                                                     | Signature |
+	|:------ |:----------- |:------------ |:---------------------------------------------------------- |:--------- |
+	| LCHIJA | minecraft   | 1.12.2       | minecraft.jar                                              | None      |
+	| LCHIJA | mcp         | 9.42         | minecraft.jar                                              | None      |
+	| LCHIJA | FML         | 8.0.99.99    | forge-1.12.2-14.23.5.2860_mapped_stable_39-1.12-recomp.jar | None      |
+	| LCHIJA | forge       | 14.23.5.2860 | forge-1.12.2-14.23.5.2860_mapped_stable_39-1.12-recomp.jar | None      |
+	| LCHIJA | gtwhousesui | 1.0          | classes                                                    | None      |
+	| LCHIJA | acslib      | 1.2.4        | ACsGuis-1.2.11-all.jar                                     | None      |
+
+	Loaded coremods (and transformers): 
+	GL info: ' Vendor: 'NVIDIA Corporation' Version: '4.6.0 NVIDIA 555.99' Renderer: 'NVIDIA GeForce GTX 1650/PCIe/SSE2'
+	Launched Version: ${MC_VERSION}
+	LWJGL: 2.9.4
+	OpenGL: NVIDIA GeForce GTX 1650/PCIe/SSE2 GL version 4.6.0 NVIDIA 555.99, NVIDIA Corporation
+	GL Caps: Using GL 1.3 multitexturing.
+Using GL 1.3 texture combiners.
+Using framebuffer objects because OpenGL 3.0 is supported and separate blending is supported.
+Shaders are available because OpenGL 2.1 is supported.
+VBOs are available because OpenGL 1.5 is supported.
+
+	Using VBOs: Yes
+	Is Modded: Definitely; Client brand changed to 'fml,forge'
+	Type: Client (map_client.txt)
+	Resource Packs: 
+	Current Language: English (US)
+	Profiler Position: N/A (disabled)
+	CPU: 12x Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz

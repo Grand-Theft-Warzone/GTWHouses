@@ -20,6 +20,10 @@
     width: 14%;
 }
 
+.tabbedPane > button:hover {
+    background-color: rgb(255, 196, 1);
+}
+
 #bar {
     background-color: rgb(0, 118, 61);
     height: 20px;
@@ -109,6 +113,37 @@
     color: white;
 }
 
+.pricePanel > .renButton {
+    top: 3px;
+    right: 7px;
+    width: 50px;
+    horizontal-position: right;
+
+    background-image: none;
+    background-color: blue;
+    color: white;
+}
+
+
+.pricePanel > .unavailableButton {
+    top: 3px;
+    width: 93%;
+    horizontal-position: center;
+
+    background-image: none;
+    background-color: red;
+    color: white;
+}
+
+.pricePanel > .buyButton:hover {
+    background-color: darkgreen;
+}
+
+.pricePanel > .renButton:hover {
+    background-color: darkblue;
+}
+
+
 #map {
     left: 250px;
 
@@ -119,3 +154,132 @@
     border-position: external;
     border-color: rgb(255, 208, 52);
 }
+
+#myHouseScrollPane {
+    width: 100%;
+}
+
+/* House panel */
+.myHousePanel {
+    width: 98%;
+    height: 100px;
+
+    left: 5px;
+    right: 10px;
+    top: auto;
+    bottom: auto;
+
+    background-color: white;
+
+    border-width: 1px;
+    border-position: external;
+    border-color: rgb(255, 208, 52);
+}
+
+.myHouseImage {
+    width: 150px;
+    height: 100px;
+    background-color: yellow;
+}
+
+.houseContent{
+    left: 160px;
+    height: 100px;
+}
+
+.houseInfo {
+    width: 100%;
+}
+
+.houseInfo > label {
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+
+    color: black;
+    text-shadow: none;
+}
+
+#houseName {
+    font-size: 15px;
+    height: 25px;
+}
+
+.houseButtons {
+    height: 17px;
+    width: 200px;
+
+    right: 150px;
+    bottom: 5px;
+}
+
+.houseBtn {
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+
+    width: 50px;
+    height: 17px;
+
+    background-image: none;
+}
+
+#sellButton {
+    background-color: red;
+}
+
+#sellButton:hover {
+    background-color: darkred;
+}
+
+#rentOutButton {
+    background-color: blue;
+    width: 75px;
+}
+
+#rentOutButton:hover {
+    background-color: darkblue;
+}
+
+#citySellButton {
+    background-color: orange;
+}
+
+#citySellButton:hover {
+    background-color: darkorange;
+}
+
+
+#rentTitle {
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+}
+
+#moneyField {
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+}
+
+#rentButton {
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+}
+
+#noHousesLabel {
+    top: 30px;
+    font-size: 15px;
+    height: 25px;
+    text-shadow: none;
+    color: black;
+    text-align: center;
+}
+
+

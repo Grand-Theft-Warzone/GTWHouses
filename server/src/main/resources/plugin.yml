@@ -14,10 +14,12 @@ commands:
     permission: house.player
     aliases:
       - houses
+      - gtwhouse
+      - gtwhouses
 permissions:
-  house.houseplayer:
+ gtwhouses.houseplayer:
     description: Allows the player to buy and rent houses.
     default: true
-  house.houseadmin:
+gtwhouses.admin:
     description: Allows the player to manage houses.
     default: op

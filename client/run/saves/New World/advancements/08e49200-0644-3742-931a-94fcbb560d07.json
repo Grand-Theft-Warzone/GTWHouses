@@ -1,0 +1,21 @@
+{
+  "minecraft:adventure/root": {
+    "criteria": {
+      "killed_by_something": "2024-08-16 15:27:21 +0100"
+    },
+    "done": true
+  },
+  "minecraft:recipes/food/cake": {
+    "criteria": {
+      "has_egg": "2024-08-16 15:23:05 +0100"
+    },
+    "done": true
+  },
+  "minecraft:adventure/adventuring_time": {
+    "criteria": {
+      "savanna": "2024-08-16 15:23:11 +0100",
+      "plains": "2024-08-16 15:19:05 +0100"
+    },
+    "done": false
+  }
+}
