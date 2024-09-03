@@ -14,6 +14,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class HousesManager {
     private final HashMap<String, House> houses = new HashMap<>();
@@ -25,24 +26,10 @@ public class HousesManager {
     @Getter
     private ArrayList<HouseHolder> playerAmounts = new ArrayList<>();
 
-    private final File housesFile;
-    private final FileConfiguration housesConfig;
-
-    private final File houseBlocksFile;
-    private final FileConfiguration houseBlocksConfig;
+    private HouseSaver saver;
 
     public HousesManager() {
-        housesFile = new File(GTWHouses.getInstance().getDataFolder(), "houses.yml");
-        housesConfig = YamlConfiguration.loadConfiguration(housesFile);
-
-        houseBlocksFile = new File(GTWHouses.getInstance().getDataFolder(), "blocks.yml");
-        houseBlocksConfig = YamlConfiguration.loadConfiguration(houseBlocksFile);
-
-        if (!housesFile.exists())
-            GTWHouses.getInstance().saveResource("houses.yml", false);
-
-        if (!houseBlocksFile.exists())
-            GTWHouses.getInstance().saveResource("blocks.yml", false);
+        saver = new HouseSaver(this);
 
         load();
     }
@@ -59,6 +46,10 @@ public class HousesManager {
 
     public Collection<House> getHouses() {
         return houses.values();
+    }
+
+    public Collection<List<HouseBlock>> getHouseBlocks() {
+        return houseBlocks.values();
     }
 
     public House getHouse(String name) {
@@ -109,23 +100,20 @@ public class HousesManager {
         houses.clear();
         houseBlocks.clear();
 
-        ConfigurationSection housesSection = housesConfig.getConfigurationSection("houses");
-        if (housesSection == null) return;
+        try {
+            List<HouseSaver.HouseAndBlock> loaded = saver.load();
 
-        Set<String> houseNames = housesSection.getKeys(false);
-        if (houseNames == null) return;
+            for (HouseSaver.HouseAndBlock houseAndBlock : loaded) {
+                houses.put(houseAndBlock.getHouse().getName(), houseAndBlock.getHouse());
+                houseBlocks.put(houseAndBlock.getHouse().getName(), houseAndBlock.getBlocks());
+            }
 
-        for (String name : houseNames) {
-            House house = (House) housesConfig.get("houses." + name);
-
-            List<HouseBlock> blocks = (List<HouseBlock>) houseBlocksConfig.getList(name);
-
-            houseBlocks.put(house.getName(), blocks);
-            houses.put(house.getName(), house);
+            updatePlayerHelpers();
+            GTWHouses.getInstance().getLogger().info("Loaded " + houses.size() + " houses.");
+        } catch (Exception e) {
+            GTWHouses.getInstance().getLogger().severe("Error loading houses.sav");
+            e.printStackTrace();
         }
-
-        updatePlayerHelpers();
-        GTWHouses.getInstance().getLogger().info("Loaded " + houses.size() + " houses.");
     }
 
     private BukkitTask runningTask = null;
@@ -141,21 +129,15 @@ public class HousesManager {
     }
 
     public void saveSync() {
-        GTWHouses.getInstance().saveResource("blocks.yml", true);
-
         updatePlayerHelpers();
 
-        for (House house : houses.values()) {
-            housesConfig.set("houses." + house.getName(), house);
-            houseBlocksConfig.set(house.getName(), houseBlocks.get(house.getName()));
-        }
+        List<HouseSaver.HouseAndBlock> data = houses.values().stream().map(house -> new HouseSaver.HouseAndBlock(house, houseBlocks.get(house.getName()))).collect(Collectors.toList());
 
         try {
-            housesConfig.save(housesFile);
-            houseBlocksConfig.save(houseBlocksFile);
-            GTWHouses.getInstance().getLogger().info("Saved houses.yml and blocks.yml");
+            saver.save(data);
+            GTWHouses.getInstance().getLogger().info("Saved houses.sav");
         } catch (Exception e) {
-            GTWHouses.getInstance().getLogger().severe("Error saving houses.yml or blocks.yml");
+            GTWHouses.getInstance().getLogger().severe("Error saving houses.sav");
             e.printStackTrace();
         }
     }

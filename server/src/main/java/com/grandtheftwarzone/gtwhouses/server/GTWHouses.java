@@ -35,6 +35,8 @@ public class GTWHouses extends JavaPlugin {
     @Getter
     private BukkitTask rentTask;
 
+    public static final String houseSaveName = "houses.sav";
+
     @Override
     public void onEnable() {
         instance = this;
@@ -48,10 +50,6 @@ public class GTWHouses extends JavaPlugin {
             getLogger().info("&cWorldEdit not found! Please install the WorldEdit and reload the plugin.");
             getServer().getPluginManager().disablePlugin(this);
         }
-
-        //ConfigurationSerialization.registerClass(House.class, "House");
-        //ConfigurationSerialization.registerClass(HouseBlock.class, "HouseBlock");
-
 
         manager = new HousesManager();
         packetManager = new HousesPacketManager(this);
