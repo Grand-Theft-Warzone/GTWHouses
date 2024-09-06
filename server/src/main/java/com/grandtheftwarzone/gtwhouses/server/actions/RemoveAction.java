@@ -12,10 +12,10 @@ import static org.bukkit.ChatColor.GOLD;
 public class RemoveAction {
 
     public static void handle(House house, Player player) throws InvalidActionException {
+        HouseUtils.resetHouseBlocks(house, player.getServer());
+
         GTWHouses.getManager().removeHouse(house);
         GTWHouses.getManager().save();
-
-        HouseUtils.resetHouseBlocks(house, player.getServer());
 
         player.sendMessage("House " + GOLD + house.getName() + ChatColor.RESET + " removed.");
 

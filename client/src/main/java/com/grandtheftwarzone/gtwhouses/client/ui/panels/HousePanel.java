@@ -20,7 +20,9 @@ public class HousePanel extends GuiPanel {
         add(imagePanel);
 
 
-        String price = house.isForSale() ? "$" + house.getBuyCost() : house.isRentable() ? "$" + house.getRentCost() + "/day" : "Unavailable";
+        String price =
+                house.isForSale() ? "$" + (house.isOwned() ? house.getSellCost() : house.getBuyCost())
+                        : house.isRentable() ? "$" + house.getRentCost() + "/day" : "Unavailable";
 
         GuiPanel pricePanel = new GuiPanel();
         pricePanel.setCssClass("pricePanel");

@@ -11,6 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+
 public class GTWHouseCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -45,22 +47,32 @@ public class GTWHouseCommand implements CommandExecutor {
         if (action == HouseActions.Sell && args.length < 3) {
             sender.sendMessage("Usage: /house " + action.getName().toLowerCase() + " <house> <price>");
             return true;
-        } else if (args.length < 2) {
-            sender.sendMessage("Usage: /house " + action.getName().toLowerCase() + " <house>");
-            return true;
+        } else {
+            if (action.isRequiresHouse() && args.length < 2) {
+                sender.sendMessage("Usage: /house " + action.getName().toLowerCase() + " <house>");
+                return true;
+            }
         }
 
-        String house = args[1];
+        String house = null;
 
         int[] price = new int[1];
+
+        int lastArgIndex = args.length - 1;
+
         if (action == HouseActions.Sell) {
             try {
-                price[0] = Integer.parseInt(args[2]);
+                price[0] = Integer.parseInt(args[args.length - 1]);
             } catch (NumberFormatException e) {
                 sender.sendMessage(ChatColor.RED + "Price must be a number.");
                 return true;
             }
+
+            lastArgIndex = args.length - 2;
         }
+
+        if (action.isRequiresHouse())
+            house = String.join(" ", Arrays.copyOfRange(args, 1, lastArgIndex + 1));
 
         try {
             GTWHouseAction.handle(action, (Player) sender, house, price);
@@ -82,8 +94,10 @@ public class GTWHouseCommand implements CommandExecutor {
 
             if (action == HouseActions.Sell)
                 sender.sendMessage("/house " + action.name().toLowerCase() + " <house> <price> - " + action.getDescription());
+            else if (action.isRequiresHouse())
+                sender.sendMessage("/house " + action.name().toLowerCase() + "  <house>  - " + action.getDescription());
             else
-                sender.sendMessage("/house " + action.name().toLowerCase() + " <house> - " + action.getDescription());
+                sender.sendMessage("/house " + action.name().toLowerCase() + " - " + action.getDescription());
 
         }
     }

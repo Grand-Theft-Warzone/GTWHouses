@@ -1,0 +1,908 @@
+[19:01:17] [main/INFO]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
+[19:01:17] [main/INFO]: Using primary tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker
+[19:01:17] [main/INFO]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLTweaker
+[19:01:18] [main/INFO]: Forge Mod Loader version 14.23.5.2860 for Minecraft 1.12.2 loading
+[19:01:18] [main/INFO]: Java is OpenJDK 64-Bit Server VM, version 1.8.0_422, running on Windows 11:amd64:10.0, installed at C:\Users\edgar\.jdks\corretto-1.8.0_422\jre
+[19:01:18] [main/ERROR]: Apache Maven library folder was not in the format expected. Using default libraries directory.
+[19:01:18] [main/ERROR]: Full: C:\Users\edgar\.gradle\caches\modules-2\files-2.1\org.apache.maven\maven-artifact\3.5.3\7dc72b6d6d8a6dced3d294ed54c2cc3515ade9f4\maven-artifact-3.5.3.jar
+[19:01:18] [main/ERROR]: Trimmed: c:/users/edgar/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-artifact/3.5.3/
+[19:01:18] [main/INFO]: Managed to load a deobfuscated Minecraft name- we are in a deobfuscated environment. Skipping runtime deobfuscation
+[19:01:18] [main/INFO]: Detected deobfuscated environment, loading log configs for colored console logs.
+[19:01:19] [main/INFO] [FML]: Ignoring missing certificate for coremod FMLCorePlugin (net.minecraftforge.fml.relauncher.FMLCorePlugin), we are in deobf and it's a forge core plugin
+[19:01:19] [main/INFO] [FML]: Ignoring missing certificate for coremod FMLForgePlugin (net.minecraftforge.classloading.FMLForgePlugin), we are in deobf and it's a forge core plugin
+[19:01:19] [main/INFO] [FML]: Searching C:\Users\edgar\projects\Freelancing\GTW\GTWHouses\client\run\.\mods for mods
+[19:01:19] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[19:01:19] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
+[19:01:19] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[19:01:19] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[19:01:19] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[19:01:25] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
+[19:01:25] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[19:01:25] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
+[19:01:26] [main/INFO] [LaunchWrapper]: Loading tweak class name net.minecraftforge.fml.common.launcher.TerminalTweaker
+[19:01:26] [main/INFO] [LaunchWrapper]: Calling tweak class net.minecraftforge.fml.common.launcher.TerminalTweaker
+[19:01:26] [main/INFO] [LaunchWrapper]: Launching wrapped minecraft {net.minecraft.client.main.Main}
+[19:01:27] [Client thread/INFO] [net.minecraft.client.Minecraft]: Setting user: test
+[19:01:33] [Client thread/INFO] [net.minecraft.client.Minecraft]: LWJGL Version: 2.9.4
+[19:01:35] [Client thread/INFO] [FML]: -- System Details --
+Details:
+	Minecraft Version: 1.12.2
+	Operating System: Windows 11 (amd64) version 10.0
+	Java Version: 1.8.0_422, Amazon.com Inc.
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode), Amazon.com Inc.
+	Memory: 300678688 bytes (286 MB) / 504889344 bytes (481 MB) up to 2830106624 bytes (2699 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: 
+	Loaded coremods (and transformers): 
+	GL info: ' Vendor: 'NVIDIA Corporation' Version: '4.6.0 NVIDIA 555.99' Renderer: 'NVIDIA GeForce GTX 1650/PCIe/SSE2'
+[19:01:35] [Client thread/INFO] [FML]: MinecraftForge v14.23.5.2860 Initialized
+[19:01:35] [Client thread/INFO] [FML]: Starts to replace vanilla recipe ingredients with ore ingredients.
+[19:01:35] [Client thread/INFO] [FML]: Invalid recipe found with multiple oredict ingredients in the same ingredient...
+[19:01:35] [Client thread/INFO] [FML]: Replaced 1227 ore ingredients
+[19:01:36] [Client thread/INFO] [FML]: Searching C:\Users\edgar\projects\Freelancing\GTW\GTWHouses\client\run\.\mods for mods
+[19:01:36] [Client thread/INFO] [FML]: Mod gtwhousesui is missing the required element 'name'. Substituting gtwhousesui
+[19:01:37] [Client thread/ERROR] [FML]: Unable to read a class file correctly
+java.lang.IllegalArgumentException: null
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:185) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:168) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:439) ~[asm-debug-all-5.2.jar:5.2]
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:57) [ASMModParser.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.findClassesASM(JarDiscoverer.java:102) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.discover(JarDiscoverer.java:77) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.ContainerType.findMods(ContainerType.java:47) [ContainerType.class:?]
+	at net.minecraftforge.fml.common.discovery.ModCandidate.explore(ModCandidate.java:74) [ModCandidate.class:?]
+	at net.minecraftforge.fml.common.discovery.ModDiscoverer.identifyMods(ModDiscoverer.java:93) [ModDiscoverer.class:?]
+	at net.minecraftforge.fml.common.Loader.identifyMods(Loader.java:427) [Loader.class:?]
+	at net.minecraftforge.fml.common.Loader.loadMods(Loader.java:568) [Loader.class:?]
+	at net.minecraftforge.fml.client.FMLClientHandler.beginMinecraftLoading(FMLClientHandler.java:232) [FMLClientHandler.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:467) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:378) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraftforge.legacydev.Main.start(Main.java:86) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+[19:01:37] [Client thread/ERROR] [FML]: There was a problem reading the entry module-info.class in the jar C:\Users\edgar\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-analysis\6.2\c7d9a90d221cbb977848d2c777eb3aa7637e89df\asm-analysis-6.2.jar - probably a corrupt zip
+net.minecraftforge.fml.common.LoaderException: java.lang.IllegalArgumentException
+
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:63) ~[ASMModParser.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.findClassesASM(JarDiscoverer.java:102) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.discover(JarDiscoverer.java:77) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.ContainerType.findMods(ContainerType.java:47) [ContainerType.class:?]
+	at net.minecraftforge.fml.common.discovery.ModCandidate.explore(ModCandidate.java:74) [ModCandidate.class:?]
+	at net.minecraftforge.fml.common.discovery.ModDiscoverer.identifyMods(ModDiscoverer.java:93) [ModDiscoverer.class:?]
+	at net.minecraftforge.fml.common.Loader.identifyMods(Loader.java:427) [Loader.class:?]
+	at net.minecraftforge.fml.common.Loader.loadMods(Loader.java:568) [Loader.class:?]
+	at net.minecraftforge.fml.client.FMLClientHandler.beginMinecraftLoading(FMLClientHandler.java:232) [FMLClientHandler.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:467) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:378) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraftforge.legacydev.Main.start(Main.java:86) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+Caused by: java.lang.IllegalArgumentException
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:185) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:168) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:439) ~[asm-debug-all-5.2.jar:5.2]
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:57) ~[ASMModParser.class:?]
+	... 23 more
+[19:01:37] [Client thread/WARN] [FML]: Zip file asm-analysis-6.2.jar failed to read properly, it will be ignored
+net.minecraftforge.fml.common.LoaderException: java.lang.IllegalArgumentException
+
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:63) ~[ASMModParser.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.findClassesASM(JarDiscoverer.java:102) ~[JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.discover(JarDiscoverer.java:77) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.ContainerType.findMods(ContainerType.java:47) [ContainerType.class:?]
+	at net.minecraftforge.fml.common.discovery.ModCandidate.explore(ModCandidate.java:74) [ModCandidate.class:?]
+	at net.minecraftforge.fml.common.discovery.ModDiscoverer.identifyMods(ModDiscoverer.java:93) [ModDiscoverer.class:?]
+	at net.minecraftforge.fml.common.Loader.identifyMods(Loader.java:427) [Loader.class:?]
+	at net.minecraftforge.fml.common.Loader.loadMods(Loader.java:568) [Loader.class:?]
+	at net.minecraftforge.fml.client.FMLClientHandler.beginMinecraftLoading(FMLClientHandler.java:232) [FMLClientHandler.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:467) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:378) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraftforge.legacydev.Main.start(Main.java:86) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+Caused by: java.lang.IllegalArgumentException
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:185) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:168) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:439) ~[asm-debug-all-5.2.jar:5.2]
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:57) ~[ASMModParser.class:?]
+	... 23 more
+[19:01:37] [Client thread/ERROR] [FML]: Unable to read a class file correctly
+java.lang.IllegalArgumentException: null
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:185) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:168) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:439) ~[asm-debug-all-5.2.jar:5.2]
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:57) [ASMModParser.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.findClassesASM(JarDiscoverer.java:102) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.discover(JarDiscoverer.java:77) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.ContainerType.findMods(ContainerType.java:47) [ContainerType.class:?]
+	at net.minecraftforge.fml.common.discovery.ModCandidate.explore(ModCandidate.java:74) [ModCandidate.class:?]
+	at net.minecraftforge.fml.common.discovery.ModDiscoverer.identifyMods(ModDiscoverer.java:93) [ModDiscoverer.class:?]
+	at net.minecraftforge.fml.common.Loader.identifyMods(Loader.java:427) [Loader.class:?]
+	at net.minecraftforge.fml.common.Loader.loadMods(Loader.java:568) [Loader.class:?]
+	at net.minecraftforge.fml.client.FMLClientHandler.beginMinecraftLoading(FMLClientHandler.java:232) [FMLClientHandler.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:467) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:378) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraftforge.legacydev.Main.start(Main.java:86) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+[19:01:37] [Client thread/ERROR] [FML]: There was a problem reading the entry module-info.class in the jar C:\Users\edgar\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-tree\6.2\61570e046111559f38d4e0e580c005f75988c0a6\asm-tree-6.2.jar - probably a corrupt zip
+net.minecraftforge.fml.common.LoaderException: java.lang.IllegalArgumentException
+
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:63) ~[ASMModParser.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.findClassesASM(JarDiscoverer.java:102) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.discover(JarDiscoverer.java:77) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.ContainerType.findMods(ContainerType.java:47) [ContainerType.class:?]
+	at net.minecraftforge.fml.common.discovery.ModCandidate.explore(ModCandidate.java:74) [ModCandidate.class:?]
+	at net.minecraftforge.fml.common.discovery.ModDiscoverer.identifyMods(ModDiscoverer.java:93) [ModDiscoverer.class:?]
+	at net.minecraftforge.fml.common.Loader.identifyMods(Loader.java:427) [Loader.class:?]
+	at net.minecraftforge.fml.common.Loader.loadMods(Loader.java:568) [Loader.class:?]
+	at net.minecraftforge.fml.client.FMLClientHandler.beginMinecraftLoading(FMLClientHandler.java:232) [FMLClientHandler.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:467) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:378) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraftforge.legacydev.Main.start(Main.java:86) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+Caused by: java.lang.IllegalArgumentException
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:185) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:168) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:439) ~[asm-debug-all-5.2.jar:5.2]
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:57) ~[ASMModParser.class:?]
+	... 23 more
+[19:01:37] [Client thread/WARN] [FML]: Zip file asm-tree-6.2.jar failed to read properly, it will be ignored
+net.minecraftforge.fml.common.LoaderException: java.lang.IllegalArgumentException
+
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:63) ~[ASMModParser.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.findClassesASM(JarDiscoverer.java:102) ~[JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.discover(JarDiscoverer.java:77) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.ContainerType.findMods(ContainerType.java:47) [ContainerType.class:?]
+	at net.minecraftforge.fml.common.discovery.ModCandidate.explore(ModCandidate.java:74) [ModCandidate.class:?]
+	at net.minecraftforge.fml.common.discovery.ModDiscoverer.identifyMods(ModDiscoverer.java:93) [ModDiscoverer.class:?]
+	at net.minecraftforge.fml.common.Loader.identifyMods(Loader.java:427) [Loader.class:?]
+	at net.minecraftforge.fml.common.Loader.loadMods(Loader.java:568) [Loader.class:?]
+	at net.minecraftforge.fml.client.FMLClientHandler.beginMinecraftLoading(FMLClientHandler.java:232) [FMLClientHandler.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:467) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:378) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraftforge.legacydev.Main.start(Main.java:86) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+Caused by: java.lang.IllegalArgumentException
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:185) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:168) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:439) ~[asm-debug-all-5.2.jar:5.2]
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:57) ~[ASMModParser.class:?]
+	... 23 more
+[19:01:37] [Client thread/ERROR] [FML]: Unable to read a class file correctly
+java.lang.IllegalArgumentException: null
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:185) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:168) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:439) ~[asm-debug-all-5.2.jar:5.2]
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:57) [ASMModParser.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.findClassesASM(JarDiscoverer.java:102) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.discover(JarDiscoverer.java:77) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.ContainerType.findMods(ContainerType.java:47) [ContainerType.class:?]
+	at net.minecraftforge.fml.common.discovery.ModCandidate.explore(ModCandidate.java:74) [ModCandidate.class:?]
+	at net.minecraftforge.fml.common.discovery.ModDiscoverer.identifyMods(ModDiscoverer.java:93) [ModDiscoverer.class:?]
+	at net.minecraftforge.fml.common.Loader.identifyMods(Loader.java:427) [Loader.class:?]
+	at net.minecraftforge.fml.common.Loader.loadMods(Loader.java:568) [Loader.class:?]
+	at net.minecraftforge.fml.client.FMLClientHandler.beginMinecraftLoading(FMLClientHandler.java:232) [FMLClientHandler.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:467) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:378) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraftforge.legacydev.Main.start(Main.java:86) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+[19:01:37] [Client thread/ERROR] [FML]: There was a problem reading the entry module-info.class in the jar C:\Users\edgar\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-util\6.2\a9690730f92cc79eeadc20e400ebb41eccce10b1\asm-util-6.2.jar - probably a corrupt zip
+net.minecraftforge.fml.common.LoaderException: java.lang.IllegalArgumentException
+
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:63) ~[ASMModParser.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.findClassesASM(JarDiscoverer.java:102) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.discover(JarDiscoverer.java:77) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.ContainerType.findMods(ContainerType.java:47) [ContainerType.class:?]
+	at net.minecraftforge.fml.common.discovery.ModCandidate.explore(ModCandidate.java:74) [ModCandidate.class:?]
+	at net.minecraftforge.fml.common.discovery.ModDiscoverer.identifyMods(ModDiscoverer.java:93) [ModDiscoverer.class:?]
+	at net.minecraftforge.fml.common.Loader.identifyMods(Loader.java:427) [Loader.class:?]
+	at net.minecraftforge.fml.common.Loader.loadMods(Loader.java:568) [Loader.class:?]
+	at net.minecraftforge.fml.client.FMLClientHandler.beginMinecraftLoading(FMLClientHandler.java:232) [FMLClientHandler.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:467) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:378) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraftforge.legacydev.Main.start(Main.java:86) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+Caused by: java.lang.IllegalArgumentException
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:185) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:168) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:439) ~[asm-debug-all-5.2.jar:5.2]
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:57) ~[ASMModParser.class:?]
+	... 23 more
+[19:01:37] [Client thread/WARN] [FML]: Zip file asm-util-6.2.jar failed to read properly, it will be ignored
+net.minecraftforge.fml.common.LoaderException: java.lang.IllegalArgumentException
+
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:63) ~[ASMModParser.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.findClassesASM(JarDiscoverer.java:102) ~[JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.discover(JarDiscoverer.java:77) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.ContainerType.findMods(ContainerType.java:47) [ContainerType.class:?]
+	at net.minecraftforge.fml.common.discovery.ModCandidate.explore(ModCandidate.java:74) [ModCandidate.class:?]
+	at net.minecraftforge.fml.common.discovery.ModDiscoverer.identifyMods(ModDiscoverer.java:93) [ModDiscoverer.class:?]
+	at net.minecraftforge.fml.common.Loader.identifyMods(Loader.java:427) [Loader.class:?]
+	at net.minecraftforge.fml.common.Loader.loadMods(Loader.java:568) [Loader.class:?]
+	at net.minecraftforge.fml.client.FMLClientHandler.beginMinecraftLoading(FMLClientHandler.java:232) [FMLClientHandler.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:467) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:378) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraftforge.legacydev.Main.start(Main.java:86) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+Caused by: java.lang.IllegalArgumentException
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:185) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:168) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:439) ~[asm-debug-all-5.2.jar:5.2]
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:57) ~[ASMModParser.class:?]
+	... 23 more
+[19:01:37] [Client thread/ERROR] [FML]: Unable to read a class file correctly
+java.lang.IllegalArgumentException: null
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:185) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:168) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:439) ~[asm-debug-all-5.2.jar:5.2]
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:57) [ASMModParser.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.findClassesASM(JarDiscoverer.java:102) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.discover(JarDiscoverer.java:77) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.ContainerType.findMods(ContainerType.java:47) [ContainerType.class:?]
+	at net.minecraftforge.fml.common.discovery.ModCandidate.explore(ModCandidate.java:74) [ModCandidate.class:?]
+	at net.minecraftforge.fml.common.discovery.ModDiscoverer.identifyMods(ModDiscoverer.java:93) [ModDiscoverer.class:?]
+	at net.minecraftforge.fml.common.Loader.identifyMods(Loader.java:427) [Loader.class:?]
+	at net.minecraftforge.fml.common.Loader.loadMods(Loader.java:568) [Loader.class:?]
+	at net.minecraftforge.fml.client.FMLClientHandler.beginMinecraftLoading(FMLClientHandler.java:232) [FMLClientHandler.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:467) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:378) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraftforge.legacydev.Main.start(Main.java:86) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+[19:01:37] [Client thread/ERROR] [FML]: There was a problem reading the entry module-info.class in the jar C:\Users\edgar\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm\6.2\1b6c4ff09ce03f3052429139c2a68e295cae6604\asm-6.2.jar - probably a corrupt zip
+net.minecraftforge.fml.common.LoaderException: java.lang.IllegalArgumentException
+
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:63) ~[ASMModParser.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.findClassesASM(JarDiscoverer.java:102) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.discover(JarDiscoverer.java:77) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.ContainerType.findMods(ContainerType.java:47) [ContainerType.class:?]
+	at net.minecraftforge.fml.common.discovery.ModCandidate.explore(ModCandidate.java:74) [ModCandidate.class:?]
+	at net.minecraftforge.fml.common.discovery.ModDiscoverer.identifyMods(ModDiscoverer.java:93) [ModDiscoverer.class:?]
+	at net.minecraftforge.fml.common.Loader.identifyMods(Loader.java:427) [Loader.class:?]
+	at net.minecraftforge.fml.common.Loader.loadMods(Loader.java:568) [Loader.class:?]
+	at net.minecraftforge.fml.client.FMLClientHandler.beginMinecraftLoading(FMLClientHandler.java:232) [FMLClientHandler.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:467) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:378) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraftforge.legacydev.Main.start(Main.java:86) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+Caused by: java.lang.IllegalArgumentException
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:185) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:168) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:439) ~[asm-debug-all-5.2.jar:5.2]
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:57) ~[ASMModParser.class:?]
+	... 23 more
+[19:01:37] [Client thread/WARN] [FML]: Zip file asm-6.2.jar failed to read properly, it will be ignored
+net.minecraftforge.fml.common.LoaderException: java.lang.IllegalArgumentException
+
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:63) ~[ASMModParser.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.findClassesASM(JarDiscoverer.java:102) ~[JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.JarDiscoverer.discover(JarDiscoverer.java:77) [JarDiscoverer.class:?]
+	at net.minecraftforge.fml.common.discovery.ContainerType.findMods(ContainerType.java:47) [ContainerType.class:?]
+	at net.minecraftforge.fml.common.discovery.ModCandidate.explore(ModCandidate.java:74) [ModCandidate.class:?]
+	at net.minecraftforge.fml.common.discovery.ModDiscoverer.identifyMods(ModDiscoverer.java:93) [ModDiscoverer.class:?]
+	at net.minecraftforge.fml.common.Loader.identifyMods(Loader.java:427) [Loader.class:?]
+	at net.minecraftforge.fml.common.Loader.loadMods(Loader.java:568) [Loader.class:?]
+	at net.minecraftforge.fml.client.FMLClientHandler.beginMinecraftLoading(FMLClientHandler.java:232) [FMLClientHandler.class:?]
+	at net.minecraft.client.Minecraft.init(Minecraft.java:467) [Minecraft.class:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:378) [Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:118) [Main.class:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_422]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_422]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_422]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_422]
+	at net.minecraftforge.legacydev.Main.start(Main.java:86) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+	at net.minecraftforge.legacydev.MainClient.main(MainClient.java:29) [legacydev-0.2.3.1-fatjar.jar:0.2.3.1+4+372be23]
+Caused by: java.lang.IllegalArgumentException
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:185) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:168) ~[asm-debug-all-5.2.jar:5.2]
+	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:439) ~[asm-debug-all-5.2.jar:5.2]
+	at net.minecraftforge.fml.common.discovery.asm.ASMModParser.<init>(ASMModParser.java:57) ~[ASMModParser.class:?]
+	... 23 more
+[19:01:38] [Thread-3/INFO] [FML]: Using sync timing. 200 frames of Display.update took 140445000 nanos
+[19:01:38] [Client thread/INFO] [FML]: Forge Mod Loader has identified 6 mods to load
+[19:01:39] [Client thread/INFO] [FML]: Attempting connection with missing mods [minecraft, mcp, FML, forge, gtwhousesui, acslib] at CLIENT
+[19:01:39] [Client thread/INFO] [FML]: Attempting connection with missing mods [minecraft, mcp, FML, forge, gtwhousesui, acslib] at SERVER
+[19:01:42] [Client thread/INFO] [ACsLib]: Registered class fr.aym.acslib.impl.services.thrload.LightThreadedModLoader service V.1.0.0
+[19:01:42] [Client thread/INFO] [ACsLib]: Registered class fr.aym.acslib.impl.services.error_tracking.ACsLibErrorManager service V.1.0.0
+[19:01:42] [Client thread/INFO] [ACsLib]: Registered and loading class fr.aym.acsguis.api.ACsGuiApi service V.1.2.11
+[19:01:42] [Client thread/INFO] [ACsGuis]: Initializing ACsGuis API by Aym', version 1.2.11
+[19:01:42] [Client thread/INFO] [ACsLib]: Registered class fr.aym.acslib.impl.services.error_tracking.ACsLibCompatibleErrorTracker service V.2.0.0
+[19:01:42] [Client thread/INFO] [net.minecraft.client.resources.SimpleReloadableResourceManager]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:gtwhousesui, FMLFileResourcePack:ACsLib
+[19:01:42] [Client thread/INFO] [FML]: Processing ObjectHolder annotations
+[19:01:42] [Client thread/INFO] [FML]: Found 1168 ObjectHolder annotations
+[19:01:42] [Client thread/INFO] [FML]: Identifying ItemStackHolder annotations
+[19:01:42] [Client thread/INFO] [FML]: Found 0 ItemStackHolder annotations
+[19:01:42] [Client thread/INFO] [FML]: Configured a dormant chunk cache size of 0
+[19:01:42] [Forge Version Check/INFO] [forge.VersionCheck]: [forge] Starting version check at http://files.minecraftforge.net/maven/net/minecraftforge/forge/promotions_slim.json
+[19:01:43] [Client thread/INFO] [FML]: Applying holder lookups
+[19:01:43] [Client thread/INFO] [FML]: Holder lookups applied
+[19:01:43] [Client thread/INFO] [FML]: Applying holder lookups
+[19:01:43] [Client thread/INFO] [FML]: Holder lookups applied
+[19:01:43] [Client thread/INFO] [FML]: Applying holder lookups
+[19:01:43] [Client thread/INFO] [FML]: Holder lookups applied
+[19:01:43] [Client thread/INFO] [FML]: Applying holder lookups
+[19:01:43] [Client thread/INFO] [FML]: Holder lookups applied
+[19:01:43] [Client thread/INFO] [FML]: Injecting itemstacks
+[19:01:43] [Client thread/INFO] [FML]: Itemstack injection complete
+[19:01:43] [Forge Version Check/INFO] [forge.VersionCheck]: [forge] Found status: AHEAD Target: null
+[19:01:58] [Sound Library Loader/INFO] [net.minecraft.client.audio.SoundManager]: Starting up SoundSystem...
+[19:01:58] [Thread-5/INFO] [net.minecraft.client.audio.SoundManager]: Initializing LWJGL OpenAL
+[19:01:58] [Thread-5/INFO] [net.minecraft.client.audio.SoundManager]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[19:01:58] [Thread-5/INFO] [net.minecraft.client.audio.SoundManager]: OpenAL initialized.
+[19:01:58] [Sound Library Loader/INFO] [net.minecraft.client.audio.SoundManager]: Sound engine started
+[19:02:24] [Client thread/INFO] [FML]: Max texture size: 16384
+[19:02:38] [Client thread/INFO] [net.minecraft.client.renderer.texture.TextureMap]: Created: 512x512 textures-atlas
+[19:02:41] [Client thread/INFO] [FML]: Applying holder lookups
+[19:02:41] [Client thread/INFO] [FML]: Holder lookups applied
+[19:02:41] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:02:41] [Client thread/INFO] [FML]: Injecting itemstacks
+[19:02:41] [Client thread/INFO] [FML]: Itemstack injection complete
+[19:02:41] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:02:41] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:02:41] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:02:41] [Client thread/INFO] [ACsLib]: [ThrLoad] Le lancement multithreadé a économisé 305 ms
+[19:02:41] [Client thread/INFO] [FML]: Forge Mod Loader has successfully loaded 6 mods
+[19:02:42] [Client thread/INFO] [com.mojang.text2speech.NarratorWindows]: Narrator library for x64 successfully loaded
+[19:02:42] [Realms Notification Availability checker #1/INFO] [com.mojang.realmsclient.client.RealmsClient]: Could not authorize you against Realms server: Invalid session id
+[19:02:50] [Client thread/INFO] [net.minecraft.client.multiplayer.GuiConnecting]: Connecting to localhost, 25565
+[19:02:53] [Netty Client IO #0/INFO] [FML]: Server protocol version 2
+[19:02:53] [Netty Client IO #0/INFO] [FML]: Attempting connection with missing mods [gtwhousesui] at SERVER
+[19:02:53] [Client thread/INFO] [FML]: Injecting existing registry data into this client instance
+[19:02:53] [Client thread/INFO] [FML]: Applying holder lookups
+[19:02:53] [Client thread/INFO] [FML]: Holder lookups applied
+[19:02:53] [Netty Client IO #0/INFO] [FML]: [Netty Client IO #0] Client side modded connection established
+[19:02:56] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] test joined the game
+[19:02:57] [Client thread/INFO] [net.minecraft.advancements.AdvancementList]: Loaded 13 advancements
+[19:02:57] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Welcome, test!
+[19:02:57] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Type /help for a list of commands.
+[19:02:57] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Type /list to see who else is online.
+[19:02:57] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Players online: 1 - World time: 3:33 AM
+[19:02:57] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Não tens novos e-mails.
+[19:02:57] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] A compilação de desenvolvedor do 40 EssentialsX está desatualizada!
+[19:02:57] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Transfere-a aqui: https://essentialsx.net/downloads.html
+[19:02:59] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:02:59] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:02:59] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:02:59] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:02:59] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:04:32] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:04:32] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:04:32] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:04:32] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:04:32] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:04:58] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:04:58] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:04:58] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:04:58] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:04:58] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:04:58] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:04:58] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:04:58] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:04:58] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:04:58] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:05:58] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:05:58] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:05:58] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:05:58] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:06:10] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You entered house Concrete (unowned) you can buy it for $13000.0 and then rent it for $250.0 per day.
+[19:06:13] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You entered your house Wood test.
+[19:06:57] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:06:57] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:06:57] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:06:57] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:06:59] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.client.GTWHousesUI$1
+[19:07:02] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.client.GTWHousesUI$1
+[19:07:06] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:07:06] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:07:06] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:07:06] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:07:06] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:07:09] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:07:09] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:07:09] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:07:09] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:07:09] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:07:11] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:07:11] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:07:11] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:07:11] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:07:11] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:07:53] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:07:53] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:07:53] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:07:53] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:07:53] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:08:02] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:08:02] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:08:02] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:08:02] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:08:02] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:08:14] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:08:14] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:08:14] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:08:14] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:08:14] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:08:24] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:08:24] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:08:24] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:08:24] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:08:24] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:08:29] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.HouseActionC2SPacket
+[19:08:29] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House Wood test is no longer for rent
+[19:08:31] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:08:31] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:08:31] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:08:31] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:08:31] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:08:48] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:08:48] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:08:48] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:08:48] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:08:52] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:08:52] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:08:52] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:08:52] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:08:52] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:09:29] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:09:29] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:09:29] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:09:29] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:09:29] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:09:35] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:09:35] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:09:35] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:09:35] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:09:45] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You entered house Concrete (unowned) you can buy it for $13000.0 and then rent it for $250.0 per day.
+[19:15:32] [Client thread/WARN] [net.minecraft.client.audio.SoundManager]: Unable to play empty soundEvent: minecraft:entity.small_slime.squish
+[19:15:33] [Client thread/WARN] [net.minecraft.client.audio.SoundManager]: Unable to play empty soundEvent: minecraft:entity.small_slime.jump
+[19:16:14] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:16:14] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:16:14] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:16:14] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:16:14] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:32:29] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You entered house Concrete (unowned) you can buy it for $13000.0 and then rent it for $250.0 per day.
+[19:33:08] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:33:08] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:33:08] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:33:08] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:33:08] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:33:10] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:33:10] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:33:10] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:33:10] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:33:10] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:33:11] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:33:11] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:33:11] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:33:11] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:33:13] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:33:13] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:33:13] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:33:13] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:33:13] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:33:57] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] [Server: Stopping the server]
+[19:33:59] [Client thread/INFO] [FML]: Applying holder lookups
+[19:33:59] [Client thread/INFO] [FML]: Holder lookups applied
+[19:35:49] [Client thread/INFO] [net.minecraft.client.multiplayer.GuiConnecting]: Connecting to localhost, 25565
+[19:35:49] [Netty Client IO #1/INFO] [FML]: Server protocol version 2
+[19:35:49] [Netty Client IO #1/INFO] [FML]: Attempting connection with missing mods [gtwhousesui] at SERVER
+[19:35:49] [Client thread/INFO] [FML]: Injecting existing registry data into this client instance
+[19:35:49] [Client thread/INFO] [FML]: Applying holder lookups
+[19:35:49] [Client thread/INFO] [FML]: Holder lookups applied
+[19:35:49] [Netty Client IO #1/INFO] [FML]: [Netty Client IO #1] Client side modded connection established
+[19:35:51] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] test joined the game
+[19:35:52] [Client thread/INFO] [net.minecraft.advancements.AdvancementList]: Loaded 13 advancements
+[19:35:52] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Welcome, test!
+[19:35:52] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Type /help for a list of commands.
+[19:35:52] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Type /list to see who else is online.
+[19:35:52] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Players online: 1 - World time: 4:52 PM
+[19:35:52] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Não tens novos e-mails.
+[19:35:52] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] A compilação de desenvolvedor do 40 EssentialsX está desatualizada!
+[19:35:52] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Transfere-a aqui: https://essentialsx.net/downloads.html
+[19:36:07] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:36:07] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:36:07] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:36:07] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:36:07] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:36:16] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House not found
+[19:36:17] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:36:17] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:36:17] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:36:17] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:36:17] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:36:26] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House not found
+[19:36:27] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:36:27] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:36:27] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:36:27] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:36:27] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:36:40] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:36:40] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:36:40] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:36:40] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:36:40] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:36:45] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House not found
+[19:36:52] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House not found
+[19:36:58] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House not found
+[19:38:32] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:38:32] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:38:32] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:38:32] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:38:32] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:38:41] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House not found
+[19:38:43] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:38:43] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:38:43] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:38:43] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:38:43] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:39:05] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House not found
+[19:45:08] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] [Server: Stopping the server]
+[19:45:10] [Client thread/INFO] [FML]: Applying holder lookups
+[19:45:10] [Client thread/INFO] [FML]: Holder lookups applied
+[19:46:03] [Client thread/INFO] [net.minecraft.client.multiplayer.GuiConnecting]: Connecting to localhost, 25565
+[19:46:03] [Netty Client IO #2/INFO] [FML]: Server protocol version 2
+[19:46:03] [Netty Client IO #2/INFO] [FML]: Attempting connection with missing mods [gtwhousesui] at SERVER
+[19:46:03] [Client thread/INFO] [FML]: Injecting existing registry data into this client instance
+[19:46:04] [Client thread/INFO] [FML]: Applying holder lookups
+[19:46:04] [Client thread/INFO] [FML]: Holder lookups applied
+[19:46:04] [Netty Client IO #2/INFO] [FML]: [Netty Client IO #2] Client side modded connection established
+[19:46:04] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] test joined the game
+[19:46:04] [Client thread/INFO] [net.minecraft.advancements.AdvancementList]: Loaded 13 advancements
+[19:46:05] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Welcome, test!
+[19:46:05] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Type /help for a list of commands.
+[19:46:05] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Type /list to see who else is online.
+[19:46:05] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Players online: 1 - World time: 4:05 AM
+[19:46:05] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Não tens novos e-mails.
+[19:46:05] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] A compilação de desenvolvedor do 40 EssentialsX está desatualizada!
+[19:46:05] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Transfere-a aqui: https://essentialsx.net/downloads.html
+[19:46:14] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] This house is currently owned and cannot be edited! (You can try to reset the house first)
+[19:46:29] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:46:29] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:46:29] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:46:29] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:46:29] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:46:36] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Price must be a number.
+[19:46:38] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Price must be a number.
+[19:47:01] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Price must be a number.
+[19:47:03] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:47:03] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:47:03] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:47:03] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:47:03] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:47:07] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:47:07] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:47:07] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:47:07] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:47:07] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:47:08] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:47:08] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:47:08] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:47:08] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:47:08] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:47:10] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:47:10] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:47:10] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:47:10] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:47:13] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You are not editing any house!
+[19:48:39] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] [Server: Stopping the server]
+[19:48:41] [Client thread/INFO] [FML]: Applying holder lookups
+[19:48:41] [Client thread/INFO] [FML]: Holder lookups applied
+[19:49:36] [Client thread/INFO] [net.minecraft.client.multiplayer.GuiConnecting]: Connecting to localhost, 25565
+[19:49:37] [Netty Client IO #3/INFO] [FML]: Server protocol version 2
+[19:49:37] [Netty Client IO #3/INFO] [FML]: Attempting connection with missing mods [gtwhousesui] at SERVER
+[19:49:37] [Client thread/INFO] [FML]: Injecting existing registry data into this client instance
+[19:49:37] [Client thread/INFO] [FML]: Applying holder lookups
+[19:49:37] [Client thread/INFO] [FML]: Holder lookups applied
+[19:49:37] [Netty Client IO #3/INFO] [FML]: [Netty Client IO #3] Client side modded connection established
+[19:49:39] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] test joined the game
+[19:49:39] [Client thread/INFO] [net.minecraft.advancements.AdvancementList]: Loaded 13 advancements
+[19:49:39] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Welcome, test!
+[19:49:39] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Type /help for a list of commands.
+[19:49:39] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Type /list to see who else is online.
+[19:49:39] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Players online: 1 - World time: 7:20 AM
+[19:49:39] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Não tens novos e-mails.
+[19:49:39] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] A compilação de desenvolvedor do 40 EssentialsX está desatualizada!
+[19:49:39] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Transfere-a aqui: https://essentialsx.net/downloads.html
+[19:49:42] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:49:42] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:49:42] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:49:42] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:49:42] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:49:46] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:49:46] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:49:46] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:49:46] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:49:46] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:49:54] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You are not editing any house!
+[19:49:59] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] This house is currently owned and cannot be edited! 
+[19:49:59] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] (You can try to reset the house first)
+[19:50:31] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House Wood test is now for sale for 10
+[19:50:33] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:50:33] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:50:33] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:50:33] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:50:33] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:50:37] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.HouseActionC2SPacket
+[19:50:37] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You already own this house
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House command usage: 
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house gui - Opens the house GUI.
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house buy  <house>  - Buy a house
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house rent  <house>  - Rent a house
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house unrent  <house>  - Stop renting a house
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house sell <house> <price> - Sell one of your houses
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house citysell  <house>  - Sell one of your houses to the city
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house unsell  <house>  - Stop selling one of your houses
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house rentable  <house>  - Make a house available for rent
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house unrentable  <house>  - Stop making a house available for rent
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house list - List your houses
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house top - List the top buyers
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house remove  <house>  - Remove a house and reset its blocks
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house reset  <house>  - Reset a house's blocks
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house unregister  <house>  - Unregister a house
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house edit  <house>  - Edit the house blocks of a house
+[19:50:47] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] /house finish - Finish editing a house
+[19:50:54] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House Wood test is no longer for sale
+[19:51:12] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:51:12] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:51:12] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:51:12] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:51:21] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Price must be a number.
+[19:51:49] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:51:49] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:51:49] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:51:49] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:51:49] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:51:51] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:51:51] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:51:51] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:51:51] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:51:52] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:51:52] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:51:52] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:51:52] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:51:54] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:51:54] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:51:54] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:51:54] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:51:54] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:51:59] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:51:59] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:51:59] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:51:59] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:51:59] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:52:00] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:52:00] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:52:00] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:52:00] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:52:00] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:52:10] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[19:52:10] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:52:10] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:52:10] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:52:10] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:52:24] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You entered your house Wood test.
+[19:52:30] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House Wood test has been reset successfully!
+[19:52:38] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You are now editing house Wood test
+[19:52:38] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Use the command /house finish to finish editing the house
+[19:52:51] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House Wood test has been edited!
+[19:52:53] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You entered house Wood test (unowned) you can buy it for $5600.0 and then rent it for $320.0 per day.
+[19:53:07] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You bought the house Wood test for $5600.0
+[19:53:25] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You entered your house Wood test.
+[19:53:40] [Client thread/INFO] [net.minecraft.advancements.AdvancementList]: Loaded 24 advancements
+[19:54:04] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House Wood test has been sold to the city for 2800.0
+[19:54:22] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] An internal error occurred while attempting to perform this command
+[19:55:02] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You are not editing any house!
+[19:55:38] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:55:38] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:55:38] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:55:38] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:55:39] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.HouseCoordsC2SPacket
+[19:55:39] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Select the house area with the wood axe !
+[19:55:42] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] First position set to (-265.0, 3.0, -383.0).
+[19:55:44] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Second position set to (-268.0, 5.0, -379.0) (60).
+[19:55:44] [Netty Client IO #3/INFO] [gtwhousesui]: Received house coords packet: world
+[19:55:44] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:55:44] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:55:44] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:55:44] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:55:54] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.CreateHouseC2SPacket
+[19:55:54] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House registered successfully.
+[19:56:09] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You bought the house Wood test for $1000.0
+[19:56:21] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You entered your house Wood test.
+[19:57:02] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] [Server: Stopping the server]
+[19:57:04] [Client thread/INFO] [FML]: Applying holder lookups
+[19:57:04] [Client thread/INFO] [FML]: Holder lookups applied
+[19:58:52] [Client thread/INFO] [net.minecraft.client.multiplayer.GuiConnecting]: Connecting to localhost, 25565
+[19:58:52] [Netty Client IO #4/INFO] [FML]: Server protocol version 2
+[19:58:52] [Netty Client IO #4/INFO] [FML]: Attempting connection with missing mods [gtwhousesui] at SERVER
+[19:58:52] [Client thread/INFO] [FML]: Injecting existing registry data into this client instance
+[19:58:52] [Client thread/INFO] [FML]: Applying holder lookups
+[19:58:52] [Client thread/INFO] [FML]: Holder lookups applied
+[19:58:52] [Netty Client IO #4/INFO] [FML]: [Netty Client IO #4] Client side modded connection established
+[19:58:54] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] test joined the game
+[19:58:54] [Client thread/INFO] [net.minecraft.advancements.AdvancementList]: Loaded 24 advancements
+[19:58:54] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Welcome, test!
+[19:58:54] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Type /help for a list of commands.
+[19:58:54] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Type /list to see who else is online.
+[19:58:54] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Players online: 1 - World time: 5:27 PM
+[19:58:54] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Não tens novos e-mails.
+[19:58:54] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] A compilação de desenvolvedor do 40 EssentialsX está desatualizada!
+[19:58:54] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Transfere-a aqui: https://essentialsx.net/downloads.html
+[19:59:01] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House Wood test removed.
+[19:59:09] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:59:09] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:59:09] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:59:09] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:59:09] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.HouseCoordsC2SPacket
+[19:59:10] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Select the house area with the wood axe !
+[19:59:11] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] First position set to (-265.0, 3.0, -383.0).
+[19:59:13] [Netty Client IO #4/INFO] [gtwhousesui]: Received house coords packet: world
+[19:59:13] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Second position set to (-268.0, 5.0, -379.0) (60).
+[19:59:13] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[19:59:13] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[19:59:13] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[19:59:13] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[19:59:20] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.CreateHouseC2SPacket
+[19:59:20] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House registered successfully.
+[19:59:31] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You bought the house Wood test for $1000.0
+[19:59:44] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House Wood test has been reset successfully!
+[19:59:49] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You are now editing house Wood test
+[19:59:49] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Use the command /house finish to finish editing the house
+[19:59:59] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] House Wood test has been edited!
+[20:00:08] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You bought the house Wood test for $1000.0
+[20:00:17] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] O tempo foi definido para 0 ticks em: world.
+[20:00:24] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] Set game difficulty to Peaceful
+[20:00:43] [Client thread/INFO] [net.minecraft.client.gui.GuiNewChat]: [CHAT] You entered house Concrete (unowned) you can buy it for $13000.0 and then rent it for $250.0 per day.
+[20:00:44] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[20:00:44] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[20:00:44] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[20:00:44] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[20:00:44] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[20:02:45] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[20:02:45] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[20:02:45] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[20:02:45] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[20:02:48] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[20:02:48] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[20:02:48] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[20:02:48] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[20:02:48] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[20:02:52] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[20:02:52] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[20:02:52] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[20:02:52] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[20:02:52] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[20:03:27] [Client thread/INFO] [gtwhousesui]: Sending packet to server: com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket
+[20:03:27] [ACsThreadedLoader/INFO] [ACsGuis]: Loading CSS sheets...
+[20:03:27] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet acsguis:css/default_style.css
+[20:03:27] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/house_frame.css
+[20:03:27] [ACsThreadedLoader/INFO] [ACsGuis]: [CSS] Loaded css style sheet gtwhousesui:css/admin_create_house.css
+[20:03:29] [Client thread/INFO] [FML]: Applying holder lookups
+[20:03:29] [Client thread/INFO] [FML]: Holder lookups applied
+[20:03:32] [Client thread/INFO] [net.minecraft.client.Minecraft]: Stopping!
+[20:03:32] [Client thread/INFO] [net.minecraft.client.audio.SoundManager]: SoundSystem shutting down...
+[20:03:32] [Client thread/WARN] [net.minecraft.client.audio.SoundManager]: Author: Paul Lamb, www.paulscode.com

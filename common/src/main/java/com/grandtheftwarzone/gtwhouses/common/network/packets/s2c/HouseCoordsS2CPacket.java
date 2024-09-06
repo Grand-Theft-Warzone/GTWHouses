@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -27,7 +28,7 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
 
     private String worldName;
 
-    private ArrayList<HouseBlock> blocks;
+    private List<HouseBlock> blocks;
 
     @Override
     public void fromBytes(ByteBuf buf) {

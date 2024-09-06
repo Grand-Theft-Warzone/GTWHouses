@@ -37,12 +37,12 @@ public class AdminHousePanel extends GuiPanel {
 
         GuiButton resetHouseBlocks = new GuiButton("Reset Blocks");
         resetHouseBlocks.setCssId("resetButton").setCssClass("houseBtn");
-        resetHouseBlocks.addClickListener((a, b, c) -> {add (new ConfirmModal(this));});
+        //resetHouseBlocks.addClickListener((a, b, c) -> {add (new ConfirmModal(this, ));});
 
         GuiButton deleteHouse = new GuiButton("Delete");
         deleteHouse.setCssId("deleteButton").setCssClass("houseBtn");
         //rentOutButton.addClickListener((a, b, c) -> add(new RentModal(this)));
-        deleteHouse.addClickListener((a, b, c) -> {add (new ConfirmModal(this));});
+        //deleteHouse.addClickListener((a, b, c) -> {add (new ConfirmModal(this));});
 
         buttonsPanel.add(resetHouseBlocks);
         buttonsPanel.add(deleteHouse);

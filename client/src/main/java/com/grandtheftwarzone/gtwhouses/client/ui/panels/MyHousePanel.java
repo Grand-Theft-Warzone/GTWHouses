@@ -1,6 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.client.ui.panels;
 
 import com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler;
+import com.grandtheftwarzone.gtwhouses.client.ui.modals.ConfirmModal;
 import com.grandtheftwarzone.gtwhouses.client.ui.modals.SellModal;
 import com.grandtheftwarzone.gtwhouses.common.HouseActions;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
@@ -46,25 +47,25 @@ public class MyHousePanel extends GuiPanel {
         GuiButton sellButton = new GuiButton("Sell");
         sellButton.setCssId("sellButton").setCssClass("houseBtn");
         sellButton.addClickListener((pos, mouse, button) -> {
-            Minecraft.getMinecraft().player.closeScreen();
-            ACsGuiApi.asyncLoadThenShowGui("sellModal", () -> new SellModal(house));
+            add(new SellModal(house, this));
         });
 
         GuiButton citySellButton = new GuiButton("City Sell");
         citySellButton.setCssId("citySellButton").setCssClass("houseBtn");
-        citySellButton.addClickListener((pos, mouse, button) -> {
+
+        citySellButton.addClickListener((a, b, c) -> add(new ConfirmModal(this, (mouseX, mouseY, pointer) -> {
             GTWNetworkHandler.sendToServer(new HouseActionC2SPacket(HouseActions.CitySell, house.getName(), null));
             Minecraft.getMinecraft().player.closeScreen();
-        });
+        })));
 
         String rentAction = house.isRentable() ? "Stop Renting" : "Rent Out";
         GuiButton rentOutButton = new GuiButton(rentAction);
         rentOutButton.setCssId("rentOutButton").setCssClass("houseBtn");
-        rentOutButton.addClickListener((pos, mouse, button) -> {
+        rentOutButton.addClickListener((a,b,c) -> add(new ConfirmModal(this,(pos, mouse, button) -> {
             GTWNetworkHandler.sendToServer(new HouseActionC2SPacket(
                     house.isRentable() ? HouseActions.Unrentable : HouseActions.Rentable, house.getName(), null));
             Minecraft.getMinecraft().player.closeScreen();
-        });
+        })));
 
         buttonsPanel.add(sellButton);
         buttonsPanel.add(citySellButton);

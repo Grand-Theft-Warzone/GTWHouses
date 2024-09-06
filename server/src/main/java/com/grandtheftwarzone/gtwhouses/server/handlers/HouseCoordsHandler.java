@@ -5,6 +5,7 @@ import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.HouseCoordsC2S
 import com.grandtheftwarzone.gtwhouses.common.network.packets.s2c.HouseCoordsS2CPacket;
 import com.grandtheftwarzone.gtwhouses.server.GTWHouses;
 import com.grandtheftwarzone.gtwhouses.server.network.GTWPacketHandler;
+import com.grandtheftwarzone.gtwhouses.server.util.HouseUtils;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.bukkit.selections.Selection;
@@ -53,29 +54,20 @@ public class HouseCoordsHandler implements GTWPacketHandler.PacketHandler<HouseC
         Selection selection = GTWHouses.getWorldEditPlugin().getSelection(event.getPlayer());
         if (selection == null) return;
 
-        World world = selection.getWorld();
+        int minPosX = selection.getMinimumPoint().getBlockX();
+        int minPosY = selection.getMinimumPoint().getBlockY();
+        int minPosZ = selection.getMinimumPoint().getBlockZ();
 
-        int minX = selection.getMinimumPoint().getBlockX();
-        int minY = selection.getMinimumPoint().getBlockY();
-        int minZ = selection.getMinimumPoint().getBlockZ();
-        int maxX = selection.getMaximumPoint().getBlockX();
-        int maxY = selection.getMaximumPoint().getBlockY();
-        int maxZ = selection.getMaximumPoint().getBlockZ();
-
-        ArrayList<HouseBlock> houseBlocks = new ArrayList<>();
-
-        for (int x = minX; x <= maxX; x++)
-            for (int y = minY; y <= maxY; y++)
-                for (int z = minZ; z <= maxZ; z++)
-                    if (world.getBlockAt(x, y, z).getType() != Material.AIR)
-                        houseBlocks.add(new HouseBlock(x, y, z));
-
+        int maxPosX = selection.getMaximumPoint().getBlockX();
+        int maxPosY = selection.getMaximumPoint().getBlockY();
+        int maxPosZ = selection.getMaximumPoint().getBlockZ();
 
         HouseCoordsC2SPacket packet = pendingPackets.remove(event.getPlayer().getUniqueId());
         GTWHouses.getPacketManager().sendPacket(event.getPlayer(), new HouseCoordsS2CPacket(
                 packet.getName(), packet.getBuyCost(), packet.getRentCost(),
-                minX, minY, minZ, maxX, maxY, maxZ, world.getName(), houseBlocks)
-        );
+                minPosX, minPosY, minPosZ, maxPosX, maxPosY, maxPosZ, selection.getWorld().getName(),
+                HouseUtils.getHouseBlocks(minPosX, minPosY, minPosZ, maxPosX, maxPosY, maxPosZ, selection.getWorld())
+        ));
 
         event.getPlayer().getInventory().removeItem(new ItemStack(Material.WOOD_AXE, 1));
     }

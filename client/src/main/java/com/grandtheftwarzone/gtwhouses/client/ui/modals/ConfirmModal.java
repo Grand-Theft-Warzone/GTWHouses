@@ -5,10 +5,12 @@ import fr.aym.acsguis.component.layout.GridLayout;
 import fr.aym.acsguis.component.panel.GuiPanel;
 import fr.aym.acsguis.component.textarea.GuiLabel;
 import fr.aym.acsguis.cssengine.parsing.core.objects.CssValue;
+import fr.aym.acsguis.event.listeners.mouse.IMouseClickListener;
 
 public class ConfirmModal extends GuiPanel {
 
-    public ConfirmModal(GuiPanel parent) {
+    public ConfirmModal(GuiPanel parent, IMouseClickListener listener) {
+        setCssClass("modal");
         setCssId("confirmModal");
         setLayout(GridLayout.columnLayout(50, 10));
 
@@ -25,6 +27,8 @@ public class ConfirmModal extends GuiPanel {
         noButton.setCssClass("noButton");
 
         noButton.addClickListener((a, b, c) -> parent.remove(this));
+
+        yesButton.addClickListener(listener);
 
         buttonPanel.add(yesButton);
         buttonPanel.add(noButton);

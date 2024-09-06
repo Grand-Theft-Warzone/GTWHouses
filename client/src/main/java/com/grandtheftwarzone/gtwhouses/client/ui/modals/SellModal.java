@@ -8,6 +8,7 @@ import fr.aym.acsguis.component.button.GuiButton;
 import fr.aym.acsguis.component.layout.GridLayout;
 import fr.aym.acsguis.component.layout.GuiScaler;
 import fr.aym.acsguis.component.panel.GuiFrame;
+import fr.aym.acsguis.component.panel.GuiPanel;
 import fr.aym.acsguis.component.textarea.GuiIntegerField;
 import fr.aym.acsguis.component.textarea.GuiLabel;
 import net.minecraft.client.Minecraft;
@@ -18,33 +19,45 @@ import java.util.List;
 
 public class SellModal extends GuiFrame {
 
-    public SellModal(House house) {
+    public SellModal(House house, GuiPanel parent) {
         super(new GuiScaler.Identity());
-        setLayout(GridLayout.columnLayout(25, 10));
         setCssClass("modal");
 
-        GuiLabel title = new GuiLabel("Rent House");
-        title.setCssId("rentTitle");
+        GuiPanel contentPanel = new GuiPanel();
+        contentPanel.setCssClass("sellModal");
+        contentPanel.setLayout(GridLayout.columnLayout(15, 15));
+
+        GuiLabel title = new GuiLabel("Sell House");
+        title.setCssId("sellTitle");
 
         GuiIntegerField moneyField = new GuiIntegerField(1, Integer.MAX_VALUE);
         moneyField.setCssId("moneyField");
 
+        GuiPanel buttonPanel = new GuiPanel();
+        buttonPanel.setLayout(new GridLayout(75, 15, 15, GridLayout.GridDirection.HORIZONTAL, 3));
+        buttonPanel.setCssClass("buttonPanel");
+
         GuiButton sellButton = new GuiButton("Sell");
-        sellButton.setCssId("rentButton");
+        sellButton.setCssClass("yesButton");
         sellButton.addClickListener((a, b, c) -> {
             GTWNetworkHandler.sendToServer(new HouseActionC2SPacket(HouseActions.Sell, house.getName(), new int[]{moneyField.getValue()}));
             Minecraft.getMinecraft().player.closeScreen();
         });
 
         GuiButton cancelButton = new GuiButton("Cancel");
-        cancelButton.setCssId("cancelButton");
+        cancelButton.setCssClass("noButton");
         cancelButton.addClickListener((a, b, c) -> {
-            Minecraft.getMinecraft().player.closeScreen();
+            parent.remove(this);
         });
 
-        add(title);
-        add(moneyField);
-        add(sellButton);
+        buttonPanel.add(sellButton);
+        buttonPanel.add(cancelButton);
+
+        contentPanel.add(title);
+        contentPanel.add(moneyField);
+        contentPanel.add(buttonPanel);
+
+        add(contentPanel);
     }
 
     @Override

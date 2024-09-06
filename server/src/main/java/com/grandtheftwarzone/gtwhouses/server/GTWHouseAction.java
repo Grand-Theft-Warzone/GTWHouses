@@ -14,8 +14,11 @@ public class GTWHouseAction {
         if (!player.isOp() && action.isRequiresAdmin())
             throw new InvalidActionException(ChatColor.RED + "You do not have permission to perform this action");
 
-        House house = GTWHouses.getManager().getHouse(houseName);
-        if (house == null) throw new InvalidActionException(ChatColor.RED + "House not found");
+        House house = null;
+        if (action.isRequiresHouse()) {
+            house = GTWHouses.getManager().getHouse(houseName);
+            if (house == null) throw new InvalidActionException(ChatColor.RED + "House not found");
+        }
 
         switch (action) {
             case Buy:
@@ -44,6 +47,14 @@ public class GTWHouseAction {
                 UnrentableAction.handle(house, player);
                 break;
 
+
+            case List:
+                //TODO: Implement
+                break;
+            case Top:
+                //TODO: Implement
+                break;
+
             //Admin
             case Remove:
                 RemoveAction.handle(house, player);
@@ -53,6 +64,12 @@ public class GTWHouseAction {
                 break;
             case Unregister:
                 UnregisterAction.handle(house, player);
+                break;
+            case Edit:
+                EditAction.handle(house, player);
+                break;
+            case Finish:
+                EditAction.handleFinish(player);
                 break;
         }
     }

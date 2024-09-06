@@ -4,9 +4,11 @@ import com.grandtheftwarzone.gtwhouses.server.GTWHouses;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
 import com.grandtheftwarzone.gtwhouses.common.data.HouseBlock;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class HouseUtils {
@@ -114,6 +116,25 @@ public class HouseUtils {
         return location.getX() >= house.getMinPosX() && location.getX() <= house.getMaxPosX() &&
                 location.getY() >= house.getMinPosY() && location.getY() <= house.getMaxPosY() &&
                 location.getZ() >= house.getMinPosZ() && location.getZ() <= house.getMaxPosZ();
+    }
+
+
+    public static List<HouseBlock> getHouseBlocks(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, World world) {
+        List<HouseBlock> blocks = new ArrayList<>();
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                for (int z = minZ; z <= maxZ; z++) {
+                    Block block = world.getBlockAt(x, y, z);
+                    if (block.getType() != Material.AIR)
+                        blocks.add(new HouseBlock(x, y, z));
+                }
+            }
+        }
+        return blocks;
+    }
+
+    public static List<HouseBlock> getHouseBlocks(House house) {
+        return getHouseBlocks(house.getMinPosX(), house.getMinPosY(), house.getMinPosZ(), house.getMaxPosX(), house.getMaxPosY(), house.getMaxPosZ(), Bukkit.getWorld(house.getWorld()));
     }
 
 }
