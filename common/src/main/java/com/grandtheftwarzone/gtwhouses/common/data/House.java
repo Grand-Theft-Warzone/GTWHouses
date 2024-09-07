@@ -43,7 +43,9 @@ public class House implements Serializable {
 
     private double sellCost;
 
-    public House(String name, String world, double rentCost, double buyCost) {
+    private HouseType type = HouseType.HIGH_END;
+
+    public House(String name, String world, double rentCost, double buyCost, HouseType type) {
         this.name = name;
         this.world = world;
         this.rentCost = rentCost;
@@ -53,6 +55,7 @@ public class House implements Serializable {
         this.owner = null;
         this.renter = null;
         this.sellCost = -1;
+        this.type = type;
     }
 
 
@@ -139,6 +142,8 @@ public class House implements Serializable {
 
         buf.writeBoolean(kicked);
         buf.writeDouble(sellCost);
+
+        buf.writeInt(type.ordinal());
     }
 
     public static House fromBytes(ByteBuf buf) {
@@ -176,7 +181,9 @@ public class House implements Serializable {
 
         boolean kicked = buf.readBoolean();
         double sellCost = buf.readDouble();
-        return new House(name, world, owner, minPosX, minPosY, minPosZ, maxPosX, maxPosY, maxPosZ, rentCost, buyCost, renter, rentedAt, rentDueDate, kicked, sellCost);
+
+        HouseType type = HouseType.values()[buf.readInt()];
+        return new House(name, world, owner, minPosX, minPosY, minPosZ, maxPosX, maxPosY, maxPosZ, rentCost, buyCost, renter, rentedAt, rentDueDate, kicked, sellCost, type);
     }
 
     private static String readString(ByteBuf buf){

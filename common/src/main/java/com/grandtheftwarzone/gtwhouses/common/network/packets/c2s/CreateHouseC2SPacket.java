@@ -9,13 +9,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateHouseC2SPacket implements IGTWPacket {
     private House house;
-    private ArrayList<HouseBlock> blocks;
+    private List<HouseBlock> blocks;
 
     @Override
     public void fromBytes(ByteBuf buf) {

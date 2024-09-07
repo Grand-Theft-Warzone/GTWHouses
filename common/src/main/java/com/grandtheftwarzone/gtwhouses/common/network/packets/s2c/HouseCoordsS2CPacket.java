@@ -18,6 +18,7 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
     private String name;
     private int buyCost;
     private int rentCost;
+    private int type;
 
     private int minX;
     private int minY;
@@ -30,10 +31,13 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
 
     private List<HouseBlock> blocks;
 
+
     @Override
     public void fromBytes(ByteBuf buf) {
         buyCost = buf.readInt();
         rentCost = buf.readInt();
+        type = buf.readInt();
+
         name = buf.readCharSequence(buf.readInt(), Charset.defaultCharset()).toString();
 
         minX = buf.readInt();
@@ -50,13 +54,16 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
             blocks.add(new HouseBlock(buf.readInt(), buf.readInt(), buf.readInt()));
         }
 
-        worldName = buf.readCharSequence(buf.readableBytes(), Charset.defaultCharset()).toString();
+        byte[] worldBytes = new byte[buf.readInt()];
+        buf.readBytes(worldBytes);
+        worldName = new String(worldBytes);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
         buf.writeInt(buyCost);
         buf.writeInt(rentCost);
+        buf.writeInt(type);
         buf.writeInt(name.length());
         buf.writeCharSequence(name, Charset.defaultCharset());
 
@@ -77,6 +84,8 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
         }
 
 
-        buf.writeCharSequence(worldName, Charset.defaultCharset());
+        byte[] worldBytes =  worldName.getBytes();
+        buf.writeInt(worldBytes.length);
+        buf.writeBytes(worldBytes);
     }
 }

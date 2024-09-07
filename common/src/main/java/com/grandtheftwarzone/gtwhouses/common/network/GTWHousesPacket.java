@@ -18,8 +18,7 @@ public class GTWHousesPacket implements IMessage {
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        int classNameLength = buf.readInt();
-        byte[] classNameBytes = new byte[classNameLength];
+        byte[] classNameBytes = new byte[buf.readInt()];
         buf.readBytes(classNameBytes);
 
         String className = new String(classNameBytes);

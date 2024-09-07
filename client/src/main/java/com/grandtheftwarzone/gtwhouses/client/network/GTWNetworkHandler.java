@@ -3,6 +3,7 @@ package com.grandtheftwarzone.gtwhouses.client.network;
 import com.grandtheftwarzone.gtwhouses.client.GTWHousesUI;
 import com.grandtheftwarzone.gtwhouses.client.network.handlers.HouseCoordsHandler;
 import com.grandtheftwarzone.gtwhouses.client.network.handlers.HousesGUIHandler;
+import com.grandtheftwarzone.gtwhouses.client.network.handlers.RegisterHouseHandler;
 import com.grandtheftwarzone.gtwhouses.common.GTWHousesUtils;
 import com.grandtheftwarzone.gtwhouses.common.GTWUtil;
 import com.grandtheftwarzone.gtwhouses.common.network.GTWHousesPacket;
@@ -31,6 +32,7 @@ public class GTWNetworkHandler {
 
         registerHandler(new HousesGUIHandler());
         registerHandler(new HouseCoordsHandler());
+        registerHandler(new RegisterHouseHandler());
     }
 
     //NOTE: Generics are used, but the class could be sent as a parameter instead

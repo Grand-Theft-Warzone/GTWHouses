@@ -18,11 +18,17 @@ public class HouseCoordsC2SPacket implements IGTWPacket {
     private int buyCost;
     private int rentCost;
 
+    private int type;
+
     @Override
     public void fromBytes(ByteBuf buf) {
         buyCost = buf.readInt();
         rentCost = buf.readInt();
-        name = buf.readCharSequence(buf.readableBytes(), Charset.defaultCharset()).toString();
+        type = buf.readInt();
+
+        byte[] nameBytes = new byte[buf.readInt()];
+        buf.readBytes(nameBytes);
+        name = new String(nameBytes, Charset.defaultCharset());
     }
 
 
@@ -30,6 +36,10 @@ public class HouseCoordsC2SPacket implements IGTWPacket {
     public void toBytes(ByteBuf buf) {
         buf.writeInt(buyCost);
         buf.writeInt(rentCost);
-        buf.writeCharSequence(name, Charset.defaultCharset());
+        buf.writeInt(type);
+
+        byte[] nameBytes = name.getBytes(Charset.defaultCharset());
+        buf.writeInt(nameBytes.length);
+        buf.writeBytes(nameBytes);
     }
 }

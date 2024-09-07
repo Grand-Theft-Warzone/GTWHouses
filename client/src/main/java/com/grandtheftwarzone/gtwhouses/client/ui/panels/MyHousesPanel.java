@@ -1,5 +1,6 @@
 package com.grandtheftwarzone.gtwhouses.client.ui.panels;
 
+import com.grandtheftwarzone.gtwhouses.client.ui.frames.HouseFrame;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
 import fr.aym.acsguis.component.layout.GridLayout;
 import fr.aym.acsguis.component.panel.GuiPanel;
@@ -10,10 +11,10 @@ import java.util.List;
 
 public class MyHousesPanel extends GuiPanel {
 
-    public MyHousesPanel(List<House> houses) {
+    public MyHousesPanel(List<House> houses, GuiPanel bar) {
         GuiPanel panel = new GuiPanel();
         panel.setCssClass("tabContent");
-        panel.add(new GuiPanel().setCssId("bar"));
+        panel.add(bar);
 
         GuiPanel contentPanel = new GuiPanel();
         contentPanel.setCssClass("tabCenterContent");
@@ -29,8 +30,9 @@ public class MyHousesPanel extends GuiPanel {
             return;
         }
 
-        for (House house : houses) {
-            scrollPane.add(new MyHousePanel(house).setCssClass("myHousePanel"));
+        for (int i = HouseFrame.sortHighToLow ? houses.size() - 1 : 0; HouseFrame.sortHighToLow ? i >= 0 : i < houses.size(); i += HouseFrame.sortHighToLow ? -1 : 1) {
+            if (HouseFrame.filterType != null && !houses.get(i).getType().equals(HouseFrame.filterType)) continue;
+            scrollPane.add(new MyHousePanel(houses.get(i)).setCssClass("myHousePanel"));
         }
 
         contentPanel.add(scrollPane);

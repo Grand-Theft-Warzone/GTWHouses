@@ -24,7 +24,7 @@ public enum HouseActions {
 
 
     //Admin
-    //Register("register", true),
+    Register("register", false, true, "Open admin GUI to register a house"),
     Remove("remove", true, true, "Remove a house and reset its blocks"),
     Reset("reset", true, true, "Reset a house's blocks"),
     Unregister("unregister", true, true, "Unregister a house"),

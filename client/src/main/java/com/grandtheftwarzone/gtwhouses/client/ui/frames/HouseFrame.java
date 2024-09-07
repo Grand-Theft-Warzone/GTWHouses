@@ -4,6 +4,7 @@ import com.grandtheftwarzone.gtwhouses.client.GTWHousesUI;
 import com.grandtheftwarzone.gtwhouses.client.ui.panels.HousePanel;
 import com.grandtheftwarzone.gtwhouses.client.ui.panels.MyHousesPanel;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
+import com.grandtheftwarzone.gtwhouses.common.data.HouseType;
 import fr.aym.acsguis.component.layout.GridLayout;
 import fr.aym.acsguis.component.layout.GuiScaler;
 import fr.aym.acsguis.component.panel.GuiFrame;
@@ -32,13 +33,15 @@ public class HouseFrame extends GuiFrame {
 
     Map<String, List<House>> houseData = new LinkedHashMap<>();
 
-    boolean sortHighToLow = false;
+    public static boolean sortHighToLow = false;
 
     int selectedTab = 0;
+    public static HouseType filterType = null;
 
     int tabIndex = 0;
 
     GuiTabbedPane tabbedPane;
+
 
     public HouseFrame(Collection<House> houses) {
         super(new GuiScaler.Identity());
@@ -72,7 +75,6 @@ public class HouseFrame extends GuiFrame {
         add(new GuiLabel("Grand Theft Warzone").setCssId("titleId"));
 
         tabbedPane = new GuiTabbedPane();
-        tabbedPane.getStyle().getYPos().setAbsolute(80);
         tabbedPane.setCssClass("tabbedPane");
 
         tabIndex = 0;
@@ -93,6 +95,8 @@ public class HouseFrame extends GuiFrame {
                 House house = filter.get(i);
                 if (house == null) continue;
 
+                if (filterType != null && house.getType() != filterType) continue;
+
                 scrollPane.add(new HousePanel(house).setCssClass("housePanel"));
             }
 
@@ -108,26 +112,31 @@ public class HouseFrame extends GuiFrame {
             tabbedPane.getTabButton(thisTabIndex).addClickListener((mouseX, mouseY, mouseButton) -> selectedTab = thisTabIndex);
         }
 
-        tabbedPane.addTab("MY HOUSES", new MyHousesPanel(myHouses));
+        tabbedPane.addTab("MY HOUSES", new MyHousesPanel(myHouses, createBarPanel()));
+        tabbedPane.getTabButton(tabIndex).addClickListener((mouseX, mouseY, mouseButton) -> selectedTab = tabIndex);
 
         tabbedPane.selectTab(selectedTab);
         add(tabbedPane);
     }
 
-
     public GuiPanel createBarPanel() {
         GuiPanel barPanel = new GuiPanel();
         barPanel.setCssId("bar");
 
+
         GuiPanel barContentPanel = new GuiPanel();
         barContentPanel.setCssClass("barContent");
+        barContentPanel.setLayout(new GridLayout(-1, 20, 0, GridLayout.GridDirection.HORIZONTAL, 2));
 
         GuiPanel orderPanel = new GuiPanel();
         orderPanel.setCssClass("barGroup");
-        orderPanel.setLayout(new GridLayout(70, 20, 10, GridLayout.GridDirection.HORIZONTAL, 4));
+        orderPanel.setLayout(new GridLayout(65, 20, 5, GridLayout.GridDirection.HORIZONTAL, 4));
+
 
         GuiLabel lowToHigh = new GuiLabel("LOW TO HIGH");
         GuiLabel highToLow = new GuiLabel("HIGH TO LOW");
+        if (!sortHighToLow) lowToHigh.setCssClass("selectedFilter");
+        else highToLow.setCssClass("selectedFilter");
 
         lowToHigh.addClickListener((mouseX, mouseY, mouseButton) -> {
             sortHighToLow = false;
@@ -148,14 +157,40 @@ public class HouseFrame extends GuiFrame {
         GuiPanel filterPanel = new GuiPanel();
         filterPanel.setCssId("filterGroup");
         filterPanel.setCssClass("barGroup");
-        filterPanel.setLayout(new GridLayout(50, 20, 10, GridLayout.GridDirection.HORIZONTAL, 10));
+        filterPanel.setLayout(new GridLayout(55, 20, 5, GridLayout.GridDirection.HORIZONTAL, 10));
 
-        filterPanel.add(new GuiLabel("LOCATION: "));
-        filterPanel.add(new GuiLabel("DOWNTONW"));
-        filterPanel.add(new GuiLabel("DOWNTONW"));
-        filterPanel.add(new GuiLabel("DOWNTONW"));
-        filterPanel.add(new GuiLabel("DOWNTONW"));
-        filterPanel.add(new GuiLabel("DOWNTONW"));
+        GuiLabel filterLabel = new GuiLabel("FILTER BY:");
+        GuiLabel highEnd = new GuiLabel("HIGH-END");
+        GuiLabel middleEnd = new GuiLabel("MID-END");
+        GuiLabel lowEnd = new GuiLabel("LOW-END");
+
+        if (filterType == HouseType.HIGH_END) highEnd.setCssClass("selectedFilter");
+        else if (filterType == HouseType.MIDDLE_END) middleEnd.setCssClass("selectedFilter");
+        else if (filterType == HouseType.LOW_END) lowEnd.setCssClass("selectedFilter");
+
+        highEnd.addClickListener((mouseX, mouseY, mouseButton) -> {
+            if (filterType == HouseType.HIGH_END) filterType = null;
+            else filterType = HouseType.HIGH_END;
+            refresh();
+        });
+
+        middleEnd.addClickListener((mouseX, mouseY, mouseButton) -> {
+            if (filterType == HouseType.MIDDLE_END) filterType = null;
+            else filterType = HouseType.MIDDLE_END;
+            refresh();
+        });
+
+        lowEnd.addClickListener((mouseX, mouseY, mouseButton) -> {
+            if (filterType == HouseType.LOW_END) filterType = null;
+            else filterType = HouseType.LOW_END;
+            refresh();
+        });
+
+
+        filterPanel.add(filterLabel);
+        filterPanel.add(highEnd);
+        filterPanel.add(middleEnd);
+        filterPanel.add(lowEnd);
 
         barContentPanel.add(filterPanel);
 

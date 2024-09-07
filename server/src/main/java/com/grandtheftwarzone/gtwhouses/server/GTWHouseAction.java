@@ -2,6 +2,8 @@ package com.grandtheftwarzone.gtwhouses.server;
 
 import com.grandtheftwarzone.gtwhouses.common.HouseActions;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
+import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket;
+import com.grandtheftwarzone.gtwhouses.common.network.packets.s2c.RegisterHouseS2CPacket;
 import com.grandtheftwarzone.gtwhouses.server.GTWHouses;
 import com.grandtheftwarzone.gtwhouses.server.actions.*;
 import org.bukkit.ChatColor;
@@ -56,6 +58,9 @@ public class GTWHouseAction {
                 break;
 
             //Admin
+            case Register:
+                GTWHouses.getPacketManager().sendPacket(player, new RegisterHouseS2CPacket());
+                break;
             case Remove:
                 RemoveAction.handle(house, player);
                 break;

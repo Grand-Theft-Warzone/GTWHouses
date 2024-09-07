@@ -3,6 +3,7 @@ package com.grandtheftwarzone.gtwhouses.client.ui.frames;
 import com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
 import com.grandtheftwarzone.gtwhouses.common.data.HouseBlock;
+import com.grandtheftwarzone.gtwhouses.common.data.HouseType;
 import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.CreateHouseC2SPacket;
 import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.HouseCoordsC2SPacket;
 import com.grandtheftwarzone.gtwhouses.common.network.packets.s2c.HouseCoordsS2CPacket;
@@ -34,7 +35,14 @@ public class AdminCreateHouseFrame extends GuiFrame {
     private final GuiLabel protectedBlocksLabel;
 
     private House house;
-    private ArrayList<HouseBlock> blocks;
+    private List<HouseBlock> blocks;
+
+    private HouseType type = HouseType.HIGH_END;
+
+    GuiButton highButton = new GuiButton("High End");
+    GuiButton midButton = new GuiButton("Middle End");
+    GuiButton lowButton = new GuiButton("Low End");
+
 
     public AdminCreateHouseFrame() {
         super(new GuiScaler.Identity());
@@ -132,8 +140,40 @@ public class AdminCreateHouseFrame extends GuiFrame {
         GuiButton setCoordsButton = new GuiButton("Set Coords");
         setCoordsButton.setCssId("setCoordsButton").setCssClass("auto");
 
+        GuiPanel typePanel = new GuiPanel();
+        typePanel.setLayout(new GridLayout(60, 15, 5, GridLayout.GridDirection.HORIZONTAL, 3));
+        typePanel.setCssId("typePanel").setCssClass("auto");
+
+        highButton.setCssClass("selected");
+
+        highButton.addClickListener((a, b, c) -> {
+            type = HouseType.HIGH_END;
+            highButton.setCssClass("selected");
+            midButton.setCssClass("unselected");
+            lowButton.setCssClass("unselected");
+        });
+
+        midButton.addClickListener((a, b, c) -> {
+            type = HouseType.MIDDLE_END;
+            highButton.setCssClass("unselected");
+            midButton.setCssClass("selected");
+            lowButton.setCssClass("unselected");
+        });
+
+        lowButton.addClickListener((a, b, c) -> {
+            type = HouseType.LOW_END;
+            highButton.setCssClass("unselected");
+            midButton.setCssClass("unselected");
+            lowButton.setCssClass("selected");
+        });
+
+        typePanel.add(highButton);
+        typePanel.add(midButton);
+        typePanel.add(lowButton);
+
+
         setCoordsButton.addClickListener((a, b, c) -> {
-            GTWNetworkHandler.sendToServer(new HouseCoordsC2SPacket(nameField.getText(), buyCostField.getValue(), rentCostField.getValue()));
+            GTWNetworkHandler.sendToServer(new HouseCoordsC2SPacket(nameField.getText(), buyCostField.getValue(), rentCostField.getValue(), type.ordinal()));
             Minecraft.getMinecraft().player.closeScreen();
         });
 
@@ -159,18 +199,41 @@ public class AdminCreateHouseFrame extends GuiFrame {
 
         rightPanel.add(houseCoordsLabel);
         rightPanel.add(coordsPanel);
+        rightPanel.add(typePanel);
 
         add(rightPanel);
     }
 
     public void loadPacket(HouseCoordsS2CPacket packet) {
-        house = new House(nameField.getText(), packet.getWorldName(), rentCostField.getValue(), buyCostField.getValue());
+        house = new House(nameField.getText(), packet.getWorldName(), rentCostField.getValue(), buyCostField.getValue(), type);
         house.setMinPosX(packet.getMinX());
         house.setMaxPosX(packet.getMaxX());
         house.setMinPosY(packet.getMinY());
         house.setMaxPosY(packet.getMaxY());
         house.setMinPosZ(packet.getMinZ());
         house.setMaxPosZ(packet.getMaxZ());
+        house.setType(HouseType.values()[packet.getType()]);
+
+        type = house.getType();
+
+        switch (type) {
+            case HIGH_END:
+                highButton.setCssClass("selected");
+                midButton.setCssClass("unselected");
+                lowButton.setCssClass("unselected");
+                break;
+            case MIDDLE_END:
+                highButton.setCssClass("unselected");
+                midButton.setCssClass("selected");
+                lowButton.setCssClass("unselected");
+                break;
+            case LOW_END:
+                highButton.setCssClass("unselected");
+                midButton.setCssClass("unselected");
+                lowButton.setCssClass("selected");
+                break;
+        }
+
 
         blocks = packet.getBlocks();
 

@@ -24,6 +24,5 @@ public class OpenGUIC2SPacket implements IGTWPacket {
 
     public enum OpenGUIType {
         HOUSES,
-        RENT
     }
 }

@@ -51,7 +51,7 @@
     width: 50%;
     height: 100%;
 
-    top: 40px;
+    top: 25px;
     right: 0;
 }
 
@@ -116,15 +116,15 @@
 }
 
 #maxCoordsLabel {
-    top: 25px;
+    top: 20px;
 }
 
 #protectedBlocksLabel {
-    top: 50px;
+    top: 40px;
 }
 
 #setCoordsButton {
-    top: 80px;
+    top: 60px;
     width: 125px;
 
     background-color: rgb(255, 208, 52);
@@ -134,4 +134,24 @@
 
 #setCoordsButton:hover {
     background-color: rgb(235, 188, 32);
+}
+
+#typePanel {
+    top: 130px;
+    left: 15px;
+}
+
+#typePanel > button {
+
+    left: auto;
+    right: auto;
+
+    width: 60px;
+    background-image: none;
+
+    background-color: rgb(201, 154, 0);
+}
+
+.selected {
+    background-color: rgb(255, 208, 52);
 }

@@ -64,7 +64,7 @@ public class HouseCoordsHandler implements GTWPacketHandler.PacketHandler<HouseC
 
         HouseCoordsC2SPacket packet = pendingPackets.remove(event.getPlayer().getUniqueId());
         GTWHouses.getPacketManager().sendPacket(event.getPlayer(), new HouseCoordsS2CPacket(
-                packet.getName(), packet.getBuyCost(), packet.getRentCost(),
+                packet.getName(), packet.getBuyCost(), packet.getRentCost(), packet.getType(),
                 minPosX, minPosY, minPosZ, maxPosX, maxPosY, maxPosZ, selection.getWorld().getName(),
                 HouseUtils.getHouseBlocks(minPosX, minPosY, minPosZ, maxPosX, maxPosY, maxPosZ, selection.getWorld())
         ));
