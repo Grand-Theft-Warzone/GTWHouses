@@ -41,17 +41,22 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
 }
 
+jar {
+    enabled = false
+
+    baseName 'GTWHouses'
+}
+
 shadowJar {
     archiveClassifier.set('')
     configurations = [project.configurations.runtimeClasspath]
     exclude('META-INF/*.DSA', 'META-INF/*.SF', 'META-INF/*.RSA')
+
+    baseName = 'GTWHouses'
 }
 
 build.dependsOn shadowJar
 
-jar {
-    enabled = false
-}
 
 def targetJavaVersion = 8
 java {

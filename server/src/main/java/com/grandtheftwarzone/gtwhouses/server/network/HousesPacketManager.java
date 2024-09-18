@@ -42,7 +42,6 @@ public class HousesPacketManager extends TinyProtocol {
                 if (gtwhousesPacket.isUnknown()) {
                     plugin.getLogger().warning("Received unknown packet type: " + gtwhousesPacket.getClazz());
                 } else {
-                    plugin.getLogger().info("Received packet: " + gtwhousesPacket.getClazz().getName());
                     packetHandler.handle(sender, gtwhousesPacket.getPacket());
                 }
                 return null; // Cancel the packet
@@ -56,8 +55,6 @@ public class HousesPacketManager extends TinyProtocol {
         PacketDataSerializer serializer = new PacketDataSerializer(Unpooled.buffer());
         GTWHousesPacket payload = new GTWHousesPacket(packet);
         payload.toBytes(serializer);
-
-        plugin.getLogger().info("Sending packet: " + payload.getClazz().getName());
 
         PacketPlayOutCustomPayload out = new PacketPlayOutCustomPayload(GTWHousesUtils.CHANNEL_NAME, serializer);
         super.sendPacket(player, out);

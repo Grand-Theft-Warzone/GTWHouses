@@ -9,8 +9,6 @@ import fr.aym.acsguis.api.ACsGuiApi;
 public class HouseCoordsHandler implements GTWHouseHandler<HouseCoordsS2CPacket> {
     @Override
     public void handle(HouseCoordsS2CPacket message) {
-        GTWHousesUI.getLogger().info("Received house coords packet: " + message.getWorldName());
-
         ACsGuiApi.asyncLoadThenShowGui("gtwhouses:create_house_ui", () -> {
             AdminCreateHouseFrame frame = new AdminCreateHouseFrame();
             frame.loadPacket(message);

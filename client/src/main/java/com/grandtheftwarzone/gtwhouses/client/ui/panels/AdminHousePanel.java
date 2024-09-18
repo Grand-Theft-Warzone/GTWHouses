@@ -9,6 +9,8 @@ import fr.aym.acsguis.component.textarea.GuiLabel;
 public class AdminHousePanel extends GuiPanel {
 
     public AdminHousePanel() {
+        setCssClass("adminHousePanel");
+
         GuiPanel imagePanel = new GuiPanel();
         imagePanel.setCssClass("myHouseImage");
         // imagePanel.add(new GuiLabel("Image").setCssId("image"));
@@ -16,7 +18,6 @@ public class AdminHousePanel extends GuiPanel {
 
         GuiPanel contentPanel = new GuiPanel();
         contentPanel.setCssClass("houseContent");
-        contentPanel.setLayout(GridLayout.columnLayout(50, 0));
 
         GuiPanel houseInfoPanel = new GuiPanel();
         houseInfoPanel.setCssClass("houseInfo");
@@ -31,8 +32,13 @@ public class AdminHousePanel extends GuiPanel {
 
 
         GuiPanel buttonsPanel = new GuiPanel();
-        buttonsPanel.setLayout(new GridLayout(75, 15, 5, GridLayout.GridDirection.HORIZONTAL, 3));
+        buttonsPanel.setLayout(new GridLayout(75, 15, 5, GridLayout.GridDirection.HORIZONTAL, 6));
         buttonsPanel.setCssClass("houseButtons");
+
+
+        GuiButton editHouse = new GuiButton("Edit Blocks");
+        editHouse.setCssId("editButton").setCssClass("houseBtn");
+        //editHouse.addClickListener((a, b, c) -> {add (new EditHouseModal(this));});
 
 
         GuiButton resetHouseBlocks = new GuiButton("Reset Blocks");
@@ -44,9 +50,9 @@ public class AdminHousePanel extends GuiPanel {
         //rentOutButton.addClickListener((a, b, c) -> add(new RentModal(this)));
         //deleteHouse.addClickListener((a, b, c) -> {add (new ConfirmModal(this));});
 
+        buttonsPanel.add(editHouse);
         buttonsPanel.add(resetHouseBlocks);
         buttonsPanel.add(deleteHouse);
-
 
         contentPanel.add(houseInfoPanel);
         contentPanel.add(buttonsPanel);

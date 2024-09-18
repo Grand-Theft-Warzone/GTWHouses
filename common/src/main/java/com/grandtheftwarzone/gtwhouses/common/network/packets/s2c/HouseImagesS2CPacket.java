@@ -1,6 +1,5 @@
 package com.grandtheftwarzone.gtwhouses.common.network.packets.s2c;
 
-import com.grandtheftwarzone.gtwhouses.common.data.House;
 import com.grandtheftwarzone.gtwhouses.common.network.IGTWPacket;
 import io.netty.buffer.ByteBuf;
 import lombok.AllArgsConstructor;
@@ -8,33 +7,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
-public class HousesGUIS2CPacket implements IGTWPacket {
-
-    public boolean adminGUI;
-    private Collection<House> houses;
+@NoArgsConstructor
+public class HouseImagesS2CPacket implements IGTWPacket {
+    List<String> houseURLS = new ArrayList<>();
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        adminGUI = buf.readBoolean();
-        houses = new ArrayList<>();
         int size = buf.readInt();
         for (int i = 0; i < size; i++) {
-            House house = House.fromBytes(buf);
-            houses.add(house);
+            byte[] bytes = new byte[buf.readInt()];
+            buf.readBytes(bytes);
+            houseURLS.add(new String(bytes));
         }
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        buf.writeBoolean(adminGUI);
-        buf.writeInt(houses.size());
-        for (House house : houses) {
-            house.toBytes(buf);
+        buf.writeInt(houseURLS.size());
+        for (String url : houseURLS) {
+            byte[] bytes = url.getBytes();
+            buf.writeInt(bytes.length);
+            buf.writeBytes(bytes);
         }
     }
 }

@@ -2,6 +2,7 @@ package com.grandtheftwarzone.gtwhouses.client.network;
 
 import com.grandtheftwarzone.gtwhouses.client.GTWHousesUI;
 import com.grandtheftwarzone.gtwhouses.client.network.handlers.HouseCoordsHandler;
+import com.grandtheftwarzone.gtwhouses.client.network.handlers.HouseImageHandler;
 import com.grandtheftwarzone.gtwhouses.client.network.handlers.HousesGUIHandler;
 import com.grandtheftwarzone.gtwhouses.client.network.handlers.RegisterHouseHandler;
 import com.grandtheftwarzone.gtwhouses.common.GTWHousesUtils;
@@ -31,6 +32,7 @@ public class GTWNetworkHandler {
 
 
         registerHandler(new HousesGUIHandler());
+        registerHandler(new HouseImageHandler());
         registerHandler(new HouseCoordsHandler());
         registerHandler(new RegisterHouseHandler());
     }
@@ -45,7 +47,6 @@ public class GTWNetworkHandler {
 
 
     public static void sendToServer(IGTWPacket message) {
-        GTWHousesUI.getLogger().info("Sending packet to server: " + message.getClass().getName());
         PacketBuffer buf = new PacketBuffer(Unpooled.buffer());
         new GTWHousesPacket(message).toBytes(buf);
 

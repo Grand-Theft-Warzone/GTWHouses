@@ -29,6 +29,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
     private final GuiTextField nameField;
     private final GuiIntegerField buyCostField;
     private final GuiIntegerField rentCostField;
+    private final GuiTextField imageURLField;
 
     private final GuiLabel minCoordsLabel;
     private final GuiLabel maxCoordsLabel;
@@ -54,7 +55,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
 
         GuiPanel leftPanel = new GuiPanel();
         leftPanel.setCssId("leftPanel").setCssClass("auto");
-        leftPanel.setLayout(new GridLayout(-1, 30, 10, GridLayout.GridDirection.VERTICAL, 5));
+        leftPanel.setLayout(new GridLayout(-1, 30, 10, GridLayout.GridDirection.VERTICAL, 7));
 
         // Name
         GuiPanel namePanel = new GuiPanel();
@@ -95,6 +96,19 @@ public class AdminCreateHouseFrame extends GuiFrame {
         rentCostPanel.add(rentCostLabel);
         rentCostPanel.add(rentCostField);
 
+        //Image URL
+        GuiPanel imageURLPanel = new GuiPanel();
+        imageURLPanel.setCssId("imageURLPanel").setCssClass("auto");
+
+        GuiLabel imageURLLabel = new GuiLabel("Image URL");
+        imageURLLabel.setCssId("imageURLLabel").setCssClass("auto");
+
+         imageURLField = new GuiTextField();
+        imageURLField.setCssId("imageURLField").setCssClass("auto").setCssClass("input");
+
+        imageURLPanel.add(imageURLLabel);
+        imageURLPanel.add(imageURLField);
+
         // Buttons
         GuiPanel buttonPanel = new GuiPanel();
         buttonPanel.setLayout(new GridLayout(100, 15, 15, GridLayout.GridDirection.HORIZONTAL, 3));
@@ -112,6 +126,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
         leftPanel.add(namePanel);
         leftPanel.add(buyCostPanel);
         leftPanel.add(rentCostPanel);
+        leftPanel.add(imageURLPanel);
         leftPanel.add(buttonPanel);
 
         add(leftPanel);
@@ -173,7 +188,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
 
 
         setCoordsButton.addClickListener((a, b, c) -> {
-            GTWNetworkHandler.sendToServer(new HouseCoordsC2SPacket(nameField.getText(), buyCostField.getValue(), rentCostField.getValue(), type.ordinal()));
+            GTWNetworkHandler.sendToServer(new HouseCoordsC2SPacket(nameField.getText(), buyCostField.getValue(), rentCostField.getValue(), type.ordinal(), imageURLField.getText()));
             Minecraft.getMinecraft().player.closeScreen();
         });
 
@@ -187,6 +202,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
             house.setName(nameField.getText());
             house.setBuyCost(buyCostField.getValue());
             house.setRentCost(rentCostField.getValue());
+            house.setImageURL(imageURLField.getText());
 
             GTWNetworkHandler.sendToServer(new CreateHouseC2SPacket(house, blocks));
             Minecraft.getMinecraft().player.closeScreen();
@@ -213,6 +229,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
         house.setMinPosZ(packet.getMinZ());
         house.setMaxPosZ(packet.getMaxZ());
         house.setType(HouseType.values()[packet.getType()]);
+        house.setImageURL(packet.getImageURL());
 
         type = house.getType();
 

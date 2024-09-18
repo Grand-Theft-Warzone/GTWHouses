@@ -11,7 +11,7 @@ commands:
   house:
     description: Buy, sell, rent and all about houses!
     usage: "/house [register|reset|remove|list|rent...]"
-    permission: house.player
+    permission: gtwhouses.houseplayer
     aliases:
       - houses
       - gtwhouse

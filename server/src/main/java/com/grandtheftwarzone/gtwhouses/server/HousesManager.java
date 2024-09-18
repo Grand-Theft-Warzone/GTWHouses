@@ -20,6 +20,10 @@ public class HousesManager {
     private final HashMap<String, House> houses = new HashMap<>();
     private final HashMap<String, List<HouseBlock>> houseBlocks = new HashMap<>();
 
+    //Helper list for images
+    @Getter
+    private final ArrayList<String> imagesURLs = new ArrayList<>();
+
     // Helper maps for player data (calculated on save)
     @Getter
     private HashMap<UUID, List<String>> playerHouses = new HashMap<>();
@@ -74,10 +78,13 @@ public class HousesManager {
     private void updatePlayerHelpers() {
         playerHouses.clear();
         playerAmounts.clear();
+        imagesURLs.clear();
 
         HashMap<UUID, HouseHolder> holders = new HashMap<>();
 
         for (House house : houses.values()) {
+            if (house.getImageURL() != null && !house.getImageURL().isEmpty()) imagesURLs.add(house.getImageURL());
+
             if (!house.isOwned()) continue;
 
             List<String> houseList = playerHouses.putIfAbsent(house.getOwner(), new ArrayList<>());

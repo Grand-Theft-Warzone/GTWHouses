@@ -2,6 +2,7 @@ package com.grandtheftwarzone.gtwhouses.server;
 
 import com.grandtheftwarzone.gtwhouses.server.events.HouseEnterEvent;
 import com.grandtheftwarzone.gtwhouses.server.events.HousePermissionEvents;
+import com.grandtheftwarzone.gtwhouses.server.events.JoinEvent;
 import com.grandtheftwarzone.gtwhouses.server.network.HousesPacketManager;
 import com.grandtheftwarzone.gtwhouses.server.handlers.HouseCoordsHandler;
 import com.grandtheftwarzone.gtwhouses.server.runnables.RentRunnable;
@@ -61,6 +62,7 @@ public class GTWHouses extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new HouseEnterEvent(), this);
         getServer().getPluginManager().registerEvents(new HouseCoordsHandler(), this);
         getServer().getPluginManager().registerEvents(loginMessageSystem, this);
+        getServer().getPluginManager().registerEvents(new JoinEvent(), this);
     }
 
 

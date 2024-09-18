@@ -28,6 +28,7 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
     private int maxZ;
 
     private String worldName;
+    private String imageURL;
 
     private List<HouseBlock> blocks;
 
@@ -57,6 +58,10 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
         byte[] worldBytes = new byte[buf.readInt()];
         buf.readBytes(worldBytes);
         worldName = new String(worldBytes);
+
+        byte[] imageBytes = new byte[buf.readInt()];
+        buf.readBytes(imageBytes);
+        imageURL = new String(imageBytes);
     }
 
     @Override
@@ -87,5 +92,9 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
         byte[] worldBytes =  worldName.getBytes();
         buf.writeInt(worldBytes.length);
         buf.writeBytes(worldBytes);
+
+        byte[] imageBytes = imageURL.getBytes();
+        buf.writeInt(imageBytes.length);
+        buf.writeBytes(imageBytes);
     }
 }

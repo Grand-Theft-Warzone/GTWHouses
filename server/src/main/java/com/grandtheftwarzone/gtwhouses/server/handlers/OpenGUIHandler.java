@@ -11,7 +11,10 @@ public class OpenGUIHandler implements GTWPacketHandler.PacketHandler<OpenGUIC2S
     public void handle(Player sender, OpenGUIC2SPacket packet) {
         switch (packet.getType()) {
             case HOUSES:
-                GTWHouses.getPacketManager().sendPacket(sender, new HousesGUIS2CPacket(GTWHouses.getManager().getHouses()));
+                GTWHouses.getPacketManager().sendPacket(sender, new HousesGUIS2CPacket(false, GTWHouses.getManager().getHouses()));
+                break;
+                case ADMIN_PANEL:
+                    GTWHouses.getPacketManager().sendPacket(sender, new HousesGUIS2CPacket(true, GTWHouses.getManager().getHouses()));
                 break;
         }
     }

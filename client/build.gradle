@@ -7,6 +7,9 @@ buildscript {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1+', changing: true
     }
 }
+plugins {
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
 
 repositories {
     maven {
@@ -17,6 +20,7 @@ repositories {
         dirs 'libs/ui'
     }
 }
+
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'maven-publish'
@@ -40,14 +44,19 @@ minecraft {
     }
 }
 
+configurations {
+    shade
+    implementation.extendsFrom shade
+}
+
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
 
-    implementation project(':common')
+    shade project(':common')
 
     //compileOnly fg.deobf("curse.maven:acsguis-541347:4756627")
 
-    compileOnly files('../libs/ui/ACsGuis-1.2.13-all.jar')
+    compileOnly files('../libs/ui/ACsGuis-1.2.14-dev3-all.jar')
    // compileOnly fileTree(dir: 'libs/ui', include: ['*.jar'])
 
     compileOnly 'org.projectlombok:lombok:1.18.34'
@@ -55,20 +64,39 @@ dependencies {
 }
 
 jar {
+    archiveClassifier = 'slim'
     manifest {
         attributes([
-                "Specification-Title"     : "examplemod",
-                "Specification-Vendor"    : "examplemodsareus",
+                "Specification-Title"     : "gtwhouses",
+                "Specification-Vendor"    : "grandtheftwarzonehouses",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : "${version}",
-                "Implementation-Vendor"   : "examplemodsareus",
+                "Implementation-Vendor"   : "edgarsilva",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+
+    baseName 'GTWHousesUINoDeps'
 }
 
-jar.finalizedBy('reobfJar')
+
+shadowJar {
+    baseName = 'GTWHousesUI'
+
+    archiveClassifier.set('')
+    configurations = [project.configurations.shade]
+    //Relocate external dependencies
+    finalizedBy('reobfShadowJar')
+}
+
+assemble.dependsOn shadowJar
+
+//jar.finalizedBy('reobfJar')
+
+reobf {
+    shadowJar { }
+}
 
 publishing {
     publications {

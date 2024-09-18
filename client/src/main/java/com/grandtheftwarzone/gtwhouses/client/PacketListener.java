@@ -8,7 +8,6 @@ public class PacketListener {
 
     @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
     public static void onPacketReceived(FMLNetworkEvent.ClientCustomPacketEvent event) {
-        GTWHousesUI.getLogger().info("Client Packet received!");
         System.out.println("Client Packet received!");
         System.out.println(event.getPacket().payload().toString());
     }

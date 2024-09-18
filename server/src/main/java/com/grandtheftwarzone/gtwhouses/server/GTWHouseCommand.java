@@ -26,8 +26,9 @@ public class GTWHouseCommand implements CommandExecutor {
             return true;
         }
 
+        //TODO: Add this to the actions without house
         if (args[0].equalsIgnoreCase("gui")) {
-            GTWHouses.getPacketManager().sendPacket((Player) sender, new HousesGUIS2CPacket(GTWHouses.getManager().getHouses()));
+            GTWHouses.getPacketManager().sendPacket((Player) sender, new HousesGUIS2CPacket(false, GTWHouses.getManager().getHouses()));
             return true;
         }
 

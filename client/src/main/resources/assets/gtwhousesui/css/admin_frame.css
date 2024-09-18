@@ -1,0 +1,102 @@
+#adminFrame {
+    max-width: 550px;
+    max-height: 400px;
+
+    background-color: rgb(101, 140, 180);
+
+    horizontal-position: center;
+    vertical-position: center;
+}
+
+#titleLabel {
+    top: 20px;
+
+    height: 35px;
+    font-size: 20px;
+
+    text-align: center;
+    horizontal-position: center;
+}
+
+#buttonPanel {
+    top: 55px;
+    height: 30px;
+    right: 0;
+
+    background: red;
+}
+
+#buttonPanel > button {
+    top: 5px;
+    width: 100px;
+    height: 20px;
+
+    right: 10px;
+
+    background-color: green;
+
+    background-image: none;
+}
+
+#buttonPanel > button:hover {
+    background-color: darkgreen;
+}
+
+#housesPanel {
+    top: 90px;
+    max-width: 500px;
+    max-height: 300px;
+
+    background-color: white;
+    horizontal-position: center;
+}
+
+/* House panel */
+.adminHousePanel {
+    height: 100px;
+}
+
+.myHouseImage {
+    left: 10px;
+    width: 100px;
+    height: 100px;
+
+    background-color: yellow;
+}
+
+.houseContent {
+    left: 125px;
+    height: 100px;
+}
+
+.houseInfo {
+    height: 75px;
+    width: 100%;
+}
+
+.houseInfo > label {
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+
+    font-size: 12px;
+    text-shadow: none;
+    color: black;
+}
+
+.houseButtons {
+    top: 75px;
+    height: 75px;
+}
+
+.houseButtons > button {
+    width: 75px;
+    height: 20px;
+
+    background-color: green;
+    background-image: none;
+
+    left: auto;
+    right: auto;
+}
