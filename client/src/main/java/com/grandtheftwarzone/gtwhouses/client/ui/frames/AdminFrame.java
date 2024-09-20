@@ -10,15 +10,19 @@ import fr.aym.acsguis.component.panel.GuiFrame;
 import fr.aym.acsguis.component.panel.GuiPanel;
 import fr.aym.acsguis.component.panel.GuiScrollPane;
 import fr.aym.acsguis.component.textarea.GuiLabel;
+import fr.aym.acsguis.component.textarea.GuiTextField;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AdminFrame extends GuiFrame {
     public static final ResourceLocation CSS = new ResourceLocation("gtwhousesui", "css/admin_frame.css");
+
+    private final GuiScrollPane scrollPane;
 
     public AdminFrame(Collection<House> houses) {
         super(new GuiScaler.Identity());
@@ -30,11 +34,28 @@ public class AdminFrame extends GuiFrame {
 
         GuiPanel buttonPanel = new GuiPanel();
         buttonPanel.setCssId("buttonPanel");
-        buttonPanel.setLayout(new GridLayout(-1, 30, 10, GridLayout.GridDirection.VERTICAL, 5));
+
+        GuiTextField searchField = new GuiTextField();
+        searchField.setCssId("searchField");
+
+        GuiButton searchButton = new GuiButton("Search");
+        searchButton.setCssId("searchButton");
+
+        buttonPanel.add(searchField);
+        buttonPanel.add(searchButton);
+
+        searchButton.addClickListener((mouseX, mouseY, mouseButton) -> {
+            renderHouses(houses
+                    .stream()
+                    .filter(house -> house.getName().toLowerCase().contains(searchField.getText().toLowerCase()))
+                    .collect(Collectors.toList())
+            );
+        });
 
         GuiButton createHouseButton = new GuiButton("Create House");
         createHouseButton.setCssId("createHouseButton");
         buttonPanel.add(createHouseButton);
+
 
         createHouseButton.addClickListener((mouseX, mouseY, mouseButton) -> {
             Minecraft.getMinecraft().player.closeScreen();
@@ -43,14 +64,22 @@ public class AdminFrame extends GuiFrame {
         add(buttonPanel);
 
 
-        GuiScrollPane scrollPane = new GuiScrollPane();
-        scrollPane.setCssId("housesPanel");
+        GuiPanel contentPanel = new GuiPanel();
+        contentPanel.setCssId("housesPanel");
+        scrollPane = new GuiScrollPane();
+        scrollPane.setCssId("housesPanelScroll");
+        //scrollPane.setCssId("housesPanel");
+        scrollPane.setLayout(GridLayout.columnLayout(140, 10));
 
-        for (House house : houses) {
-            scrollPane.add(new AdminHousePanel());
-        }
+        renderHouses(houses);
 
-        add(scrollPane);
+        contentPanel.add(scrollPane);
+        add(contentPanel);
+    }
+
+    private void renderHouses(Collection<House> houses) {
+        scrollPane.removeAllChilds();
+        for (House house : houses) scrollPane.add(new AdminHousePanel(house));
     }
 
 

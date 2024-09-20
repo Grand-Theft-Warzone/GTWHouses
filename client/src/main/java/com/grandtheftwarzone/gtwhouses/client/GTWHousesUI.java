@@ -3,19 +3,14 @@ package com.grandtheftwarzone.gtwhouses.client;
 import com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler;
 import com.grandtheftwarzone.gtwhouses.client.ui.frames.AdminCreateHouseFrame;
 import com.grandtheftwarzone.gtwhouses.client.ui.frames.AdminFrame;
-import com.grandtheftwarzone.gtwhouses.client.ui.frames.AdminHouseFrame;
 import com.grandtheftwarzone.gtwhouses.client.ui.frames.HouseFrame;
-import com.grandtheftwarzone.gtwhouses.client.ui.panels.MyHousesPanel;
-import com.grandtheftwarzone.gtwhouses.common.network.IGTWPacket;
 import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket;
 import fr.aym.acsguis.api.ACsGuiApi;
-import io.netty.buffer.ByteBuf;
 import lombok.Getter;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -53,8 +48,6 @@ public class GTWHousesUI {
             GTWNetworkHandler.sendToServer(new OpenGUIC2SPacket(OpenGUIC2SPacket.OpenGUIType.ADMIN_PANEL));
         } else if (Keyboard.isKeyDown(Keyboard.KEY_I)) {
             GTWNetworkHandler.sendToServer(new OpenGUIC2SPacket(OpenGUIC2SPacket.OpenGUIType.HOUSES));
-        } else if (Keyboard.isKeyDown(Keyboard.KEY_U)) {
-            ACsGuiApi.asyncLoadThenShowGui("admin_house", AdminHouseFrame::new);
         }
     }
 }

@@ -257,6 +257,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
         nameField.setText(packet.getName());
         buyCostField.setValue(packet.getBuyCost());
         rentCostField.setValue(packet.getRentCost());
+        imageURLField.setText(house.getImageURL());
 
         minCoordsLabel.setText("Min: " + packet.getMinX() + "X, " + packet.getMinY() + "Y, " + packet.getMinZ() + "Z");
         maxCoordsLabel.setText("Max: " + packet.getMaxX() + "X, " + packet.getMaxY() + "Y, " + packet.getMaxZ() + "Z");

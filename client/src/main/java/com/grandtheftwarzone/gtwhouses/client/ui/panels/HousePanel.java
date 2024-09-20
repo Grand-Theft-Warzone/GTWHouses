@@ -7,7 +7,9 @@ import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.HouseActionC2S
 import fr.aym.acsguis.component.button.GuiButton;
 import fr.aym.acsguis.component.panel.GuiPanel;
 import fr.aym.acsguis.component.textarea.GuiLabel;
+import fr.aym.acsguis.utils.GuiTextureSprite;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -16,13 +18,20 @@ public class HousePanel extends GuiPanel {
     public HousePanel(House house) {
         GuiPanel imagePanel = new GuiPanel();
         imagePanel.setCssClass("imagePanel");
-        imagePanel.add(new GuiLabel("Image").setCssId("image"));
+        //imagePanel.add(new GuiLabel("Image").setCssId("image"));
+
+        //HouseImage houseImage = HouseImagesManager.getImage(house);
+        if (house.getImageURL() != null)
+            imagePanel.getStyle().setTexture(new GuiTextureSprite(new ResourceLocation(house.getImageURL())));
         add(imagePanel);
 
 
         String price =
                 house.isForSale() ? "$" + (house.isOwned() ? house.getSellCost() : house.getBuyCost())
                         : house.isRentable() ? "$" + house.getRentCost() + "/day" : "Unavailable";
+
+        if (price.contains("."))
+            price = price.substring(0, price.indexOf('.'));
 
         GuiPanel pricePanel = new GuiPanel();
         pricePanel.setCssClass("pricePanel");

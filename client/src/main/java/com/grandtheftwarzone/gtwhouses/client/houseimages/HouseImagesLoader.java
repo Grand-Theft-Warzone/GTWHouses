@@ -22,8 +22,7 @@ public class HouseImagesLoader {
             BufferedImage bufferedImage = loadImageFromDisk(key);
             if (bufferedImage != null) {
                 Minecraft.getMinecraft().addScheduledTask(() -> {
-                    ResourceLocation texture = uploadImageToTexture(bufferedImage, key);
-                    callback.onImageLoaded(texture);
+                    callback.onImageLoaded(uploadImageToTexture(bufferedImage, key));
                 });
                 return;
             }
@@ -35,8 +34,7 @@ public class HouseImagesLoader {
                 saveImageToDisk(bufferedImage, key);
 
                 Minecraft.getMinecraft().addScheduledTask(() -> {
-                    ResourceLocation texture = uploadImageToTexture(bufferedImage, key);
-                    callback.onImageLoaded(texture);
+                    callback.onImageLoaded(uploadImageToTexture(bufferedImage, key));
                 });
             }
         });
@@ -53,9 +51,10 @@ public class HouseImagesLoader {
         return null;
     }
 
-    private static ResourceLocation uploadImageToTexture(BufferedImage bufferedImage, String key) {
+    private static HouseImage uploadImageToTexture(BufferedImage bufferedImage, String key) {
         DynamicTexture dynamicTexture = new DynamicTexture(bufferedImage);
-        return Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("house:" + key, dynamicTexture);
+        ResourceLocation location = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("house:" + key, dynamicTexture);
+        return new HouseImage(location, bufferedImage.getWidth(), bufferedImage.getHeight());
     }
 
     public static void saveImageToDisk(BufferedImage image, String key) {
@@ -86,6 +85,6 @@ public class HouseImagesLoader {
     }
 
     public interface ImageCallback {
-        void onImageLoaded(ResourceLocation texture);
+        void onImageLoaded(HouseImage image);
     }
 }
