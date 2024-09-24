@@ -9,13 +9,6 @@ import org.bukkit.entity.Player;
 public class OpenGUIHandler implements GTWPacketHandler.PacketHandler<OpenGUIC2SPacket> {
     @Override
     public void handle(Player sender, OpenGUIC2SPacket packet) {
-        switch (packet.getType()) {
-            case HOUSES:
-                GTWHouses.getPacketManager().sendPacket(sender, new HousesGUIS2CPacket(false, GTWHouses.getManager().getHouses()));
-                break;
-                case ADMIN_PANEL:
-                    GTWHouses.getPacketManager().sendPacket(sender, new HousesGUIS2CPacket(true, GTWHouses.getManager().getHouses()));
-                break;
-        }
+        GTWHouses.getPacketManager().sendPacket(sender, new HousesGUIS2CPacket(packet.getType(), GTWHouses.getManager().getHouses()));
     }
 }

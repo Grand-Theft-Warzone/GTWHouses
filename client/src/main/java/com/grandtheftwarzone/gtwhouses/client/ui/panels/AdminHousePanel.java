@@ -38,11 +38,11 @@ public class AdminHousePanel extends GuiPanel {
         houseInfoPanel.setLayout(GridLayout.columnLayout(15, 2));
 
 
-        String selling = house.isForSale() ? "FOR SALE" : "NOT FOR SALE";
+        String selling = house.isForSale() ? house.getSellCost() + "$" : "NOT FOR SALE";
         String rentValue = house.getRentCost() + "$/day";
 
         UUID renterUUID = house.getRenter() == null ? null : house.getRenter();
-        String renterName = house.getRenter() == null ? "NO RENTER" : Minecraft.getMinecraft().getConnection().getPlayerInfo(renterUUID).getGameProfile().getName();
+        String renterName = !house.isRentable() ?  (house.getRenter() == null ? "NO RENTER" : Minecraft.getMinecraft().getConnection().getPlayerInfo(renterUUID).getGameProfile().getName()) : "Looking for renter";
 
         UUID ownerUUID = house.getOwner() == null ? null : house.getOwner();
         String ownerName = house.getOwner() == null ? "NO OWNER" : Minecraft.getMinecraft().getConnection().getPlayerInfo(ownerUUID).getGameProfile().getName();
@@ -51,7 +51,7 @@ public class AdminHousePanel extends GuiPanel {
         houseInfoPanel.add(new GuiLabel("Value: " + house.getBuyCost() + "$").setCssId("housePrice"));
         houseInfoPanel.add(new GuiLabel("Selling: " + selling).setCssId("houseSell"));
         houseInfoPanel.add(new GuiLabel("Renter: " + renterName).setCssId("houseRenter"));
-        houseInfoPanel.add(new GuiLabel("Renting: " + rentValue).setCssId("houseLocation"));
+        houseInfoPanel.add(new GuiLabel("Rent Value: " + rentValue).setCssId("houseLocation"));
         houseInfoPanel.add(new GuiLabel("Owner: " + ownerName).setCssId("houseOwner"));
 
 
@@ -94,6 +94,7 @@ public class AdminHousePanel extends GuiPanel {
         contentPanel.add(buttonsPanel);
 
         add(contentPanel);
+        add(new GuiPanel().setCssClass("separator"));
     }
 
 }

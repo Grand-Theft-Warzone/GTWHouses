@@ -80,6 +80,7 @@ public class AdminFrame extends GuiFrame {
     private void renderHouses(Collection<House> houses) {
         scrollPane.removeAllChilds();
         for (House house : houses) scrollPane.add(new AdminHousePanel(house));
+
     }
 
 

@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum HouseActions {
+    GUI("gui", false, false, "Open the house GUI"),
     //Unowned house
     Buy("buy", true, false, "Buy a house"),
     Rent("rent", true, false, "Rent a house"),
@@ -24,6 +25,7 @@ public enum HouseActions {
 
 
     //Admin
+    Admin("admin", false, true, "Open admin GUI"),
     Register("register", false, true, "Open admin GUI to register a house"),
     Remove("remove", true, true, "Remove a house and reset its blocks"),
     Reset("reset", true, true, "Reset a house's blocks"),

@@ -12,6 +12,7 @@ import fr.aym.acsguis.component.panel.GuiPanel;
 import fr.aym.acsguis.component.panel.GuiScrollPane;
 import fr.aym.acsguis.component.panel.GuiTabbedPane;
 import fr.aym.acsguis.component.textarea.GuiLabel;
+import fr.aym.acsguis.utils.GuiTextureSprite;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @SideOnly(Side.CLIENT)
 public class HouseFrame extends GuiFrame {
     public static final ResourceLocation CSS_LOCATION = new ResourceLocation(GTWHousesUI.MODID, "css/house_frame.css");
+    public static final ResourceLocation MAP_LOCATION = new ResourceLocation(GTWHousesUI.MODID, "textures/map.png");
 
     Collection<House> houses;
 
@@ -101,7 +103,12 @@ public class HouseFrame extends GuiFrame {
             }
 
             contentPanel.add(scrollPane);
-            contentPanel.add(new GuiPanel().setCssId("map"));
+
+            GuiPanel mapPanel = new GuiPanel();
+            mapPanel.setCssId("map");
+            mapPanel.getStyle().setTexture(new GuiTextureSprite(MAP_LOCATION));
+            contentPanel.add(mapPanel);
+
 
             panel.add(createBarPanel());
             panel.add(contentPanel);
@@ -122,7 +129,6 @@ public class HouseFrame extends GuiFrame {
     public GuiPanel createBarPanel() {
         GuiPanel barPanel = new GuiPanel();
         barPanel.setCssId("bar");
-
 
         GuiPanel barContentPanel = new GuiPanel();
         barContentPanel.setCssClass("barContent");

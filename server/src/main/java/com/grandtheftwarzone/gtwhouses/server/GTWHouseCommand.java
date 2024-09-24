@@ -26,12 +26,6 @@ public class GTWHouseCommand implements CommandExecutor {
             return true;
         }
 
-        //TODO: Add this to the actions without house
-        if (args[0].equalsIgnoreCase("gui")) {
-            GTWHouses.getPacketManager().sendPacket((Player) sender, new HousesGUIS2CPacket(false, GTWHouses.getManager().getHouses()));
-            return true;
-        }
-
         HouseActions action = HouseActions.get(args[0]);
         if (action == null) {
             getHelp(sender);
@@ -86,8 +80,6 @@ public class GTWHouseCommand implements CommandExecutor {
 
     private void getHelp(CommandSender sender) {
         sender.sendMessage("House command usage: ");
-
-        sender.sendMessage("/house gui - Opens the house GUI.");
 
         for (HouseActions action : HouseActions.values()) {
             if (action.isRequiresAdmin() && (!sender.hasPermission("gtwhouses.admin") || !sender.isOp()))

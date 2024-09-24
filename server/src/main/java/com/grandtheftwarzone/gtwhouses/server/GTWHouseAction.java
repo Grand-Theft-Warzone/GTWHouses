@@ -3,6 +3,7 @@ package com.grandtheftwarzone.gtwhouses.server;
 import com.grandtheftwarzone.gtwhouses.common.HouseActions;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
 import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket;
+import com.grandtheftwarzone.gtwhouses.common.network.packets.s2c.HousesGUIS2CPacket;
 import com.grandtheftwarzone.gtwhouses.common.network.packets.s2c.RegisterHouseS2CPacket;
 import com.grandtheftwarzone.gtwhouses.server.GTWHouses;
 import com.grandtheftwarzone.gtwhouses.server.actions.*;
@@ -23,6 +24,9 @@ public class GTWHouseAction {
         }
 
         switch (action) {
+            case GUI:
+                GTWHouses.getPacketManager().sendPacket(player, new HousesGUIS2CPacket(OpenGUIC2SPacket.OpenGUIType.HOUSES, GTWHouses.getManager().getHouses()));
+                break;
             case Buy:
                 BuyAction.handle(house, player);
                 break;
@@ -51,13 +55,16 @@ public class GTWHouseAction {
 
 
             case List:
-                //TODO: Implement
+                ListAction.handle(player);
                 break;
             case Top:
-                //TODO: Implement
+                TopAction.handle(player);
                 break;
 
             //Admin
+            case Admin:
+                GTWHouses.getPacketManager().sendPacket(player, new HousesGUIS2CPacket(OpenGUIC2SPacket.OpenGUIType.ADMIN_PANEL, GTWHouses.getManager().getHouses()));
+                break;
             case Register:
                 GTWHouses.getPacketManager().sendPacket(player, new RegisterHouseS2CPacket());
                 break;
