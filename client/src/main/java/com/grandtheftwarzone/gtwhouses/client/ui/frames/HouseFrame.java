@@ -2,6 +2,7 @@ package com.grandtheftwarzone.gtwhouses.client.ui.frames;
 
 import com.grandtheftwarzone.gtwhouses.client.GTWHousesUI;
 import com.grandtheftwarzone.gtwhouses.client.ui.panels.HousePanel;
+import com.grandtheftwarzone.gtwhouses.client.ui.panels.map.MapPanel;
 import com.grandtheftwarzone.gtwhouses.client.ui.panels.MyHousesPanel;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
 import com.grandtheftwarzone.gtwhouses.common.data.HouseType;
@@ -12,7 +13,6 @@ import fr.aym.acsguis.component.panel.GuiPanel;
 import fr.aym.acsguis.component.panel.GuiScrollPane;
 import fr.aym.acsguis.component.panel.GuiTabbedPane;
 import fr.aym.acsguis.component.textarea.GuiLabel;
-import fr.aym.acsguis.utils.GuiTextureSprite;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @SideOnly(Side.CLIENT)
 public class HouseFrame extends GuiFrame {
     public static final ResourceLocation CSS_LOCATION = new ResourceLocation(GTWHousesUI.MODID, "css/house_frame.css");
-    public static final ResourceLocation MAP_LOCATION = new ResourceLocation(GTWHousesUI.MODID, "textures/map.png");
 
     Collection<House> houses;
 
@@ -104,9 +103,9 @@ public class HouseFrame extends GuiFrame {
 
             contentPanel.add(scrollPane);
 
-            GuiPanel mapPanel = new GuiPanel();
+            MapPanel mapPanel = new MapPanel();
             mapPanel.setCssId("map");
-            mapPanel.getStyle().setTexture(new GuiTextureSprite(MAP_LOCATION));
+            //mapPanel.getStyle().setTexture(new GuiTextureSprite(MAP_LOCATION, 0, 0, 500, 500));
             contentPanel.add(mapPanel);
 
 
@@ -204,6 +203,7 @@ public class HouseFrame extends GuiFrame {
 
         return barPanel;
     }
+
 
     @Override
     public List<ResourceLocation> getCssStyles() {
