@@ -16,26 +16,26 @@ import java.util.List;
 @AllArgsConstructor
 public class CreateHouseC2SPacket implements IGTWPacket {
     private House house;
-    private List<HouseBlock> blocks;
+    //private List<HouseBlock> blocks;
 
     @Override
     public void fromBytes(ByteBuf buf) {
         house = House.fromBytes(buf);
         int size = buf.readInt();
-        blocks = new ArrayList<>();
+     /*   blocks = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             blocks.add(new HouseBlock(buf.readInt(), buf.readInt(), buf.readInt()));
-        }
+        }*/
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
         house.toBytes(buf);
-        buf.writeInt(blocks.size());
+        /*buf.writeInt(blocks.size());
         for (HouseBlock block : blocks) {
             buf.writeInt(block.getX());
             buf.writeInt(block.getY());
             buf.writeInt(block.getZ());
-        }
+        }*/
     }
 }

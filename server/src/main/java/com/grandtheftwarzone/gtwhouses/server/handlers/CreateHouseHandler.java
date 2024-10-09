@@ -13,8 +13,11 @@ public class CreateHouseHandler implements GTWPacketHandler.PacketHandler<Create
             sender.sendMessage("You do not have permission to use this command.");
         }
 
-        GTWHouses.getManager().addHouse(packet.getHouse(), packet.getBlocks());
+        //GTWHouses.getManager().addHouse(packet.getHouse(), packet.getBlocks());
+        GTWHouses.getManager().addHouse(packet.getHouse(), HouseCoordsHandler.houseBlocks.get(sender.getUniqueId()));
         GTWHouses.getManager().save();
+
+        HouseCoordsHandler.houseBlocks.remove(sender.getUniqueId());
 
         sender.sendMessage(ChatColor.GREEN + "House registered successfully.");
     }

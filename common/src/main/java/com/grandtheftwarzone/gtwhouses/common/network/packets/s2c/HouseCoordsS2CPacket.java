@@ -30,7 +30,8 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
     private String worldName;
     private String imageURL;
 
-    private List<HouseBlock> blocks;
+  //  private List<HouseBlock> blocks;
+    private int blockCount;
 
 
     @Override
@@ -48,12 +49,14 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
         maxY = buf.readInt();
         maxZ = buf.readInt();
 
-        blocks = new ArrayList<>();
+     /*   blocks = new ArrayList<>();
         int size = buf.readInt();
 
         for (int i = 0; i < size; i++) {
             blocks.add(new HouseBlock(buf.readInt(), buf.readInt(), buf.readInt()));
-        }
+        }*/
+
+        blockCount = buf.readInt();
 
         byte[] worldBytes = new byte[buf.readInt()];
         buf.readBytes(worldBytes);
@@ -80,14 +83,14 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
         buf.writeInt(maxZ);
 
 
-        buf.writeInt(blocks.size());
+      /*  buf.writeInt(blocks.size());
 
         for (HouseBlock block : blocks) {
             buf.writeInt(block.getX());
             buf.writeInt(block.getY());
             buf.writeInt(block.getZ());
-        }
-
+        }*/
+        buf.writeInt(blockCount);
 
         byte[] worldBytes =  worldName.getBytes();
         buf.writeInt(worldBytes.length);

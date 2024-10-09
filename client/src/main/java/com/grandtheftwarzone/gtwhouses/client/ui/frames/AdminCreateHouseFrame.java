@@ -36,7 +36,8 @@ public class AdminCreateHouseFrame extends GuiFrame {
     private final GuiLabel protectedBlocksLabel;
 
     private House house;
-    private List<HouseBlock> blocks;
+    //private List<HouseBlock> blocks;
+    private int blockCount = 0;
 
     private HouseType type = HouseType.HIGH_END;
 
@@ -197,14 +198,14 @@ public class AdminCreateHouseFrame extends GuiFrame {
         });
 
         createButton.addClickListener((a, b, c) -> {
-            if (house == null || blocks == null) return;
+            if (house == null || blockCount == 0/*|| blocks == null*/) return;
 
             house.setName(nameField.getText());
             house.setBuyCost(buyCostField.getValue());
             house.setRentCost(rentCostField.getValue());
             house.setImageURL(imageURLField.getText());
 
-            GTWNetworkHandler.sendToServer(new CreateHouseC2SPacket(house, blocks));
+            GTWNetworkHandler.sendToServer(new CreateHouseC2SPacket(house/*, blocks*/));
             Minecraft.getMinecraft().player.closeScreen();
         });
 
@@ -252,7 +253,8 @@ public class AdminCreateHouseFrame extends GuiFrame {
         }
 
 
-        blocks = packet.getBlocks();
+       // blocks = packet.getBlocks();
+        blockCount = packet.getBlockCount();
 
         nameField.setText(packet.getName());
         buyCostField.setValue(packet.getBuyCost());
@@ -261,7 +263,8 @@ public class AdminCreateHouseFrame extends GuiFrame {
 
         minCoordsLabel.setText("Min: " + packet.getMinX() + "X, " + packet.getMinY() + "Y, " + packet.getMinZ() + "Z");
         maxCoordsLabel.setText("Max: " + packet.getMaxX() + "X, " + packet.getMaxY() + "Y, " + packet.getMaxZ() + "Z");
-        protectedBlocksLabel.setText("House Blocks: " + packet.getBlocks().size());
+        //protectedBlocksLabel.setText("House Blocks: " + packet.getBlocks().size());
+        protectedBlocksLabel.setText("House Blocks: " + packet.getBlockCount());
     }
 
     @Override

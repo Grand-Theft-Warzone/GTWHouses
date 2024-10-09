@@ -20,10 +20,12 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class HouseCoordsHandler implements GTWPacketHandler.PacketHandler<HouseCoordsC2SPacket>, Listener {
     private static final HashMap<UUID, HouseCoordsC2SPacket> pendingPackets = new HashMap<>();
+    public static final HashMap<UUID, List<HouseBlock>> houseBlocks = new HashMap<>();
 
     @Override
     public void handle(Player sender, HouseCoordsC2SPacket packet) {
@@ -63,11 +65,14 @@ public class HouseCoordsHandler implements GTWPacketHandler.PacketHandler<HouseC
         int maxPosZ = selection.getMaximumPoint().getBlockZ();
 
         HouseCoordsC2SPacket packet = pendingPackets.remove(event.getPlayer().getUniqueId());
+        houseBlocks.put(event.getPlayer().getUniqueId(), HouseUtils.getHouseBlocks(minPosX, minPosY, minPosZ, maxPosX, maxPosY, maxPosZ, selection.getWorld()));
+
         GTWHouses.getPacketManager().sendPacket(event.getPlayer(), new HouseCoordsS2CPacket(
                 packet.getName(), packet.getBuyCost(), packet.getRentCost(), packet.getType(),
                 minPosX, minPosY, minPosZ, maxPosX, maxPosY, maxPosZ, selection.getWorld().getName(),
                 packet.getImageURL(),
-                HouseUtils.getHouseBlocks(minPosX, minPosY, minPosZ, maxPosX, maxPosY, maxPosZ, selection.getWorld())
+                houseBlocks.get(event.getPlayer().getUniqueId()).size()
+                //HouseUtils.getHouseBlocks(minPosX, minPosY, minPosZ, maxPosX, maxPosY, maxPosZ, selection.getWorld())
         ));
 
         event.getPlayer().getInventory().removeItem(new ItemStack(Material.WOOD_AXE, 1));
