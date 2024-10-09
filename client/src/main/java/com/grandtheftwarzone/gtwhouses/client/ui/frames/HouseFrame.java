@@ -2,10 +2,11 @@ package com.grandtheftwarzone.gtwhouses.client.ui.frames;
 
 import com.grandtheftwarzone.gtwhouses.client.GTWHousesUI;
 import com.grandtheftwarzone.gtwhouses.client.ui.panels.HousePanel;
-import com.grandtheftwarzone.gtwhouses.client.ui.panels.map.MapPanel;
+import com.grandtheftwarzone.gtwhouses.client.ui.panels.MapPanel;
 import com.grandtheftwarzone.gtwhouses.client.ui.panels.MyHousesPanel;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
 import com.grandtheftwarzone.gtwhouses.common.data.HouseType;
+import com.grandtheftwarzone.gtwhouses.common.data.Marker;
 import fr.aym.acsguis.component.layout.GridLayout;
 import fr.aym.acsguis.component.layout.GuiScaler;
 import fr.aym.acsguis.component.panel.GuiFrame;
@@ -13,6 +14,7 @@ import fr.aym.acsguis.component.panel.GuiPanel;
 import fr.aym.acsguis.component.panel.GuiScrollPane;
 import fr.aym.acsguis.component.panel.GuiTabbedPane;
 import fr.aym.acsguis.component.textarea.GuiLabel;
+import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -43,6 +45,7 @@ public class HouseFrame extends GuiFrame {
 
     GuiTabbedPane tabbedPane;
 
+    HashMap<String, MapPanel> mapPanels = new HashMap<>();
 
     public HouseFrame(Collection<House> houses) {
         super(new GuiScaler.Identity());
@@ -66,12 +69,14 @@ public class HouseFrame extends GuiFrame {
         houseData.put("UNAVAILABLE", unavailable);
         //houseData.put("MY HOUSES", myHouses);
 
+
         setCssClass("frame");
         refresh();
     }
 
     public void refresh() {
         removeAllChilds();
+
 
         add(new GuiLabel("Grand Theft Warzone").setCssId("titleId"));
 
@@ -98,15 +103,35 @@ public class HouseFrame extends GuiFrame {
 
                 if (filterType != null && house.getType() != filterType) continue;
 
-                scrollPane.add(new HousePanel(house).setCssClass("housePanel"));
+                HousePanel housePanel = new HousePanel(house);
+                housePanel.setCssClass("housePanel");
+                scrollPane.add(housePanel);
             }
+            scrollPane.add(new GuiPanel().setCssClass("housePadding"));
 
             contentPanel.add(scrollPane);
 
-            MapPanel mapPanel = new MapPanel();
+            List<Marker> markers = filter.stream()
+                    .filter((h) -> filterType == null || h.getType() == filterType)
+                    .map(Marker::fromHouse)
+                    .collect(Collectors.toList());
+
+            int offsetX = 0;
+            int offsetY = 0;
+            float zoom = 1;
+
+            if (mapPanels.containsKey(entry.getKey())) {
+                offsetX = mapPanels.get(entry.getKey()).getOffsetX();
+                offsetY = mapPanels.get(entry.getKey()).getOffsetY();
+                zoom = mapPanels.get(entry.getKey()).getZoom();
+            }
+
+            MapPanel mapPanel = new MapPanel(markers, offsetX, offsetY, zoom);
             mapPanel.setCssId("map");
             //mapPanel.getStyle().setTexture(new GuiTextureSprite(MAP_LOCATION, 0, 0, 500, 500));
             contentPanel.add(mapPanel);
+
+            mapPanels.put(entry.getKey(), mapPanel);
 
 
             panel.add(createBarPanel());

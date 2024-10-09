@@ -1,8 +1,10 @@
 package com.grandtheftwarzone.gtwhouses.client.ui.panels;
 
 import com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler;
+import com.grandtheftwarzone.gtwhouses.client.ui.frames.HouseFrame;
 import com.grandtheftwarzone.gtwhouses.common.HouseActions;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
+import com.grandtheftwarzone.gtwhouses.common.data.Marker;
 import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.HouseActionC2SPacket;
 import fr.aym.acsguis.component.button.GuiButton;
 import fr.aym.acsguis.component.panel.GuiPanel;
@@ -16,6 +18,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class HousePanel extends GuiPanel {
     public HousePanel(House house) {
+        Marker marker = Marker.fromHouse(house);
+        addClickListener((x, y, button) ->
+                getParent().getParent().getChildComponents().forEach(c -> {
+                    if (c instanceof MapPanel) {
+                        MapPanel mapPanel = (MapPanel) c;
+                        mapPanel.centerMap(marker.getX(), marker.getZ());
+                    }
+                })
+        );
+
         GuiPanel imagePanel = new GuiPanel();
         imagePanel.setCssClass("imagePanel");
         //imagePanel.add(new GuiLabel("Image").setCssId("image"));

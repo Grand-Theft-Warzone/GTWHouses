@@ -47,6 +47,8 @@ public class House implements Serializable {
 
     private String imageURL;
 
+    private static final int HOUSE_VERSION = 1;
+
     public House(String name, String world, double rentCost, double buyCost, HouseType type) {
         this.name = name;
         this.world = world;
@@ -110,6 +112,8 @@ public class House implements Serializable {
     }
 
     public void toBytes(ByteBuf buf) {
+        buf.writeInt(HOUSE_VERSION);
+
         byte[] nameBytes = name.getBytes(StandardCharsets.UTF_8);
         buf.writeInt(nameBytes.length);
         buf.writeBytes(nameBytes);
@@ -153,49 +157,55 @@ public class House implements Serializable {
     }
 
     public static House fromBytes(ByteBuf buf) {
-        String name = readString(buf);
-        String world = readString(buf);
+        int version = buf.readInt();
 
-        int minPosX = buf.readInt();
-        int minPosY = buf.readInt();
-        int minPosZ = buf.readInt();
-        int maxPosX = buf.readInt();
-        int maxPosY = buf.readInt();
-        int maxPosZ = buf.readInt();
-        double rentCost = buf.readDouble();
-        double buyCost = buf.readDouble();
+        if (version == 1) {
+            String name = readString(buf);
+            String world = readString(buf);
 
-
-        String ownerString = readString(buf);
-        UUID owner = ownerString.isEmpty() ? null : UUID.fromString(ownerString);
-
-        String renterString = readString(buf);
-        UUID renter = renterString.isEmpty() ? null : UUID.fromString(renterString);
-
-        String rentedAtString = readString(buf);
-        String rentDueDateString =  readString(buf);
+            int minPosX = buf.readInt();
+            int minPosY = buf.readInt();
+            int minPosZ = buf.readInt();
+            int maxPosX = buf.readInt();
+            int maxPosY = buf.readInt();
+            int maxPosZ = buf.readInt();
+            double rentCost = buf.readDouble();
+            double buyCost = buf.readDouble();
 
 
-        Date rentedAt = null;
-        Date rentDueDate = null;
+            String ownerString = readString(buf);
+            UUID owner = ownerString.isEmpty() ? null : UUID.fromString(ownerString);
 
-        try {
-            rentedAt = rentedAtString.isEmpty() ? null : GTWHousesUtils.DATE_FORMAT.parse(rentedAtString);
-            rentDueDate = rentDueDateString.isEmpty() ? null : GTWHousesUtils.DATE_FORMAT.parse(rentDueDateString);
-        } catch (Exception ignored) {
+            String renterString = readString(buf);
+            UUID renter = renterString.isEmpty() ? null : UUID.fromString(renterString);
+
+            String rentedAtString = readString(buf);
+            String rentDueDateString = readString(buf);
+
+
+            Date rentedAt = null;
+            Date rentDueDate = null;
+
+            try {
+                rentedAt = rentedAtString.isEmpty() ? null : GTWHousesUtils.DATE_FORMAT.parse(rentedAtString);
+                rentDueDate = rentDueDateString.isEmpty() ? null : GTWHousesUtils.DATE_FORMAT.parse(rentDueDateString);
+            } catch (Exception ignored) {
+            }
+
+            boolean kicked = buf.readBoolean();
+            double sellCost = buf.readDouble();
+
+            HouseType type = HouseType.values()[buf.readInt()];
+
+            String imageURL = readString(buf);
+
+            return new House(name, world, owner, minPosX, minPosY, minPosZ, maxPosX, maxPosY, maxPosZ, rentCost, buyCost, renter, rentedAt, rentDueDate, kicked, sellCost, type, imageURL);
         }
 
-        boolean kicked = buf.readBoolean();
-        double sellCost = buf.readDouble();
-
-        HouseType type = HouseType.values()[buf.readInt()];
-
-        String imageURL = readString(buf);
-
-        return new House(name, world, owner, minPosX, minPosY, minPosZ, maxPosX, maxPosY, maxPosZ, rentCost, buyCost, renter, rentedAt, rentDueDate, kicked, sellCost, type, imageURL);
+        return null;
     }
 
-    private static String readString(ByteBuf buf){
+    private static String readString(ByteBuf buf) {
         byte[] bytes = new byte[buf.readInt()];
         buf.readBytes(bytes);
         return new String(bytes, StandardCharsets.UTF_8);
