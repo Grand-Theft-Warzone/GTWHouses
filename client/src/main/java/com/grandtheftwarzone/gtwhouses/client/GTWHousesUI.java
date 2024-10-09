@@ -42,12 +42,12 @@ public class GTWHousesUI {
         MinecraftForge.EVENT_BUS.register(GTWNetworkHandler.class);
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public void onPress(InputEvent.KeyInputEvent event) {
         if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
             GTWNetworkHandler.sendToServer(new OpenGUIC2SPacket(OpenGUIC2SPacket.OpenGUIType.ADMIN_PANEL));
         } else if (Keyboard.isKeyDown(Keyboard.KEY_I)) {
             GTWNetworkHandler.sendToServer(new OpenGUIC2SPacket(OpenGUIC2SPacket.OpenGUIType.HOUSES));
         }
-    }
+    }*/
 }
