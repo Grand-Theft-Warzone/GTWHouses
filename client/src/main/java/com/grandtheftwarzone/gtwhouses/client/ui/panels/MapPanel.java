@@ -4,6 +4,7 @@ import com.grandtheftwarzone.gtwhouses.common.data.Marker;
 import fr.aym.acsguis.component.panel.GuiPanel;
 import fr.aym.acsguis.event.listeners.mouse.IMouseExtraClickListener;
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -14,14 +15,14 @@ public class MapPanel extends GuiPanel {
     public static final ResourceLocation MAP_LOCATION = new ResourceLocation("textures/gtwhouses_map.png");
     private static final ResourceLocation MARKER_LOCATION = new ResourceLocation("textures/mark.png");
 
-    private final int MAP_WIDTH = 1919;
-    private final int MAP_HEIGHT = 974;
+    private final int MAP_WIDTH = 1018;
+    private final int MAP_HEIGHT = 918;
 
     private final int MARKER_WIDTH = 23;
     private final int MARKER_HEIGHT = 35;
 
-    private final int mapWorldX = -2226, mapWorldZ = -2316;
-    private final int mapWorldEndX = 3080, mapWorldEndZ = 366;
+    private final int mapWorldX = -1372, mapWorldZ = -2636;
+    private final int mapWorldEndX = 1994, mapWorldEndZ = 410;
 
     private final int worldWidth = mapWorldEndX - mapWorldX, worldHeight = mapWorldEndZ - mapWorldZ;
 
@@ -41,6 +42,8 @@ public class MapPanel extends GuiPanel {
     private int lastMouseX;
     private int lastMouseY;
     private boolean dragging = false;
+
+    private String selectedHouse;
 
     public MapPanel(List<Marker> markers, int offsetX, int offsetY, float startZoom) {
         super();
@@ -72,7 +75,7 @@ public class MapPanel extends GuiPanel {
 
         addWheelListener(i -> {
             zoom += 0.0004f * i;
-            zoom = Math.max(0.25f, zoom);
+            zoom = Math.max(0.3f, zoom);
             zoom = Math.min(2, zoom);
 
             clampOffset();
@@ -90,9 +93,16 @@ public class MapPanel extends GuiPanel {
         GlStateManager.pushMatrix();
         GlStateManager.translate(getScreenX(), getScreenY(), 0);
         GlStateManager.translate(-offsetX, -offsetY, 0);
+
+
+        //GlStateManager.translate(getWidth() / 2, getHeight() / 2, 0);
         GlStateManager.scale(zoom, zoom, 1);
+        //GlStateManager.translate(-getWidth() / 2, -getHeight() / 2, 0);
+
+
         GlStateManager.color(1, 1, 1, 1);
         mc.getTextureManager().bindTexture(MAP_LOCATION);
+        //Gui.drawModalRectWithCustomSizedTexture(-offsetX, -offsetY, 0, 0, MAP_WIDTH, MAP_HEIGHT, MAP_WIDTH, MAP_HEIGHT);
         Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0, MAP_WIDTH, MAP_HEIGHT, MAP_WIDTH, MAP_HEIGHT);
 
         mc.getTextureManager().bindTexture(MARKER_LOCATION);
@@ -104,6 +114,13 @@ public class MapPanel extends GuiPanel {
             int markerScreenX = (int) (markerMapWorldX * worldToMapScaleX) - MARKER_WIDTH / 2; //Center of the marker
             int markerScreenY = (int) (markerMapWorldY * worldToMapScaleY) - MARKER_HEIGHT; //Bottom of the marker
 
+            //markerScreenX -= offsetX;
+            //markerScreenY -= offsetY;
+
+            if (marker.getHouseName().equals(selectedHouse))
+                GlStateManager.color(1, 0.9f, 0, 1);
+            else
+                GlStateManager.color(1, 1, 1, 1);
 
             Gui.drawModalRectWithCustomSizedTexture(markerScreenX, markerScreenY, 0, 0, MARKER_WIDTH, MARKER_HEIGHT, MARKER_WIDTH, MARKER_HEIGHT);
         }
@@ -114,7 +131,12 @@ public class MapPanel extends GuiPanel {
         lastMouseY = mouseY;
     }
 
-    public void centerMap(int worldX, int worldZ) {
+    public void selectMarker(Marker marker) {
+        selectedHouse = marker.getHouseName();
+        centerMap(marker.getX(), marker.getZ());
+    }
+
+    private void centerMap(int worldX, int worldZ) {
         float mapX = ((worldX - mapWorldX) * worldToMapScaleX) * zoom;
         float mapY = ((worldZ - mapWorldZ) * worldToMapScaleY) * zoom;
 

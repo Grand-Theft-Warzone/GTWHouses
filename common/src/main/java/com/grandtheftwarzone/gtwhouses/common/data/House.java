@@ -29,8 +29,8 @@ public class House implements Serializable {
     private int maxPosY;
     private int maxPosZ;
 
-    private double rentCost;
-    private double buyCost;
+    private int rentCost;
+    private int buyCost;
 
     @Setter
     private UUID renter;
@@ -49,7 +49,7 @@ public class House implements Serializable {
 
     private static final int HOUSE_VERSION = 1;
 
-    public House(String name, String world, double rentCost, double buyCost, HouseType type) {
+    public House(String name, String world, int rentCost, int buyCost, HouseType type) {
         this.name = name;
         this.world = world;
         this.rentCost = rentCost;
@@ -128,8 +128,8 @@ public class House implements Serializable {
         buf.writeInt(maxPosX);
         buf.writeInt(maxPosY);
         buf.writeInt(maxPosZ);
-        buf.writeDouble(rentCost);
-        buf.writeDouble(buyCost);
+        buf.writeInt(rentCost);
+        buf.writeInt(buyCost);
 
         byte[] ownerBytes = owner == null ? new byte[0] : owner.toString().getBytes(StandardCharsets.UTF_8);
         buf.writeInt(ownerBytes.length);
@@ -169,8 +169,8 @@ public class House implements Serializable {
             int maxPosX = buf.readInt();
             int maxPosY = buf.readInt();
             int maxPosZ = buf.readInt();
-            double rentCost = buf.readDouble();
-            double buyCost = buf.readDouble();
+            int rentCost = buf.readInt();
+            int buyCost = buf.readInt();
 
 
             String ownerString = readString(buf);

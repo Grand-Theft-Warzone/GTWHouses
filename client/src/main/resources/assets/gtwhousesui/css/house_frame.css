@@ -2,6 +2,14 @@
     background-color: rgb(101, 140, 180);
 }
 
+#header {
+    width: 108px;
+    height: 59px;
+
+    horizontal-position: center;
+    top: 15px;
+}
+
 #titleId {
     /*top: 35px;*/
     height: 80px;

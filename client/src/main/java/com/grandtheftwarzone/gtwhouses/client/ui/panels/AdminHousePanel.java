@@ -1,7 +1,10 @@
 package com.grandtheftwarzone.gtwhouses.client.ui.panels;
 
 import com.grandtheftwarzone.gtwhouses.client.GTWHousesUI;
+import com.grandtheftwarzone.gtwhouses.client.houseimages.HouseImage;
+import com.grandtheftwarzone.gtwhouses.client.houseimages.HouseImagesManager;
 import com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler;
+import com.grandtheftwarzone.gtwhouses.client.network.handlers.HouseImageHandler;
 import com.grandtheftwarzone.gtwhouses.client.ui.modals.ConfirmModal;
 import com.grandtheftwarzone.gtwhouses.common.HouseActions;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
@@ -12,6 +15,7 @@ import fr.aym.acsguis.component.panel.GuiPanel;
 import fr.aym.acsguis.component.textarea.GuiLabel;
 import fr.aym.acsguis.utils.GuiTextureSprite;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.UUID;
@@ -25,8 +29,11 @@ public class AdminHousePanel extends GuiPanel {
         imagePanel.setCssClass("myHouseImage");
         // imagePanel.add(new GuiLabel("Image").setCssId("image"));
 
-        if (house.getImageURL() != null)
-            imagePanel.getStyle().setTexture(new GuiTextureSprite(new ResourceLocation(house.getImageURL())));
+        HouseImage houseImage = HouseImagesManager.getImage(house);
+
+        if (houseImage != null)
+            imagePanel.getStyle().setTexture(new GuiTextureSprite(houseImage.getTexture(), 0, 0, houseImage.getWidth(), houseImage.getHeight(), houseImage.getWidth(), houseImage.getHeight()));
+
 
         add(imagePanel);
 
@@ -42,10 +49,12 @@ public class AdminHousePanel extends GuiPanel {
         String rentValue = house.getRentCost() + "$/day";
 
         UUID renterUUID = house.getRenter() == null ? null : house.getRenter();
-        String renterName = !house.isRentable() ?  (house.getRenter() == null ? "NO RENTER" : Minecraft.getMinecraft().getConnection().getPlayerInfo(renterUUID).getGameProfile().getName()) : "Looking for renter";
+        String renterName = !house.isRentable() ? (house.getRenter() == null ? "NO RENTER" : Minecraft.getMinecraft().getConnection().getPlayerInfo(renterUUID).getGameProfile().getName()) : "Looking for renter";
 
         UUID ownerUUID = house.getOwner() == null ? null : house.getOwner();
-        String ownerName = house.getOwner() == null ? "NO OWNER" : Minecraft.getMinecraft().getConnection().getPlayerInfo(ownerUUID).getGameProfile().getName();
+
+        NetworkPlayerInfo playerInfo = Minecraft.getMinecraft().getConnection().getPlayerInfo(ownerUUID);
+        String ownerName = house.getOwner() == null ? "NO OWNER" : playerInfo == null ? "UNKNOWN" : playerInfo.getGameProfile().getName();
 
         houseInfoPanel.add(new GuiLabel(house.getName()).setCssId("houseName"));
         houseInfoPanel.add(new GuiLabel("Value: " + house.getBuyCost() + "$").setCssId("housePrice"));
@@ -60,7 +69,7 @@ public class AdminHousePanel extends GuiPanel {
         buttonsPanel.setCssClass("houseButtons");
 
 
-        GuiButton editHouse = new GuiButton("Edit Blocks");
+        GuiButton editHouse = new GuiButton("Edit House");
         editHouse.setCssId("editButton").setCssClass("houseBtn");
         editHouse.addClickListener((a, b, c) -> {
             GTWNetworkHandler.sendToServer(new HouseActionC2SPacket(HouseActions.Edit, house.getName(), null));

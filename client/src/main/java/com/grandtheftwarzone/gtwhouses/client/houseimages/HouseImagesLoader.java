@@ -79,7 +79,7 @@ public class HouseImagesLoader {
             File file = new File(CACHE_DIR, key + ".png");
             return ImageIO.read(file);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return null;
     }

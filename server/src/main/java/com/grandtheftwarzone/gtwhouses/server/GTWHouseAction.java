@@ -80,9 +80,9 @@ public class GTWHouseAction {
             case Edit:
                 EditAction.handle(house, player);
                 break;
-            case Finish:
-                EditAction.handleFinish(player);
-                break;
+           // case Finish:
+                //EditAction.handleFinish(player);
+                //break;
         }
     }
 

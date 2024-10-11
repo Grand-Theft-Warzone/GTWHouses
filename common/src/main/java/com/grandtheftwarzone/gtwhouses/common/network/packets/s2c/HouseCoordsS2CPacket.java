@@ -1,15 +1,10 @@
 package com.grandtheftwarzone.gtwhouses.common.network.packets.s2c;
 
-import com.grandtheftwarzone.gtwhouses.common.data.HouseBlock;
 import com.grandtheftwarzone.gtwhouses.common.network.IGTWPacket;
 import io.netty.buffer.ByteBuf;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -30,8 +25,9 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
     private String worldName;
     private String imageURL;
 
-  //  private List<HouseBlock> blocks;
+    //  private List<HouseBlock> blocks;
     private int blockCount;
+    private String originalName;
 
 
     @Override
@@ -40,7 +36,9 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
         rentCost = buf.readInt();
         type = buf.readInt();
 
-        name = buf.readCharSequence(buf.readInt(), Charset.defaultCharset()).toString();
+        byte[] nameBytes = new byte[buf.readInt()];
+        buf.readBytes(nameBytes);
+        name = new String(nameBytes);
 
         minX = buf.readInt();
         minY = buf.readInt();
@@ -56,7 +54,6 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
             blocks.add(new HouseBlock(buf.readInt(), buf.readInt(), buf.readInt()));
         }*/
 
-        blockCount = buf.readInt();
 
         byte[] worldBytes = new byte[buf.readInt()];
         buf.readBytes(worldBytes);
@@ -65,6 +62,13 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
         byte[] imageBytes = new byte[buf.readInt()];
         buf.readBytes(imageBytes);
         imageURL = new String(imageBytes);
+
+
+        blockCount = buf.readInt();
+
+        byte[] originalNameBytes = new byte[buf.readInt()];
+        buf.readBytes(originalNameBytes);
+        originalName = new String(originalNameBytes);
     }
 
     @Override
@@ -72,8 +76,10 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
         buf.writeInt(buyCost);
         buf.writeInt(rentCost);
         buf.writeInt(type);
-        buf.writeInt(name.length());
-        buf.writeCharSequence(name, Charset.defaultCharset());
+
+        byte[] nameBytes = name.getBytes();
+        buf.writeInt(nameBytes.length);
+        buf.writeBytes(nameBytes);
 
         buf.writeInt(minX);
         buf.writeInt(minY);
@@ -90,14 +96,21 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
             buf.writeInt(block.getY());
             buf.writeInt(block.getZ());
         }*/
-        buf.writeInt(blockCount);
 
-        byte[] worldBytes =  worldName.getBytes();
+        byte[] worldBytes = worldName.getBytes();
         buf.writeInt(worldBytes.length);
         buf.writeBytes(worldBytes);
 
         byte[] imageBytes = imageURL.getBytes();
         buf.writeInt(imageBytes.length);
         buf.writeBytes(imageBytes);
+
+
+        buf.writeInt(blockCount);
+
+        byte[] originalNameBytes = originalName.getBytes();
+        buf.writeInt(originalNameBytes.length);
+        buf.writeBytes(originalNameBytes);
     }
+
 }

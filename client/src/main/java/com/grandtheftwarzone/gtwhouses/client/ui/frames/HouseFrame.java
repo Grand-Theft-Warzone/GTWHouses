@@ -14,6 +14,7 @@ import fr.aym.acsguis.component.panel.GuiPanel;
 import fr.aym.acsguis.component.panel.GuiScrollPane;
 import fr.aym.acsguis.component.panel.GuiTabbedPane;
 import fr.aym.acsguis.component.textarea.GuiLabel;
+import fr.aym.acsguis.utils.GuiTextureSprite;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 @SideOnly(Side.CLIENT)
 public class HouseFrame extends GuiFrame {
     public static final ResourceLocation CSS_LOCATION = new ResourceLocation(GTWHousesUI.MODID, "css/house_frame.css");
+    public static final ResourceLocation HEADER_LOCATION = new ResourceLocation("textures/ui_header.png");
 
     Collection<House> houses;
 
@@ -78,7 +80,12 @@ public class HouseFrame extends GuiFrame {
         removeAllChilds();
 
 
-        add(new GuiLabel("Grand Theft Warzone").setCssId("titleId"));
+        //add(new GuiLabel("Grand Theft Warzone").setCssId("titleId"));
+
+        GuiPanel headerPanel = new GuiPanel();
+        headerPanel.setCssId("header");
+        headerPanel.getStyle().setTexture(new GuiTextureSprite(HEADER_LOCATION, 0, 0, 247, 118));
+        add(headerPanel);
 
         tabbedPane = new GuiTabbedPane();
         tabbedPane.setCssClass("tabbedPane");

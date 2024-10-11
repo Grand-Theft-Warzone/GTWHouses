@@ -44,8 +44,12 @@ public class HousesManager {
     }
 
     public void removeHouse(House house) {
-        houses.remove(house.getName());
-        houseBlocks.remove(house.getName());
+        removeHouse(house.getName());
+    }
+
+    public void removeHouse(String name) {
+        houses.remove(name);
+        houseBlocks.remove(name);
     }
 
     public Collection<House> getHouses() {

@@ -1,5 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.client.ui.panels;
 
+import com.grandtheftwarzone.gtwhouses.client.houseimages.HouseImage;
+import com.grandtheftwarzone.gtwhouses.client.houseimages.HouseImagesManager;
 import com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler;
 import com.grandtheftwarzone.gtwhouses.client.ui.modals.ConfirmModal;
 import com.grandtheftwarzone.gtwhouses.client.ui.modals.SellModal;
@@ -24,8 +26,10 @@ public class MyHousePanel extends GuiPanel {
         imagePanel.setCssClass("myHouseImage");
         // imagePanel.add(new GuiLabel("Image").setCssId("image"));
 
-        if (house.getImageURL() != null)
-            imagePanel.getStyle().setTexture(new GuiTextureSprite(new ResourceLocation(house.getImageURL())));
+        HouseImage houseImage = HouseImagesManager.getImage(house);
+
+        if (houseImage != null)
+            imagePanel.getStyle().setTexture(new GuiTextureSprite(houseImage.getTexture(), 0, 0, houseImage.getWidth(), houseImage.getHeight(), houseImage.getWidth(), houseImage.getHeight()));
 
         add(imagePanel);
 
