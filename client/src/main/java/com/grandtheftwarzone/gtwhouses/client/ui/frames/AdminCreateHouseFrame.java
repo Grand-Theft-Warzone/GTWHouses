@@ -45,9 +45,13 @@ public class AdminCreateHouseFrame extends GuiFrame {
     GuiButton midButton = new GuiButton("Middle End");
     GuiButton lowButton = new GuiButton("Low End");
 
+    private String originalName = "";
+
+    GuiButton createButton;
 
     public AdminCreateHouseFrame() {
         super(new GuiScaler.Identity());
+
         setCssId("adminCreateHouseFrame");
 
         GuiLabel titleLabel = new GuiLabel("Create House");
@@ -104,7 +108,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
         GuiLabel imageURLLabel = new GuiLabel("Image URL");
         imageURLLabel.setCssId("imageURLLabel").setCssClass("auto");
 
-         imageURLField = new GuiTextField();
+        imageURLField = new GuiTextField();
         imageURLField.setCssId("imageURLField").setCssClass("auto").setCssClass("input");
 
         imageURLPanel.add(imageURLLabel);
@@ -115,7 +119,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
         buttonPanel.setLayout(new GridLayout(100, 15, 15, GridLayout.GridDirection.HORIZONTAL, 3));
         buttonPanel.setCssId("buttonPanel").setCssClass("auto");
 
-        GuiButton createButton = new GuiButton("Create");
+        createButton = new GuiButton("Create");
         createButton.setCssId("createButton").setCssClass("auto");
 
         GuiButton cancelButton = new GuiButton("Cancel");
@@ -189,7 +193,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
 
 
         setCoordsButton.addClickListener((a, b, c) -> {
-            GTWNetworkHandler.sendToServer(new HouseCoordsC2SPacket(nameField.getText(), buyCostField.getValue(), rentCostField.getValue(), type.ordinal(), imageURLField.getText()));
+            GTWNetworkHandler.sendToServer(new HouseCoordsC2SPacket(nameField.getText(), buyCostField.getValue(), rentCostField.getValue(), type.ordinal(), imageURLField.getText(), originalName));
             Minecraft.getMinecraft().player.closeScreen();
         });
 
@@ -205,7 +209,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
             house.setRentCost(rentCostField.getValue());
             house.setImageURL(imageURLField.getText());
 
-            GTWNetworkHandler.sendToServer(new CreateHouseC2SPacket(house/*, blocks*/));
+            GTWNetworkHandler.sendToServer(new CreateHouseC2SPacket(house, originalName/*, blocks*/));
             Minecraft.getMinecraft().player.closeScreen();
         });
 
@@ -222,6 +226,8 @@ public class AdminCreateHouseFrame extends GuiFrame {
     }
 
     public void loadPacket(HouseCoordsS2CPacket packet) {
+        this.originalName = packet.getOriginalName();
+
         house = new House(nameField.getText(), packet.getWorldName(), rentCostField.getValue(), buyCostField.getValue(), type);
         house.setMinPosX(packet.getMinX());
         house.setMaxPosX(packet.getMaxX());
@@ -252,8 +258,9 @@ public class AdminCreateHouseFrame extends GuiFrame {
                 break;
         }
 
+        if (!originalName.isEmpty()) createButton.setText("Edit House");
 
-       // blocks = packet.getBlocks();
+        // blocks = packet.getBlocks();
         blockCount = packet.getBlockCount();
 
         nameField.setText(packet.getName());

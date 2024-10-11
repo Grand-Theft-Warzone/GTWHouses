@@ -64,7 +64,7 @@ public class GTWHouses extends JavaPlugin {
         getServer().getPluginManager().registerEvents(loginMessageSystem, this);
 
         // Disabled for now, since ACsGuis loads the images for us
-       // getServer().getPluginManager().registerEvents(new JoinEvent(), this);
+        getServer().getPluginManager().registerEvents(new JoinEvent(), this);
     }
 
 

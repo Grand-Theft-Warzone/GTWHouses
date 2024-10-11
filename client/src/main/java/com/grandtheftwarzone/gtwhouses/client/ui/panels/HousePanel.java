@@ -1,5 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.client.ui.panels;
 
+import com.grandtheftwarzone.gtwhouses.client.houseimages.HouseImage;
+import com.grandtheftwarzone.gtwhouses.client.houseimages.HouseImagesManager;
 import com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler;
 import com.grandtheftwarzone.gtwhouses.client.ui.frames.HouseFrame;
 import com.grandtheftwarzone.gtwhouses.common.HouseActions;
@@ -23,7 +25,7 @@ public class HousePanel extends GuiPanel {
                 getParent().getParent().getChildComponents().forEach(c -> {
                     if (c instanceof MapPanel) {
                         MapPanel mapPanel = (MapPanel) c;
-                        mapPanel.centerMap(marker.getX(), marker.getZ());
+                        mapPanel.selectMarker(marker);
                     }
                 })
         );
@@ -32,9 +34,10 @@ public class HousePanel extends GuiPanel {
         imagePanel.setCssClass("imagePanel");
         //imagePanel.add(new GuiLabel("Image").setCssId("image"));
 
-        //HouseImage houseImage = HouseImagesManager.getImage(house);
-        if (house.getImageURL() != null)
-            imagePanel.getStyle().setTexture(new GuiTextureSprite(new ResourceLocation(house.getImageURL())));
+        HouseImage houseImage = HouseImagesManager.getImage(house);
+
+        if (houseImage != null)
+            imagePanel.getStyle().setTexture(new GuiTextureSprite(houseImage.getTexture(), 0, 0, houseImage.getWidth(), houseImage.getHeight(), houseImage.getWidth(), houseImage.getHeight()));
         add(imagePanel);
 
 

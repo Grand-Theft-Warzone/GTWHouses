@@ -30,8 +30,8 @@ public enum HouseActions {
     Remove("remove", true, true, "Remove a house and reset its blocks"),
     Reset("reset", true, true, "Reset a house's blocks"),
     Unregister("unregister", true, true, "Unregister a house"),
-    Edit("edit", true, true, "Edit the house blocks of a house"),
-    Finish("finish", false, true, "Finish editing a house"),
+    Edit("edit", true, true, "Edit a house"),
+    //Finish("finish", false, true, "Finish editing a house"),
     ;
 
     private final String name;

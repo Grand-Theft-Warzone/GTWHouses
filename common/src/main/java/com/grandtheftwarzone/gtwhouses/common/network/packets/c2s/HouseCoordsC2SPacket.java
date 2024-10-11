@@ -22,6 +22,8 @@ public class HouseCoordsC2SPacket implements IGTWPacket {
 
     private String imageURL;
 
+    private String originalName = "";
+
     @Override
     public void fromBytes(ByteBuf buf) {
         buyCost = buf.readInt();
@@ -35,6 +37,10 @@ public class HouseCoordsC2SPacket implements IGTWPacket {
         byte[] imageURLBytes = new byte[buf.readInt()];
         buf.readBytes(imageURLBytes);
         imageURL = new String(imageURLBytes, Charset.defaultCharset());
+
+        byte[] originalNameBytes = new byte[buf.readInt()];
+        buf.readBytes(originalNameBytes);
+        originalName = new String(originalNameBytes, Charset.defaultCharset());
     }
 
 
@@ -51,5 +57,9 @@ public class HouseCoordsC2SPacket implements IGTWPacket {
         byte[] imageURLBytes = imageURL.getBytes(Charset.defaultCharset());
         buf.writeInt(imageURLBytes.length);
         buf.writeBytes(imageURLBytes);
+
+        byte[] originalNameBytes = originalName.getBytes(Charset.defaultCharset());
+        buf.writeInt(originalNameBytes.length);
+        buf.writeBytes(originalNameBytes);
     }
 }

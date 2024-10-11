@@ -16,13 +16,19 @@ import java.util.List;
 @AllArgsConstructor
 public class CreateHouseC2SPacket implements IGTWPacket {
     private House house;
+    private String originalHouseName;
     //private List<HouseBlock> blocks;
 
     @Override
     public void fromBytes(ByteBuf buf) {
         house = House.fromBytes(buf);
-        int size = buf.readInt();
-     /*   blocks = new ArrayList<>();
+        int length = buf.readInt();
+        byte[] bytes = new byte[length];
+        buf.readBytes(bytes);
+        originalHouseName = new String(bytes);
+
+     /*   int size = buf.readInt();
+        blocks = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             blocks.add(new HouseBlock(buf.readInt(), buf.readInt(), buf.readInt()));
         }*/
@@ -31,6 +37,9 @@ public class CreateHouseC2SPacket implements IGTWPacket {
     @Override
     public void toBytes(ByteBuf buf) {
         house.toBytes(buf);
+        byte[] bytes = originalHouseName.getBytes();
+        buf.writeInt(bytes.length);
+        buf.writeBytes(bytes);
         /*buf.writeInt(blocks.size());
         for (HouseBlock block : blocks) {
             buf.writeInt(block.getX());

@@ -1,17 +1,23 @@
 package com.grandtheftwarzone.gtwhouses.server.actions;
 
 import com.grandtheftwarzone.gtwhouses.common.data.House;
+import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket;
+import com.grandtheftwarzone.gtwhouses.common.network.packets.s2c.HouseCoordsS2CPacket;
+import com.grandtheftwarzone.gtwhouses.common.network.packets.s2c.HouseImagesS2CPacket;
+import com.grandtheftwarzone.gtwhouses.common.network.packets.s2c.RegisterHouseS2CPacket;
 import com.grandtheftwarzone.gtwhouses.server.GTWHouseAction;
 import com.grandtheftwarzone.gtwhouses.server.GTWHouses;
+import com.grandtheftwarzone.gtwhouses.server.handlers.CreateHouseHandler;
+import com.grandtheftwarzone.gtwhouses.server.handlers.HouseCoordsHandler;
 import com.grandtheftwarzone.gtwhouses.server.util.HouseUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class EditAction {
-    private static final HashMap<UUID, House> editing = new HashMap<>();
 
     public static void handle(House house, Player player) throws GTWHouseAction.InvalidActionException {
         if (house.isOwned())
@@ -19,30 +25,20 @@ public class EditAction {
         if (house.isRented())
             throw new GTWHouseAction.InvalidActionException(ChatColor.RED + "This house is currently rented and cannot be edited!\n" + ChatColor.GOLD + " (You can try to reset the house first)");
 
-        if (editing.containsKey(player.getUniqueId())) {
-            throw new GTWHouseAction.InvalidActionException("You are already editing a house!");
-        }
 
-        editing.put(player.getUniqueId(), house);
-        GTWHouses.getManager().removeHouse(house);
+        GTWHouses.getPacketManager().sendPacket(player, new HouseCoordsS2CPacket(
+                house.getName(), house.getBuyCost(), house.getRentCost(), house.getType().ordinal(),
+                house.getMaxPosX(), house.getMinPosY(), house.getMinPosZ(), house.getMaxPosX(), house.getMaxPosY(), house.getMaxPosZ(),
+                house.getWorld(),
+                house.getImageURL(),
+                GTWHouses.getManager().getHouseBlocks(house.getName()).size(), house.getName()
+        ));
 
-        player.sendMessage("You are now editing house " + house.getName());
-        player.sendMessage("Use the command /house finish to finish editing the house");
-    }
+        HouseCoordsHandler.houseBlocks.put(player.getUniqueId(), GTWHouses.getManager().getHouseBlocks(house.getName()));
 
+        //TODO: Make this in a separate method and maybe thread
+        for (Player p : GTWHouses.getInstance().getServer().getOnlinePlayers())
+            GTWHouses.getPacketManager().sendPacket(p, new HouseImagesS2CPacket(Collections.singletonList(house.getImageURL())));
 
-    public static void handleFinish(Player player) {
-        if (!editing.containsKey(player.getUniqueId())) {
-            player.sendMessage(ChatColor.RED + "You are not editing a house!");
-            return;
-        }
-
-        House edited = editing.get(player.getUniqueId());
-        editing.remove(player.getUniqueId());
-
-        GTWHouses.getManager().addHouse(edited, HouseUtils.getHouseBlocks(edited));
-        GTWHouses.getManager().save();
-
-        player.sendMessage("House " + edited.getName() + " has been edited!");
     }
 }
