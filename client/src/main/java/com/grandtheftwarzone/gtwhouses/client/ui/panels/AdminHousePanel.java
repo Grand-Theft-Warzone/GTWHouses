@@ -45,7 +45,7 @@ public class AdminHousePanel extends GuiPanel {
         houseInfoPanel.setLayout(GridLayout.columnLayout(15, 2));
 
 
-        String selling = house.isForSale() ? house.getSellCost() + "$" : "NOT FOR SALE";
+        String selling = house.isForSale() ? house.isOwned() ? house.getSellCost() + "$" : house.getBuyCost() + "$ by City" : "NOT FOR SALE";
         String rentValue = house.getRentCost() + "$/day";
 
         UUID renterUUID = house.getRenter() == null ? null : house.getRenter();
@@ -77,6 +77,13 @@ public class AdminHousePanel extends GuiPanel {
         });
 
 
+        GuiButton editHouseBlocks = new GuiButton("Edit Blocks");
+        editHouseBlocks.setCssId("editButton2").setCssClass("houseBtn");
+        editHouseBlocks.addClickListener((a, b, c) -> {
+            GTWNetworkHandler.sendToServer(new HouseActionC2SPacket(HouseActions.EditBlocks, house.getName(), null));
+            Minecraft.getMinecraft().player.closeScreen();
+        });
+
         GuiButton resetHouseBlocks = new GuiButton("Reset Blocks");
         resetHouseBlocks.setCssId("resetButton").setCssClass("houseBtn");
         resetHouseBlocks.addClickListener((a, b, c) -> {
@@ -96,6 +103,7 @@ public class AdminHousePanel extends GuiPanel {
         });
 
         buttonsPanel.add(editHouse);
+        buttonsPanel.add(editHouseBlocks);
         buttonsPanel.add(resetHouseBlocks);
         buttonsPanel.add(deleteHouse);
 
