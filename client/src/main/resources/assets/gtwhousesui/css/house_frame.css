@@ -446,3 +446,13 @@
     /*background-color: rgb(101, 140, 180);
     border-color: rgb(255, 208, 52);*/
 }
+
+
+/* My Houses empty */
+#emptyPanel {
+    border-color: white;
+    height: 150px;
+
+    top: auto;
+    bottom: auto;
+}
