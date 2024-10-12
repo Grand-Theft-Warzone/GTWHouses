@@ -1,6 +1,6 @@
 package com.grandtheftwarzone.gtwhouses.server.handlers;
 
-import com.grandtheftwarzone.gtwhouses.common.data.HouseBlock;
+import com.grandtheftwarzone.gtwhouses.common.data.HousePlacedBlock;
 import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.HouseCoordsC2SPacket;
 import com.grandtheftwarzone.gtwhouses.common.network.packets.s2c.HouseCoordsS2CPacket;
 import com.grandtheftwarzone.gtwhouses.server.GTWHouses;
@@ -11,21 +11,18 @@ import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 public class HouseCoordsHandler implements GTWPacketHandler.PacketHandler<HouseCoordsC2SPacket>, Listener {
     private static final HashMap<UUID, HouseCoordsC2SPacket> pendingPackets = new HashMap<>();
-    public static final HashMap<UUID, List<HouseBlock>> houseBlocks = new HashMap<>();
 
     @Override
     public void handle(Player sender, HouseCoordsC2SPacket packet) {
@@ -65,14 +62,11 @@ public class HouseCoordsHandler implements GTWPacketHandler.PacketHandler<HouseC
         int maxPosZ = selection.getMaximumPoint().getBlockZ();
 
         HouseCoordsC2SPacket packet = pendingPackets.remove(event.getPlayer().getUniqueId());
-        houseBlocks.put(event.getPlayer().getUniqueId(), HouseUtils.getHouseBlocks(minPosX, minPosY, minPosZ, maxPosX, maxPosY, maxPosZ, selection.getWorld()));
 
         GTWHouses.getPacketManager().sendPacket(event.getPlayer(), new HouseCoordsS2CPacket(
                 packet.getName(), packet.getBuyCost(), packet.getRentCost(), packet.getType(),
                 minPosX, minPosY, minPosZ, maxPosX, maxPosY, maxPosZ, selection.getWorld().getName(),
-                packet.getImageURL(),
-                houseBlocks.get(event.getPlayer().getUniqueId()).size(), packet.getOriginalName()
-                //HouseUtils.getHouseBlocks(minPosX, minPosY, minPosZ, maxPosX, maxPosY, maxPosZ, selection.getWorld())
+                packet.getImageURL(), packet.getOriginalName()
         ));
 
         event.getPlayer().getInventory().removeItem(new ItemStack(Material.WOOD_AXE, 1));

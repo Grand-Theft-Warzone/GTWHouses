@@ -1,7 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.server;
 
 import com.grandtheftwarzone.gtwhouses.common.data.House;
-import com.grandtheftwarzone.gtwhouses.common.data.HouseBlock;
+import com.grandtheftwarzone.gtwhouses.common.data.HousePlacedBlock;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import lombok.AllArgsConstructor;
@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class HouseSaver {
     @NoArgsConstructor
     public static class HouseAndBlock implements Serializable {
         private House house;
-        private List<HouseBlock> blocks;
+        private Collection<HousePlacedBlock> blocks;
 
         public static HouseAndBlock fromByes(ByteBuf buf) {
             HouseAndBlock hb = new HouseAndBlock();
@@ -77,7 +78,7 @@ public class HouseSaver {
 
             int size = buf.readInt();
             for (int i = 0; i < size; i++) {
-                hb.blocks.add(HouseBlock.fromBytes(buf));
+                hb.blocks.add(HousePlacedBlock.fromBytes(buf));
             }
 
             return hb;
@@ -87,7 +88,7 @@ public class HouseSaver {
             house.toBytes(buf);
 
             buf.writeInt(blocks.size());
-            for (HouseBlock block : blocks) {
+            for (HousePlacedBlock block : blocks) {
                 block.toBytes(buf);
             }
         }

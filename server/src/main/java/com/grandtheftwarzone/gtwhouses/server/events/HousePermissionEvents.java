@@ -1,14 +1,15 @@
 package com.grandtheftwarzone.gtwhouses.server.events;
 
-import com.grandtheftwarzone.gtwhouses.server.GTWHouses;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
-import com.grandtheftwarzone.gtwhouses.common.data.HouseBlock;
+import com.grandtheftwarzone.gtwhouses.common.data.HousePlacedBlock;
+import com.grandtheftwarzone.gtwhouses.server.GTWHouses;
+import com.grandtheftwarzone.gtwhouses.server.actions.EditBlocksAction;
 import com.sk89q.worldguard.bukkit.event.block.BreakBlockEvent;
 import com.sk89q.worldguard.bukkit.event.block.PlaceBlockEvent;
 import com.sk89q.worldguard.bukkit.event.block.UseBlockEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +20,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+
+import java.util.Map;
+import java.util.Objects;
 
 public class HousePermissionEvents implements Listener {
 
@@ -34,6 +38,12 @@ public class HousePermissionEvents implements Listener {
 
         House house = GTWHouses.getManager().getHouseInLocation(location);
         if (house == null) return; // If the block is not in a house, return
+
+        //If player is editing house blocks, allow block  breaking
+        if (Objects.equals(house, EditBlocksAction.editing.get(player.getUniqueId()))) {
+            worldGuardEvent.setResult(PlaceBlockEvent.Result.ALLOW);
+            return;
+        }
 
         boolean isOwner = player.getUniqueId().equals(house.getOwner());
         boolean isRenter = player.getUniqueId().equals(house.getRenter());
@@ -52,16 +62,18 @@ public class HousePermissionEvents implements Listener {
             return;
         }
 
-        World world = player.getServer().getWorld(house.getWorld());
-        // Every house block is a block that can't be broken
-        for (HouseBlock houseBlock : GTWHouses.getManager().getHouseBlocks(house.getName())) {
-            if (!location.equals(new Location(world, houseBlock.getX(), houseBlock.getY(), houseBlock.getZ())))
-                continue;
+        Map<Integer, HousePlacedBlock> placedBlocks = GTWHouses.getManager().getPlacedBlocks(house.getName());
+        if (placedBlocks == null) return;
 
-//            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Hey! " + ChatColor.RESET + ChatColor.GRAY + "You can't break a house block.");
+        Integer hash = HousePlacedBlock.getHash(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+        if (!placedBlocks.containsKey(hash)) {
             event.setCancelled(true);
             return;
         }
+
+        placedBlocks.remove(hash); // Remove the block from the placed blocks since it was broken
+        Bukkit.getScheduler().runTask(GTWHouses.getInstance(), () -> block.setType(org.bukkit.Material.AIR));
+        System.out.println("Broke: " + hash + " to " + house.getName() + " at " + location.getBlockX() + " " + location.getBlockY() + " " + location.getBlockZ());
 
         worldGuardEvent.setResult(BreakBlockEvent.Result.ALLOW);
 
@@ -87,6 +99,12 @@ public class HousePermissionEvents implements Listener {
 
         House house = GTWHouses.getManager().getHouseInLocation(location);
         if (house == null) return; // If the block is not in a house, return
+
+        //If player is editing house blocks, allow block usage
+        if (Objects.equals(house, EditBlocksAction.editing.get(player.getUniqueId()))) {
+            worldGuardEvent.setResult(PlaceBlockEvent.Result.ALLOW);
+            return;
+        }
 
         boolean isOwner = player.getUniqueId().equals(house.getOwner());
         boolean isRenter = player.getUniqueId().equals(house.getRenter());
@@ -129,6 +147,12 @@ public class HousePermissionEvents implements Listener {
         House house = GTWHouses.getManager().getHouseInLocation(location);
         if (house == null) return; // If the block is not in a house, return
 
+        //If player is editing house blocks, allow block placement
+        if (Objects.equals(house, EditBlocksAction.editing.get(player.getUniqueId()))) {
+            worldGuardEvent.setResult(PlaceBlockEvent.Result.ALLOW);
+            return;
+        }
+
         boolean isOwner = player.getUniqueId().equals(house.getOwner());
         boolean isRenter = player.getUniqueId().equals(house.getRenter());
 
@@ -145,6 +169,14 @@ public class HousePermissionEvents implements Listener {
             worldGuardEvent.setResult(PlaceBlockEvent.Result.DENY);
             return;
         }
+
+        Map<Integer, HousePlacedBlock> placedBlocks = GTWHouses.getManager().getPlacedBlocks(house.getName());
+        if (placedBlocks == null) return;
+
+        Integer hash = HousePlacedBlock.getHash(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+        placedBlocks.put(hash, new HousePlacedBlock(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
+
+        System.out.println("Added: " + hash + " to " + house.getName() + " at " + location.getBlockX() + " " + location.getBlockY() + " " + location.getBlockZ());
 
         worldGuardEvent.setResult(PlaceBlockEvent.Result.ALLOW);
         //  event.setCancelled(false);

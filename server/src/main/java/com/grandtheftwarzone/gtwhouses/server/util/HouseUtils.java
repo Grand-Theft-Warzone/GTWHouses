@@ -2,7 +2,7 @@ package com.grandtheftwarzone.gtwhouses.server.util;
 
 import com.grandtheftwarzone.gtwhouses.server.GTWHouses;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
-import com.grandtheftwarzone.gtwhouses.common.data.HouseBlock;
+import com.grandtheftwarzone.gtwhouses.common.data.HousePlacedBlock;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 
@@ -17,25 +17,8 @@ public class HouseUtils {
 
     public static void resetHouseBlocks(House house, Server server) {
         World world = server.getWorld(house.getWorld());
-
-        //TODO: This can be optimized by storing blocks in map based on their position
-        for (int x = house.getMinPosX(); x < house.getMaxPosX(); x++) {
-            for (int y = house.getMinPosY(); y < house.getMaxPosY(); y++) {
-                for (int z = house.getMinPosZ(); z < house.getMaxPosZ(); z++) {
-                    if (world.getBlockAt(x, y, z).getType() == Material.AIR) continue;
-                    boolean isHouseBlock = false;
-
-                    for (HouseBlock block : GTWHouses.getManager().getHouseBlocks(house.getName())) {
-                        if (block.getX() == x && block.getY() == y && block.getZ() == z) {
-                            isHouseBlock = true;
-                            break;
-                        }
-                    }
-
-                    if (!isHouseBlock) world.getBlockAt(x, y, z).setType(Material.AIR);
-                }
-            }
-        }
+        for (HousePlacedBlock block : GTWHouses.getManager().getPlacedBlocks(house.getName()).values())
+            world.getBlockAt(block.getX(), block.getY(), block.getZ()).setType(Material.AIR);
     }
 
     //TODO: Test this function
@@ -119,22 +102,22 @@ public class HouseUtils {
     }
 
 
-    public static List<HouseBlock> getHouseBlocks(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, World world) {
-        List<HouseBlock> blocks = new ArrayList<>();
+    /*public static List<HousePlacedBlock> getHouseBlocks(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, World world) {
+        List<HousePlacedBlock> blocks = new ArrayList<>();
         for (int x = minX; x <= maxX; x++) {
             for (int y = minY; y <= maxY; y++) {
                 for (int z = minZ; z <= maxZ; z++) {
                     Block block = world.getBlockAt(x, y, z);
                     if (block.getType() != Material.AIR)
-                        blocks.add(new HouseBlock(x, y, z));
+                        blocks.add(new HousePlacedBlock(x, y, z));
                 }
             }
         }
         return blocks;
     }
 
-    public static List<HouseBlock> getHouseBlocks(House house) {
+    public static List<HousePlacedBlock> getHouseBlocks(House house) {
         return getHouseBlocks(house.getMinPosX(), house.getMinPosY(), house.getMinPosZ(), house.getMaxPosX(), house.getMaxPosY(), house.getMaxPosZ(), Bukkit.getWorld(house.getWorld()));
-    }
+    }*/
 
 }

@@ -2,7 +2,6 @@ package com.grandtheftwarzone.gtwhouses.client.ui.frames;
 
 import com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
-import com.grandtheftwarzone.gtwhouses.common.data.HouseBlock;
 import com.grandtheftwarzone.gtwhouses.common.data.HouseType;
 import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.CreateHouseC2SPacket;
 import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.HouseCoordsC2SPacket;
@@ -18,7 +17,6 @@ import fr.aym.acsguis.component.textarea.GuiTextField;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,11 +31,8 @@ public class AdminCreateHouseFrame extends GuiFrame {
 
     private final GuiLabel minCoordsLabel;
     private final GuiLabel maxCoordsLabel;
-    private final GuiLabel protectedBlocksLabel;
 
     private House house;
-    //private List<HouseBlock> blocks;
-    private int blockCount = 0;
 
     private HouseType type = HouseType.HIGH_END;
 
@@ -48,6 +43,8 @@ public class AdminCreateHouseFrame extends GuiFrame {
     private String originalName = "";
 
     GuiButton createButton;
+
+    private boolean hasSetCoords = false;
 
     public AdminCreateHouseFrame() {
         super(new GuiScaler.Identity());
@@ -145,7 +142,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
         houseCoordsLabel.setCssId("houseCoordsLabel").setCssClass("auto");
 
         GuiPanel coordsPanel = new GuiPanel();
-        rightPanel.setLayout(new GridLayout(-1, 25, 10, GridLayout.GridDirection.VERTICAL, 5));
+        rightPanel.setLayout(new GridLayout(-1, 30, 10, GridLayout.GridDirection.VERTICAL, 5));
         coordsPanel.setCssId("coordsPanel").setCssClass("auto");
 
         minCoordsLabel = new GuiLabel("Min: Not set");
@@ -153,9 +150,6 @@ public class AdminCreateHouseFrame extends GuiFrame {
 
         maxCoordsLabel = new GuiLabel("Max: Not set");
         maxCoordsLabel.setCssId("maxCoordsLabel").setCssClass("auto");
-
-        protectedBlocksLabel = new GuiLabel("House Blocks: Not set");
-        protectedBlocksLabel.setCssId("protectedBlocksLabel").setCssClass("auto");
 
         GuiButton setCoordsButton = new GuiButton("Set Coords");
         setCoordsButton.setCssId("setCoordsButton").setCssClass("auto");
@@ -202,7 +196,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
         });
 
         createButton.addClickListener((a, b, c) -> {
-            if (house == null || blockCount == 0/*|| blocks == null*/) return;
+            if (house == null || !hasSetCoords) return;
 
             house.setName(nameField.getText());
             house.setBuyCost(buyCostField.getValue());
@@ -215,7 +209,6 @@ public class AdminCreateHouseFrame extends GuiFrame {
 
         coordsPanel.add(minCoordsLabel);
         coordsPanel.add(maxCoordsLabel);
-        coordsPanel.add(protectedBlocksLabel);
         coordsPanel.add(setCoordsButton);
 
         rightPanel.add(houseCoordsLabel);
@@ -227,6 +220,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
 
     public void loadPacket(HouseCoordsS2CPacket packet) {
         this.originalName = packet.getOriginalName();
+        this.hasSetCoords = true;
 
         house = new House(nameField.getText(), packet.getWorldName(), rentCostField.getValue(), buyCostField.getValue(), type);
         house.setMinPosX(packet.getMinX());
@@ -260,9 +254,6 @@ public class AdminCreateHouseFrame extends GuiFrame {
 
         if (!originalName.isEmpty()) createButton.setText("Edit House");
 
-        // blocks = packet.getBlocks();
-        blockCount = packet.getBlockCount();
-
         nameField.setText(packet.getName());
         buyCostField.setValue(packet.getBuyCost());
         rentCostField.setValue(packet.getRentCost());
@@ -270,8 +261,6 @@ public class AdminCreateHouseFrame extends GuiFrame {
 
         minCoordsLabel.setText("Min: " + packet.getMinX() + "X, " + packet.getMinY() + "Y, " + packet.getMinZ() + "Z");
         maxCoordsLabel.setText("Max: " + packet.getMaxX() + "X, " + packet.getMaxY() + "Y, " + packet.getMaxZ() + "Z");
-        //protectedBlocksLabel.setText("House Blocks: " + packet.getBlocks().size());
-        protectedBlocksLabel.setText("House Blocks: " + packet.getBlockCount());
     }
 
     @Override

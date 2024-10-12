@@ -1,15 +1,11 @@
 package com.grandtheftwarzone.gtwhouses.common.network.packets.c2s;
 
 import com.grandtheftwarzone.gtwhouses.common.data.House;
-import com.grandtheftwarzone.gtwhouses.common.data.HouseBlock;
 import com.grandtheftwarzone.gtwhouses.common.network.IGTWPacket;
 import io.netty.buffer.ByteBuf;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor

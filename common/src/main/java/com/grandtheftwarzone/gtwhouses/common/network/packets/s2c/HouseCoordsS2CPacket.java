@@ -25,8 +25,6 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
     private String worldName;
     private String imageURL;
 
-    //  private List<HouseBlock> blocks;
-    private int blockCount;
     private String originalName;
 
 
@@ -47,13 +45,6 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
         maxY = buf.readInt();
         maxZ = buf.readInt();
 
-     /*   blocks = new ArrayList<>();
-        int size = buf.readInt();
-
-        for (int i = 0; i < size; i++) {
-            blocks.add(new HouseBlock(buf.readInt(), buf.readInt(), buf.readInt()));
-        }*/
-
 
         byte[] worldBytes = new byte[buf.readInt()];
         buf.readBytes(worldBytes);
@@ -63,8 +54,6 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
         buf.readBytes(imageBytes);
         imageURL = new String(imageBytes);
 
-
-        blockCount = buf.readInt();
 
         byte[] originalNameBytes = new byte[buf.readInt()];
         buf.readBytes(originalNameBytes);
@@ -89,14 +78,6 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
         buf.writeInt(maxZ);
 
 
-      /*  buf.writeInt(blocks.size());
-
-        for (HouseBlock block : blocks) {
-            buf.writeInt(block.getX());
-            buf.writeInt(block.getY());
-            buf.writeInt(block.getZ());
-        }*/
-
         byte[] worldBytes = worldName.getBytes();
         buf.writeInt(worldBytes.length);
         buf.writeBytes(worldBytes);
@@ -105,8 +86,6 @@ public class HouseCoordsS2CPacket implements IGTWPacket {
         buf.writeInt(imageBytes.length);
         buf.writeBytes(imageBytes);
 
-
-        buf.writeInt(blockCount);
 
         byte[] originalNameBytes = originalName.getBytes();
         buf.writeInt(originalNameBytes.length);

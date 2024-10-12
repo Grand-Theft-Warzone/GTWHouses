@@ -1,24 +1,20 @@
 package com.grandtheftwarzone.gtwhouses.server;
 
 import com.grandtheftwarzone.gtwhouses.common.data.House;
-import com.grandtheftwarzone.gtwhouses.common.data.HouseBlock;
+import com.grandtheftwarzone.gtwhouses.common.data.HousePlacedBlock;
 import com.grandtheftwarzone.gtwhouses.server.util.HouseUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Location;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class HousesManager {
     private final HashMap<String, House> houses = new HashMap<>();
-    private final HashMap<String, List<HouseBlock>> houseBlocks = new HashMap<>();
+    private final HashMap<String, Map<Integer, HousePlacedBlock>> placedBlocks = new HashMap<>();
 
     //Helper list for images
     @Getter
@@ -38,9 +34,9 @@ public class HousesManager {
         load();
     }
 
-    public void addHouse(House house, List<HouseBlock> blocks) {
+    public void addHouse(House house) {
         houses.put(house.getName(), house);
-        houseBlocks.put(house.getName(), blocks);
+        placedBlocks.put(house.getName(), new HashMap<>());
     }
 
     public void removeHouse(House house) {
@@ -49,23 +45,29 @@ public class HousesManager {
 
     public void removeHouse(String name) {
         houses.remove(name);
-        houseBlocks.remove(name);
+        placedBlocks.remove(name);
+    }
+
+    public boolean hasHouse(String name) {
+        return houses.containsKey(name);
+    }
+
+    public void updateHouse(String originalName, House house ) {
+        Map<Integer, HousePlacedBlock> blocks = placedBlocks.get(originalName);
+        removeHouse(originalName);
+
+        houses.put(house.getName(), house);
+        placedBlocks.put(house.getName(), blocks);
+
+        //TODO: Remove placed blocks that are not in the new house location
     }
 
     public Collection<House> getHouses() {
         return houses.values();
     }
 
-    public Collection<List<HouseBlock>> getHouseBlocks() {
-        return houseBlocks.values();
-    }
-
     public House getHouse(String name) {
         return houses.get(name);
-    }
-
-    public List<HouseBlock> getHouseBlocks(String houseName) {
-        return houseBlocks.get(houseName);
     }
 
     public boolean hasName(String houseName) {
@@ -74,9 +76,12 @@ public class HousesManager {
 
     public House getHouseInLocation(Location location) {
         for (House house : houses.values())
-            if (HouseUtils.isLocationInHouse(location, house))
-                return house;
+            if (HouseUtils.isLocationInHouse(location, house)) return house;
         return null;
+    }
+
+    public Map<Integer, HousePlacedBlock> getPlacedBlocks(String houseName) {
+        return placedBlocks.get(houseName);
     }
 
     private void updatePlayerHelpers() {
@@ -109,14 +114,14 @@ public class HousesManager {
 
     public void load() {
         houses.clear();
-        houseBlocks.clear();
+        placedBlocks.clear();
 
         try {
             List<HouseSaver.HouseAndBlock> loaded = saver.load();
 
             for (HouseSaver.HouseAndBlock houseAndBlock : loaded) {
                 houses.put(houseAndBlock.getHouse().getName(), houseAndBlock.getHouse());
-                houseBlocks.put(houseAndBlock.getHouse().getName(), houseAndBlock.getBlocks());
+                placedBlocks.put(houseAndBlock.getHouse().getName(), houseAndBlock.getBlocks().stream().collect(Collectors.toMap(HousePlacedBlock::getHash, block -> block)));
             }
 
             updatePlayerHelpers();
@@ -142,7 +147,7 @@ public class HousesManager {
     public void saveSync() {
         updatePlayerHelpers();
 
-        List<HouseSaver.HouseAndBlock> data = houses.values().stream().map(house -> new HouseSaver.HouseAndBlock(house, houseBlocks.get(house.getName()))).collect(Collectors.toList());
+        List<HouseSaver.HouseAndBlock> data = houses.values().stream().map(house -> new HouseSaver.HouseAndBlock(house, placedBlocks.get(house.getName()).values())).collect(Collectors.toList());
 
         try {
             saver.save(data);
@@ -156,8 +161,7 @@ public class HousesManager {
 
     @Getter
     @AllArgsConstructor
-    static
-    public class HouseHolder {
+    static public class HouseHolder {
         private final UUID player;
         private int count;
         private double value;

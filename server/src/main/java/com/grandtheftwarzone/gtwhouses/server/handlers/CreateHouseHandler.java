@@ -16,16 +16,14 @@ public class CreateHouseHandler implements GTWPacketHandler.PacketHandler<Create
             sender.sendMessage("You do not have permission to use this command.");
         }
 
-        //If it is editing a house, remove the old house
-        GTWHouses.getManager().removeHouse(packet.getOriginalHouseName());
+        if (GTWHouses.getManager().hasHouse(packet.getOriginalHouseName())) {
+            GTWHouses.getManager().updateHouse(packet.getOriginalHouseName(), packet.getHouse());
+            System.out.println("Upadting house " + packet.getOriginalHouseName() + " to " + packet.getHouse().getName());
+        }else
+            GTWHouses.getManager().addHouse(packet.getHouse());
 
-        GTWHouses.getManager().addHouse(packet.getHouse(), HouseCoordsHandler.houseBlocks.get(sender.getUniqueId()));
         GTWHouses.getManager().save();
-
-        HouseCoordsHandler.houseBlocks.remove(sender.getUniqueId());
-
         sender.sendMessage(ChatColor.GREEN + "House registered successfully.");
-
 
         //TODO: Make this in a separate method and maybe thread
         for (Player p : GTWHouses.getInstance().getServer().getOnlinePlayers())
