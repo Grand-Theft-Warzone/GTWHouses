@@ -74,11 +74,19 @@ public class MapPanel extends GuiPanel {
         });
 
         addWheelListener(i -> {
-            zoom += 0.0004f * i;
-            zoom = Math.max(0.3f, zoom);
-            zoom = Math.min(2, zoom);
+            int[] centerWorldPos = getCenterWorldPos();
+            int mapViewCenterWorldX = centerWorldPos[0];
+            int mapViewCenterWorldY = centerWorldPos[1];
 
-            clampOffset();
+            int prevZoom = (int) zoom;
+
+            zoom += 0.0004f * i;
+            zoom = Math.max(0.4f, zoom);
+            zoom = Math.min(1.9f, zoom);
+
+            int offset = prevZoom < zoom ? 2 : -2;
+
+            centerMap(mapViewCenterWorldX + offset, mapViewCenterWorldY);
         });
     }
 
@@ -146,15 +154,28 @@ public class MapPanel extends GuiPanel {
         clampOffset();
     }
 
+    public int[] getCenterWorldPos() {
+        float viewCenterX = getWidth() / 2f;
+        float viewCenterY = getHeight() / 2f;
+
+        float mapCenterX = (viewCenterX + offsetX) / zoom;
+        float mapCenterY = (viewCenterY + offsetY) / zoom;
+
+        int worldX = (int) (mapWorldX + mapCenterX / worldToMapScaleX);
+        int worldZ = (int) (mapWorldZ + mapCenterY / worldToMapScaleY);
+
+        return new int[]{worldX, worldZ};
+    }
+
 
     private void clampOffset() {
-        int zoomedMapWidth = (int) (MAP_WIDTH * zoom);
-        int zoomedMapHeight = (int) (MAP_HEIGHT * zoom);
+        float zoomedMapWidth = (MAP_WIDTH * zoom);
+        float zoomedMapHeight = (MAP_HEIGHT * zoom);
 
-        int maxOffsetX = zoomedMapWidth - (int) getWidth();
-        int maxOffsetY = zoomedMapHeight - (int) getHeight();
+        float maxOffsetX = zoomedMapWidth - getWidth();
+        float maxOffsetY = zoomedMapHeight - getHeight();
 
-        offsetX = Math.max(0, Math.min(offsetX, maxOffsetX));
-        offsetY = Math.max(0, Math.min(offsetY, maxOffsetY));
+        offsetX = Math.max(0, Math.min(offsetX, (int) maxOffsetX));
+        offsetY = Math.max(0, Math.min(offsetY, (int) maxOffsetY));
     }
 }
