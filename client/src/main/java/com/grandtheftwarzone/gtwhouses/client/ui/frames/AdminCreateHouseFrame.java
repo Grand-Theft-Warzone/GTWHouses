@@ -202,6 +202,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
             house.setBuyCost(buyCostField.getValue());
             house.setRentCost(rentCostField.getValue());
             house.setImageURL(imageURLField.getText().trim());
+            house.setType(type);
 
             GTWNetworkHandler.sendToServer(new CreateHouseC2SPacket(house, originalName/*, blocks*/));
             Minecraft.getMinecraft().player.closeScreen();
@@ -232,7 +233,7 @@ public class AdminCreateHouseFrame extends GuiFrame {
         house.setType(HouseType.values()[packet.getType()]);
         house.setImageURL(packet.getImageURL());
 
-        type = house.getType();
+        type = HouseType.values()[packet.getType()];
 
         switch (type) {
             case HIGH_END:

@@ -84,7 +84,7 @@ public class AdminHousePanel extends GuiPanel {
             Minecraft.getMinecraft().player.closeScreen();
         });
 
-        GuiButton resetHouseBlocks = new GuiButton("Reset Blocks");
+        GuiButton resetHouseBlocks = new GuiButton("Reset House");
         resetHouseBlocks.setCssId("resetButton").setCssClass("houseBtn");
         resetHouseBlocks.addClickListener((a, b, c) -> {
             add(new ConfirmModal(this, (mouseX, mouseY, pointer) -> {

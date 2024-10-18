@@ -15,7 +15,6 @@ import fr.aym.acsguis.component.panel.GuiScrollPane;
 import fr.aym.acsguis.component.panel.GuiTabbedPane;
 import fr.aym.acsguis.component.textarea.GuiLabel;
 import fr.aym.acsguis.utils.GuiTextureSprite;
-import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -55,7 +54,8 @@ public class HouseFrame extends GuiFrame {
         this.houses = houses = houses.stream().sorted(Comparator.comparingDouble(House::getBuyCost)).collect(Collectors.toList());
 
         for (House house : houses) {
-            if (house.isOwned() && house.getOwner().equals(Minecraft.getMinecraft().player.getUniqueID())) {
+            if ((house.getRenter() != null && house.getRenter().equals(Minecraft.getMinecraft().player.getUniqueID()))
+                    || (house.isOwned() && house.getOwner().equals(Minecraft.getMinecraft().player.getUniqueID()))) {
                 myHouses.add(house);
                 continue;
             }
@@ -118,10 +118,7 @@ public class HouseFrame extends GuiFrame {
 
             contentPanel.add(scrollPane);
 
-            List<Marker> markers = filter.stream()
-                    .filter((h) -> filterType == null || h.getType() == filterType)
-                    .map(Marker::fromHouse)
-                    .collect(Collectors.toList());
+            List<Marker> markers = filter.stream().filter((h) -> filterType == null || h.getType() == filterType).map(Marker::fromHouse).collect(Collectors.toList());
 
             int offsetX = 0;
             int offsetY = 0;

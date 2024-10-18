@@ -45,19 +45,19 @@ public class MyHousePanel extends GuiPanel {
         String rentValue = house.getRentCost() + "$/day";
 
         UUID renterUUID = house.getRenter() == null ? null : house.getRenter();
-        String renterName = house.getRenter() == null ? "NO RENTER" : Minecraft.getMinecraft().getConnection().getPlayerInfo(renterUUID).getGameProfile().getName();
+        String renterName = house.getRenter() == null ? "NO TENANT" : Minecraft.getMinecraft().getConnection().getPlayerInfo(renterUUID).getGameProfile().getName();
 
         houseInfoPanel.add(new GuiLabel(house.getName()).setCssId("houseName"));
         houseInfoPanel.add(new GuiLabel("Buy Value: " + house.getBuyCost() + "$").setCssId("housePrice"));
         houseInfoPanel.add(new GuiLabel("Selling: " + selling).setCssId("houseSell"));
-        houseInfoPanel.add(new GuiLabel("Renter: " + renterName).setCssId("houseRenter"));
+        houseInfoPanel.add(new GuiLabel("Tenant: " + renterName).setCssId("houseRenter"));
         houseInfoPanel.add(new GuiLabel("Rent Value: " + rentValue).setCssId("houseLocation"));
 
         GuiPanel buttonsPanel = new GuiPanel();
         buttonsPanel.setLayout(new GridLayout(50, 15, 5, GridLayout.GridDirection.HORIZONTAL, 4));
         buttonsPanel.setCssClass("houseButtons");
 
-        GuiButton sellButton = new GuiButton( house.getSellCost() == -1 ?  "Sell" : "Unsell");
+        GuiButton sellButton = new GuiButton(house.getSellCost() == -1 ? "Sell" : "Unsell");
         sellButton.setCssId("sellButton").setCssClass("houseBtn");
         sellButton.addClickListener((pos, mouse, button) -> {
             if (house.getSellCost() == -1)
@@ -77,12 +77,15 @@ public class MyHousePanel extends GuiPanel {
             Minecraft.getMinecraft().player.closeScreen();
         })));
 
-        String rentAction = house.isRentable() ? "Stop Renting" : "Rent Out";
+        String rentAction = house.isRentable() ? "Stop Renting" : house.isRented() ? "Kick Tenant" : "Rent Out";
         GuiButton rentOutButton = new GuiButton(rentAction);
         rentOutButton.setCssId("rentOutButton").setCssClass("houseBtn");
         rentOutButton.addClickListener((a, b, c) -> add(new ConfirmModal(this, (pos, mouse, button) -> {
-            GTWNetworkHandler.sendToServer(new HouseActionC2SPacket(
-                    house.isRentable() ? HouseActions.Unrentable : HouseActions.Rentable, house.getName(), null));
+            HouseActions action = HouseActions.Rentable;
+            if (house.isRented() || house.isRentable())
+                action = HouseActions.Unrentable;
+
+            GTWNetworkHandler.sendToServer(new HouseActionC2SPacket(action, house.getName(), null));
             Minecraft.getMinecraft().player.closeScreen();
         })));
 

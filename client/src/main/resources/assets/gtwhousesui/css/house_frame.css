@@ -307,6 +307,11 @@
     background-color: darkorange;
 }
 
+#stopRentButton {
+    width: 75px;
+    background-color: red;
+    right: 25px;
+}
 
 #rentTitle {
     left: auto;

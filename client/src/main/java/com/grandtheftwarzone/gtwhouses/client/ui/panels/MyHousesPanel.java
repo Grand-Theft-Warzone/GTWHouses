@@ -34,7 +34,10 @@ public class MyHousesPanel extends GuiPanel {
 
         for (int i = HouseFrame.sortHighToLow ? houses.size() - 1 : 0; HouseFrame.sortHighToLow ? i >= 0 : i < houses.size(); i += HouseFrame.sortHighToLow ? -1 : 1) {
             if (HouseFrame.filterType != null && !houses.get(i).getType().equals(HouseFrame.filterType)) continue;
-            scrollPane.add(new MyHousePanel(houses.get(i)).setCssClass("myHousePanel"));
+            GuiPanel housePanel = houses.get(i).isRented() ? new RentingHousePanel(houses.get(i)) : new MyHousePanel(houses.get(i));
+            housePanel.setCssClass("myHousePanel");
+
+            scrollPane.add(housePanel);
         }
 
         if (!houses.isEmpty()) {
