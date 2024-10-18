@@ -132,6 +132,29 @@
     text-shadow: none;
 }
 
+.selectedHousePanel {
+    left: 2px;
+    right: auto;
+    bottom: auto;
+    top: auto;
+
+    height: 200px;
+    width: 200px;
+
+    border-width: 1px;
+    border-position: external;
+    border-color: rgb(255, 208, 52);
+}
+
+.selectedHousePanel > .houseName {
+    top: 178px;
+    left: 5px;
+    font-size: 10px;
+
+    color: black;
+    text-shadow: none;
+}
+
 .imagePanel {
     top: 7px;
     left: 7px;

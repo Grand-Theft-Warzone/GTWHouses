@@ -2,9 +2,9 @@ package com.grandtheftwarzone.gtwhouses.client.ui.panels;
 
 import com.grandtheftwarzone.gtwhouses.common.data.Marker;
 import fr.aym.acsguis.component.panel.GuiPanel;
+import fr.aym.acsguis.component.panel.GuiScrollPane;
 import fr.aym.acsguis.event.listeners.mouse.IMouseExtraClickListener;
 import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -44,6 +44,7 @@ public class MapPanel extends GuiPanel {
     private boolean dragging = false;
 
     private String selectedHouse;
+    private int hoveredMarkerIndex = -1;
 
     public MapPanel(List<Marker> markers, int offsetX, int offsetY, float startZoom) {
         super();
@@ -70,6 +71,35 @@ public class MapPanel extends GuiPanel {
             @Override
             public void onMouseReleased(int i, int i1, int i2) {
                 dragging = false;
+
+                if (hoveredMarkerIndex != -1) {
+                    Marker m = markers.get(hoveredMarkerIndex);
+                    getParent().getChildComponents().forEach(c -> {
+                        if (c instanceof GuiScrollPane) {
+                            GuiScrollPane scrollPane = (GuiScrollPane) c;
+                            scrollPane.getySlider().setValue(hoveredMarkerIndex * 200);
+
+                            final int[] index = {0};
+                            scrollPane.getChildComponents().forEach(h -> {
+                                if (h instanceof HousePanel) {
+
+                                    h.setCssClass("housePanel");
+
+                                    if (index[0] == hoveredMarkerIndex)
+                                        h.setCssClass("selectedHousePanel");
+
+                                    index[0]++;
+                                }
+
+                            });
+                        }
+                    });
+
+                    centerMap(m.getX(), m.getZ());
+
+                    selectedHouse = m.getHouseName();
+                    hoveredMarkerIndex = -1;
+                }
             }
         });
 
@@ -102,38 +132,42 @@ public class MapPanel extends GuiPanel {
         GlStateManager.translate(getScreenX(), getScreenY(), 0);
         GlStateManager.translate(-offsetX, -offsetY, 0);
 
-
-        //GlStateManager.translate(getWidth() / 2, getHeight() / 2, 0);
         GlStateManager.scale(zoom, zoom, 1);
-        //GlStateManager.translate(-getWidth() / 2, -getHeight() / 2, 0);
-
 
         GlStateManager.color(1, 1, 1, 1);
         mc.getTextureManager().bindTexture(MAP_LOCATION);
-        //Gui.drawModalRectWithCustomSizedTexture(-offsetX, -offsetY, 0, 0, MAP_WIDTH, MAP_HEIGHT, MAP_WIDTH, MAP_HEIGHT);
         Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0, MAP_WIDTH, MAP_HEIGHT, MAP_WIDTH, MAP_HEIGHT);
 
         mc.getTextureManager().bindTexture(MARKER_LOCATION);
 
-        for (Marker marker : markers) {
+        float mouseXOnMap = (mouseX - getScreenX() + offsetX) / zoom;
+        float mouseYOnMap = (mouseY - getScreenY() + offsetY) / zoom;
+
+        hoveredMarkerIndex = -1;
+
+        for (int i = 0; i < markers.size(); i++) {
+            Marker marker = markers.get(i);
+
             int markerMapWorldX = marker.getX() - mapWorldX;
             int markerMapWorldY = marker.getZ() - mapWorldZ;
 
-            int markerScreenX = (int) (markerMapWorldX * worldToMapScaleX) - MARKER_WIDTH / 2; //Center of the marker
-            int markerScreenY = (int) (markerMapWorldY * worldToMapScaleY) - MARKER_HEIGHT; //Bottom of the marker
+            int markerScreenX = (int) (markerMapWorldX * worldToMapScaleX) - MARKER_WIDTH / 2; // Center of the marker
+            int markerScreenY = (int) (markerMapWorldY * worldToMapScaleY) - MARKER_HEIGHT; // Bottom of the marker
 
-            //markerScreenX -= offsetX;
-            //markerScreenY -= offsetY;
+
+            if (mouseXOnMap >= markerScreenX && mouseXOnMap <= markerScreenX + MARKER_WIDTH && mouseYOnMap >= markerScreenY && mouseYOnMap <= markerScreenY + MARKER_HEIGHT)
+                hoveredMarkerIndex = i;
 
             if (marker.getHouseName().equals(selectedHouse))
                 GlStateManager.color(1, 0.9f, 0, 1);
+            else if (hoveredMarkerIndex == i)
+                GlStateManager.color(1f, 0f, 0.2f, 1);
             else
                 GlStateManager.color(1, 1, 1, 1);
 
             Gui.drawModalRectWithCustomSizedTexture(markerScreenX, markerScreenY, 0, 0, MARKER_WIDTH, MARKER_HEIGHT, MARKER_WIDTH, MARKER_HEIGHT);
         }
         GlStateManager.popMatrix();
-
 
         lastMouseX = mouseX;
         lastMouseY = mouseY;
