@@ -154,8 +154,7 @@ public class MapPanel extends GuiPanel {
             int markerScreenX = (int) (markerMapWorldX * worldToMapScaleX) - MARKER_WIDTH / 2; // Center of the marker
             int markerScreenY = (int) (markerMapWorldY * worldToMapScaleY) - MARKER_HEIGHT; // Bottom of the marker
 
-
-            if (mouseXOnMap >= markerScreenX && mouseXOnMap <= markerScreenX + MARKER_WIDTH && mouseYOnMap >= markerScreenY && mouseYOnMap <= markerScreenY + MARKER_HEIGHT)
+            if (hoveredMarkerIndex == -1 && mouseXOnMap >= markerScreenX && mouseXOnMap <= markerScreenX + MARKER_WIDTH && mouseYOnMap >= markerScreenY && mouseYOnMap <= markerScreenY + MARKER_HEIGHT)
                 hoveredMarkerIndex = i;
 
             if (marker.getHouseName().equals(selectedHouse))
