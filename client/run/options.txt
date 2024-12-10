@@ -9,7 +9,7 @@ guiScale:2
 particles:1
 bobView:true
 anaglyph3d:false
-maxFps:120
+maxFps:140
 fboEnable:true
 difficulty:1
 fancyGraphics:false

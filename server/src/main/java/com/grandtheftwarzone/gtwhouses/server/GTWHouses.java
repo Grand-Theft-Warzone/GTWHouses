@@ -1,17 +1,25 @@
 package com.grandtheftwarzone.gtwhouses.server;
 
-import com.grandtheftwarzone.gtwhouses.server.events.BlockInteractEvent;
-import com.grandtheftwarzone.gtwhouses.server.events.HouseEnterEvent;
-import com.grandtheftwarzone.gtwhouses.server.events.HousePermissionEvents;
-import com.grandtheftwarzone.gtwhouses.server.events.JoinEvent;
-import com.grandtheftwarzone.gtwhouses.server.network.HousesPacketManager;
-import com.grandtheftwarzone.gtwhouses.server.handlers.HouseCoordsHandler;
-import com.grandtheftwarzone.gtwhouses.server.runnables.RentRunnable;
-import com.grandtheftwarzone.gtwhouses.server.util.LoginMessageSystem;
+import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.Shop;
+import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.packets.ShopGUIOpenPacket;
+import com.grandtheftwarzone.gtwhouses.server.gtwhouses.GTWHouseCommand;
+import com.grandtheftwarzone.gtwhouses.server.gtwhouses.HousesManager;
+import com.grandtheftwarzone.gtwhouses.server.gtwhouses.events.BlockInteractEvent;
+import com.grandtheftwarzone.gtwhouses.server.gtwhouses.events.HouseEnterEvent;
+import com.grandtheftwarzone.gtwhouses.server.gtwhouses.events.HousePermissionEvents;
+import com.grandtheftwarzone.gtwhouses.server.gtwhouses.events.JoinEvent;
+import com.grandtheftwarzone.gtwhouses.server.gtwnpcshops.ShopAdminCommand;
+import com.grandtheftwarzone.gtwhouses.server.gtwnpcshops.ShopsManager;
+import com.grandtheftwarzone.gtwhouses.server.gtwnpcshops.events.ShopEvents;
+import com.grandtheftwarzone.gtwhouses.server.network.GTWPacketManager;
+import com.grandtheftwarzone.gtwhouses.server.gtwhouses.handlers.HouseCoordsHandler;
+import com.grandtheftwarzone.gtwhouses.server.gtwhouses.runnables.RentRunnable;
+import com.grandtheftwarzone.gtwhouses.server.gtwhouses.util.LoginMessageSystem;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,9 +31,11 @@ public class GTWHouses extends JavaPlugin {
     private static GTWHouses instance;
 
     @Getter
-    private static HousesManager manager;
+    private static HousesManager housesManager;
     @Getter
-    private static HousesPacketManager packetManager;
+    private static ShopsManager shopsManager;
+    @Getter
+    private static GTWPacketManager packetManager;
 
     @Getter
     private static Economy economy;
@@ -53,11 +63,14 @@ public class GTWHouses extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
         }
 
-        manager = new HousesManager();
-        packetManager = new HousesPacketManager(this);
+        housesManager = new HousesManager();
+        shopsManager = new ShopsManager();
+
+        packetManager = new GTWPacketManager(this);
         loginMessageSystem.init();
 
         getCommand("house").setExecutor(new GTWHouseCommand());
+        getCommand("shop").setExecutor(new ShopAdminCommand());
 
         getServer().getPluginManager().registerEvents(new HousePermissionEvents(), this);
         getServer().getPluginManager().registerEvents(new HouseEnterEvent(), this);
@@ -66,12 +79,15 @@ public class GTWHouses extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockInteractEvent(), this);
         getServer().getPluginManager().registerEvents(new JoinEvent(), this);
 
+
+        getServer().getPluginManager().registerEvents(new ShopEvents(), this);
+
+        housesManager.load();
     }
 
 
     @Override
     public void onLoad() {
-        manager.load();
 
         //TODO: Check if this can be done asynchronously
         if (rentTask != null) rentTask.cancel();
@@ -80,7 +96,8 @@ public class GTWHouses extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        manager.saveSync();
+        housesManager.saveSync();
+        shopsManager.saveSync();
         getLogger().info("&GTW Houses has been disabled!");
     }
 
@@ -105,5 +122,16 @@ public class GTWHouses extends JavaPlugin {
         worldEditPlugin = (WorldEditPlugin) plugin;
 
         return true;
+    }
+
+    //Used by a custom version of znpcs using reflection
+    public void openShop(Player player, String shopname) {
+        Shop shop = getShopsManager().getShop(shopname);
+        if (shop == null) {
+            getLogger().warning("Shop " + shopname + " not found!");
+            return;
+        }
+
+        getPacketManager().sendPacket(player, new ShopGUIOpenPacket(shop, getShopsManager().getShopItems(shopname)));
     }
 }

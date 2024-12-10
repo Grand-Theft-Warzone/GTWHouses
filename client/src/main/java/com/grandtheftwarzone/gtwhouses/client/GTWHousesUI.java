@@ -1,18 +1,25 @@
 package com.grandtheftwarzone.gtwhouses.client;
 
-import com.grandtheftwarzone.gtwhouses.client.network.GTWNetworkHandler;
-import com.grandtheftwarzone.gtwhouses.client.ui.frames.AdminCreateHouseFrame;
-import com.grandtheftwarzone.gtwhouses.client.ui.frames.AdminFrame;
-import com.grandtheftwarzone.gtwhouses.client.ui.frames.HouseFrame;
-import com.grandtheftwarzone.gtwhouses.common.network.packets.c2s.OpenGUIC2SPacket;
+import com.grandtheftwarzone.gtwhouses.client.gtwhouses.network.GTWNetworkHandler;
+import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.npc.ShopNPC;
+import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.npc.ShopNPCFactory;
+import com.grandtheftwarzone.gtwhouses.client.gtwhouses.ui.frames.AdminCreateHouseFrame;
+import com.grandtheftwarzone.gtwhouses.client.gtwhouses.ui.frames.AdminFrame;
+import com.grandtheftwarzone.gtwhouses.client.gtwhouses.ui.frames.HouseFrame;
+import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.ui.GuiItemPricing;
+import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.ui.GuiShop;
 import fr.aym.acsguis.api.ACsGuiApi;
 import lombok.Getter;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.core.Logger;
@@ -34,6 +41,9 @@ public class GTWHousesUI {
         ACsGuiApi.registerStyleSheetToPreload(HouseFrame.CSS_LOCATION);
         ACsGuiApi.registerStyleSheetToPreload(AdminCreateHouseFrame.CSS_LOCATION);
         ACsGuiApi.registerStyleSheetToPreload(AdminFrame.CSS);
+
+        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "shopnpc"), ShopNPC.class, "shopnpc", ShopNPC.ENTITY_ID, this, 64, 1, false, 0x996600, 0x00ff00);
+        RenderingRegistry.registerEntityRenderingHandler(ShopNPC.class, new ShopNPCFactory());
     }
 
     @Mod.EventHandler
@@ -42,12 +52,8 @@ public class GTWHousesUI {
         MinecraftForge.EVENT_BUS.register(GTWNetworkHandler.class);
     }
 
-    /*@SubscribeEvent
+    @SubscribeEvent
     public void onPress(InputEvent.KeyInputEvent event) {
-        if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
-            GTWNetworkHandler.sendToServer(new OpenGUIC2SPacket(OpenGUIC2SPacket.OpenGUIType.ADMIN_PANEL));
-        } else if (Keyboard.isKeyDown(Keyboard.KEY_I)) {
-            GTWNetworkHandler.sendToServer(new OpenGUIC2SPacket(OpenGUIC2SPacket.OpenGUIType.HOUSES));
-        }
-    }*/
+
+    }
 }

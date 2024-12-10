@@ -1,0 +1,205 @@
+package com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.ui;
+
+import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.Shop;
+import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.ShopItem;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import org.lwjgl.input.Mouse;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class GuiShopCreation extends GuiScreen {
+    private GuiTextField shopNameField;
+    private GuiTextField searchField;
+    private List<Item> allItems;
+    private List<Item> filteredItems;
+    private List<Item> selectedItems;
+    private int scrollOffset = 0;
+    private static final int COLUMNS = 12;
+    private static final int ICON_SIZE = 18;
+    private int visibleRows;
+
+    private HashMap<String, ShopItem> shopItems;
+    private HashMap<String, Shop> shops;
+    private GuiButton addButton;
+
+    public GuiShopCreation(HashMap<String, Shop> shops, HashMap<String, ShopItem> shopItems) {
+        this.shopItems = shopItems;
+        this.shops = shops;
+    }
+
+    @Override
+    public void initGui() {
+        // allItems = shopItems.keySet().stream().map(Item::getByNameOrId).collect(Collectors.toList());
+        allItems = new ArrayList<>(ForgeRegistries.ITEMS.getValuesCollection());
+        filteredItems = new ArrayList<>(allItems);
+        selectedItems = new ArrayList<>();
+
+        visibleRows = calculateVisibleRows();
+
+        shopNameField = new GuiTextField(0, fontRenderer, this.width / 2 - 100, 20, 200, 20);
+        shopNameField.setMaxStringLength(50);
+        shopNameField.setFocused(true);
+
+        searchField = new GuiTextField(1, fontRenderer, this.width / 2 - 100, 60, 200, 20);
+        searchField.setMaxStringLength(50);
+
+        addButton = new GuiButton(0, this.width / 2 - 100, this.height - 40, 98, 20, "Create Shop");
+        this.addButton(addButton);
+        this.addButton(new GuiButton(1, this.width / 2 + 2, this.height - 40, 98, 20, "Exit"));
+    }
+
+    private int calculateVisibleRows() {
+        int startY = 90; // Start position of the grid
+        int availableHeight = this.height - startY - 60; // Space for grid minus bottom elements
+        return availableHeight / ICON_SIZE;
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        if (this.mc == null) return;
+        this.drawDefaultBackground();
+
+        if (shopNameField != null) {
+            shopNameField.drawTextBox();
+            drawCenteredString(fontRenderer, "Shop Name", this.width / 2, 10, 0xFFFFFF);
+        }
+
+        if (searchField != null) {
+            searchField.drawTextBox();
+            drawCenteredString(fontRenderer, "Search Items", this.width / 2, 50, 0xFFFFFF);
+        }
+
+        if (filteredItems != null) {
+            drawItemGrid(mouseX, mouseY, filteredItems, 90);
+        }
+
+        super.drawScreen(mouseX, mouseY, partialTicks);
+    }
+
+    private void drawItemGrid(int mouseX, int mouseY, List<Item> items, int startY) {
+        int startX = this.width / 2 - (COLUMNS * ICON_SIZE) / 2;
+
+        List<String> hoverText = null;
+        int hoverX = 0;
+        int hoverY = 0;
+
+        for (int row = 0; row < visibleRows; row++) {
+            for (int col = 0; col < COLUMNS; col++) {
+                int index = scrollOffset + row * COLUMNS + col;
+                if (index >= items.size()) return;
+
+                int x = startX + col * ICON_SIZE;
+                int y = startY + row * ICON_SIZE;
+                Item item = items.get(index);
+
+                GlStateManager.enableBlend();
+                itemRender.renderItemAndEffectIntoGUI(new ItemStack(item), x, y);
+                itemRender.renderItemOverlayIntoGUI(fontRenderer, new ItemStack(item), x, y, null);
+                GlStateManager.disableBlend();
+
+                if (selectedItems.contains(item)) {
+                    drawRect(x, y, x + ICON_SIZE, y + ICON_SIZE, 0x80FF0000); // Highlight selected items
+                }
+
+                if (mouseX >= x && mouseX <= x + ICON_SIZE && mouseY >= y && mouseY <= y + ICON_SIZE) {
+                    drawRect(x, y, x + ICON_SIZE, y + ICON_SIZE, 0x80FFFFFF); // Light up on hover
+                    hoverText = new ArrayList<>();
+                    hoverText.add(item.getRegistryName().toString()); // Store tooltip text
+                    hoverX = mouseX;
+                    hoverY = mouseY;
+                }
+            }
+        }
+
+        if (hoverText != null) {
+            drawHoveringText(hoverText, hoverX, hoverY);
+        }
+    }
+
+    @Override
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+
+        shopNameField.mouseClicked(mouseX, mouseY, mouseButton);
+        searchField.mouseClicked(mouseX, mouseY, mouseButton);
+
+        int startX = this.width / 2 - (COLUMNS * ICON_SIZE) / 2;
+        int startY = 90;
+
+        for (int row = 0; row < visibleRows; row++) {
+            for (int col = 0; col < COLUMNS; col++) {
+                int index = scrollOffset + row * COLUMNS + col;
+                if (index >= filteredItems.size()) return;
+
+                int x = startX + col * ICON_SIZE;
+                int y = startY + row * ICON_SIZE;
+
+                if (mouseX >= x && mouseX <= x + ICON_SIZE && mouseY >= y && mouseY <= y + ICON_SIZE) {
+                    Item item = filteredItems.get(index);
+                    if (!selectedItems.contains(item)) {
+                        selectedItems.add(item);
+                    } else {
+                        selectedItems.remove(item);
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void handleMouseInput() throws IOException {
+        super.handleMouseInput();
+        int scrollDelta = Integer.signum(Mouse.getEventDWheel());
+        scrollOffset = Math.max(0, Math.min(scrollOffset - scrollDelta * COLUMNS, filteredItems.size() - visibleRows * COLUMNS));
+    }
+
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        super.keyTyped(typedChar, keyCode);
+        searchField.textboxKeyTyped(typedChar, keyCode);
+        shopNameField.textboxKeyTyped(typedChar, keyCode);
+        updateFilteredItems();
+    }
+
+    private void updateFilteredItems() {
+        String query = searchField.getText().toLowerCase();
+        filteredItems = allItems.stream()
+                .filter(item -> item.getRegistryName().toString().toLowerCase().contains(query))
+                .collect(Collectors.toList());
+
+        String shopName = shopNameField.getText();
+        selectedButton.enabled = !shopName.isEmpty();
+
+        selectedButton.displayString = shops.containsKey(shopName) ? "Update Shop" : "Create Shop";
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton button) {
+        if (button.id == 0) {
+            String shopName = shopNameField.getText();
+            if (shopName.isEmpty()) {
+                // Handle empty shop name case
+                return;
+            }
+            List<ShopItem> shopItems = selectedItems.stream()
+                    .map(item -> new ShopItem(item.getRegistryName().toString(), 0, 1, 0))
+                    .collect(Collectors.toList());
+            Shop shop = new Shop(shopName, shopItems.stream().map(ShopItem::getItem).collect(Collectors.toList()));
+            // Send shop creation packet to server
+            // Example: sendShopCreationPacket(shop);
+        } else if (button.id == 1) {
+            mc.displayGuiScreen(null);
+        }
+    }
+}

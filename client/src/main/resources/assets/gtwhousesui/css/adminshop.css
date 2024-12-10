@@ -1,0 +1,68 @@
+.adminShopFrame {
+    background: red;
+
+    width: 350px;
+    height: 250px;
+
+    horizontal-position: center;
+    vertical-position: center;
+}
+
+.adminShopContainer {
+    background: blue;
+
+    width: 90%;
+    height: 90%;
+
+    horizontal-position: center;
+    vertical-position: center;
+}
+
+.sellPriceField {
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+}
+
+.buyPriceField {
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+}
+
+.buttonPanel {
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+}
+
+.cancelButton {
+    left: auto;
+    right: auto;
+    bottom: auto;
+    top: auto;
+
+    background: red;
+    width: 75px;
+
+    font-size: 10px;
+    color: white;
+    text-shadow: none;
+}
+.saveButton {
+    left: auto;
+    right: auto;
+    bottom: auto;
+    top: auto;
+
+    background: green;
+
+    width: 75px;
+
+    font-size: 10px;
+    color: white;
+    text-shadow: none;
+}

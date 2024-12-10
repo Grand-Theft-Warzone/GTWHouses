@@ -16,10 +16,26 @@ commands:
       - houses
       - gtwhouse
       - gtwhouses
+
+  shop:
+    description: Admin panel to set item prices
+    usage: "/shop"
+    permission: gtwshops.admin
+    aliases:
+      - gtwshop
+      - gtwshops
+      - shops
+      - gtwnpcshop
+
 permissions:
  gtwhouses.houseplayer:
     description: Allows the player to buy and rent houses.
     default: true
-gtwhouses.admin:
+
+ gtwhouses.admin:
     description: Allows the player to manage houses.
+    default: op
+
+ gtwshops.admin:
+    description: Allows the player to manage the shop.
     default: op
