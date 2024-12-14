@@ -1,6 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.server.gtwnpcshops;
 
-import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.packets.OpenAdminShopPacket;
+import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.AdminShopGUI;
+import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.packets.OpenAdminShopGuiPacket;
 import com.grandtheftwarzone.gtwhouses.server.GTWHouses;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,7 +21,7 @@ public class ShopAdminCommand implements CommandExecutor {
             return true;
         }
 
-        GTWHouses.getPacketManager().sendPacket(((Player) sender), new OpenAdminShopPacket(GTWHouses.getShopsManager().getShops(), GTWHouses.getShopsManager().getItems()));
+        GTWHouses.getPacketManager().sendPacket(((Player) sender), new OpenAdminShopGuiPacket(AdminShopGUI.SHOP_LIST, GTWHouses.getShopsManager().getShops(), GTWHouses.getShopsManager().getItems()));
         return true;
     }
 }

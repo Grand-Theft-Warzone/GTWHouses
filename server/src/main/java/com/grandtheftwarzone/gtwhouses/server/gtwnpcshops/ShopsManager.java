@@ -51,7 +51,21 @@ public class ShopsManager {
     }
 
     public void setOrUpdateItem(ShopItem item) {
-        items.put(item.getItem(), item);
+        if (item.getBuyPrice() <= 0 && item.getSellPrice() <= 0) {
+            items.remove(item.getItem());
+        }
+
+        if (item.getBuyPrice() <= 0) {
+            shops.values().forEach(shop -> shop.getItems().remove(item.getItem()));
+        } else {
+            items.put(item.getItem(), item);
+        }
+
+        save();
+    }
+
+    public void removeShop(String name) {
+        shops.remove(name);
         save();
     }
 

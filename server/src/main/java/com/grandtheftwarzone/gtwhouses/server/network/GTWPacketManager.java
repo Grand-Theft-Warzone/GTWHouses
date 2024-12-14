@@ -7,8 +7,7 @@ import com.grandtheftwarzone.gtwhouses.server.gtwhouses.handlers.CreateHouseHand
 import com.grandtheftwarzone.gtwhouses.server.gtwhouses.handlers.HouseActionHandler;
 import com.grandtheftwarzone.gtwhouses.server.gtwhouses.handlers.HouseCoordsHandler;
 import com.grandtheftwarzone.gtwhouses.server.gtwhouses.handlers.OpenGUIHandler;
-import com.grandtheftwarzone.gtwhouses.server.gtwnpcshops.handlers.BuyItemsHandler;
-import com.grandtheftwarzone.gtwhouses.server.gtwnpcshops.handlers.ShopItemPriceHandler;
+import com.grandtheftwarzone.gtwhouses.server.gtwnpcshops.handlers.*;
 import com.grandtheftwarzone.gtwhouses.server.network.TinyProtocol.TinyProtocol;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -34,6 +33,9 @@ public class GTWPacketManager extends TinyProtocol {
         //Shop
         packetHandler.registerHandler(new ShopItemPriceHandler());
         packetHandler.registerHandler(new BuyItemsHandler());
+        packetHandler.registerHandler(new CreateShopHandler());
+        packetHandler.registerHandler(new DeleteShopHandler());
+        packetHandler.registerHandler(new OpenAdminShopHandler());
     }
 
     @Override

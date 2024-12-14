@@ -1,14 +1,17 @@
 package com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.ui;
 
+import com.grandtheftwarzone.gtwhouses.client.gtwhouses.network.GTWNetworkHandler;
+import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.AdminShopGUI;
 import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.Shop;
 import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.ShopItem;
+import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.packets.CreateShopPacket;
+import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.packets.OpenAdminShopGuiPacket;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
@@ -39,8 +42,8 @@ public class GuiShopCreation extends GuiScreen {
 
     @Override
     public void initGui() {
-        // allItems = shopItems.keySet().stream().map(Item::getByNameOrId).collect(Collectors.toList());
-        allItems = new ArrayList<>(ForgeRegistries.ITEMS.getValuesCollection());
+        allItems = shopItems.keySet().stream().map(Item::getByNameOrId).collect(Collectors.toList());
+        // allItems = new ArrayList<>(ForgeRegistries.ITEMS.getValuesCollection());
         filteredItems = new ArrayList<>(allItems);
         selectedItems = new ArrayList<>();
 
@@ -56,6 +59,9 @@ public class GuiShopCreation extends GuiScreen {
         addButton = new GuiButton(0, this.width / 2 - 100, this.height - 40, 98, 20, "Create Shop");
         this.addButton(addButton);
         this.addButton(new GuiButton(1, this.width / 2 + 2, this.height - 40, 98, 20, "Exit"));
+
+        this.buttonList.add(new GuiButton(2, this.width - 110, 10, 100, 20, "Shop List"));
+        this.buttonList.add(new GuiButton(3, this.width - 110, 40, 100, 20, "Item Pricing"));
     }
 
     private int calculateVisibleRows() {
@@ -179,9 +185,16 @@ public class GuiShopCreation extends GuiScreen {
                 .collect(Collectors.toList());
 
         String shopName = shopNameField.getText();
-        selectedButton.enabled = !shopName.isEmpty();
+        addButton.enabled = !shopName.isEmpty();
 
-        selectedButton.displayString = shops.containsKey(shopName) ? "Update Shop" : "Create Shop";
+        if (shops.containsKey(shopName)) {
+            addButton.enabled = false;
+
+            addButton.displayString = "Shop Name Taken";
+        } else {
+            addButton.displayString = "Create Shop";
+        }
+
     }
 
     @Override
@@ -189,17 +202,20 @@ public class GuiShopCreation extends GuiScreen {
         if (button.id == 0) {
             String shopName = shopNameField.getText();
             if (shopName.isEmpty()) {
-                // Handle empty shop name case
                 return;
             }
             List<ShopItem> shopItems = selectedItems.stream()
                     .map(item -> new ShopItem(item.getRegistryName().toString(), 0, 1, 0))
                     .collect(Collectors.toList());
             Shop shop = new Shop(shopName, shopItems.stream().map(ShopItem::getItem).collect(Collectors.toList()));
-            // Send shop creation packet to server
-            // Example: sendShopCreationPacket(shop);
+            GTWNetworkHandler.sendToServer(new CreateShopPacket(shop));
+            mc.displayGuiScreen(null);
         } else if (button.id == 1) {
             mc.displayGuiScreen(null);
+        } else if (button.id == 2) {
+            GTWNetworkHandler.sendToServer(new OpenAdminShopGuiPacket(AdminShopGUI.SHOP_LIST, null, null));
+        } else if (button.id == 3) {
+            GTWNetworkHandler.sendToServer(new OpenAdminShopGuiPacket(AdminShopGUI.ITEMS_PRICING, null, null));
         }
     }
 }

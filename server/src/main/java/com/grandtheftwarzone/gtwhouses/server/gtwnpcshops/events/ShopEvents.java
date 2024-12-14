@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 public class ShopEvents implements Listener {
 
-    @EventHandler
+    /*@EventHandler
     public void onPigClick(PlayerInteractEntityEvent event) {
         if (event.getRightClicked() instanceof Pig) {
             Shop shop = GTWHouses.getShopsManager().getShop("test");
@@ -20,5 +20,5 @@ public class ShopEvents implements Listener {
                     new ShopGUIOpenPacket(shop, GTWHouses.getShopsManager().getShopItems(shop.getName()))
             );
         }
-    }
+    }*/
 }

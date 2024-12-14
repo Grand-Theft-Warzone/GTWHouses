@@ -83,15 +83,17 @@ public class GTWHouses extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ShopEvents(), this);
 
         housesManager.load();
+
+
+        //TODO: Check if this can be done asynchronously
+        if (rentTask != null) rentTask.cancel();
+        rentTask = Bukkit.getScheduler().runTaskTimer(this, new RentRunnable(), 20 * 10, 20 * 60 * 30); //30 minutes
     }
 
 
     @Override
     public void onLoad() {
 
-        //TODO: Check if this can be done asynchronously
-        if (rentTask != null) rentTask.cancel();
-        rentTask = Bukkit.getScheduler().runTaskTimer(this, new RentRunnable(), 20 * 10, 20 * 60 * 30); //30 minutes
     }
 
     @Override
