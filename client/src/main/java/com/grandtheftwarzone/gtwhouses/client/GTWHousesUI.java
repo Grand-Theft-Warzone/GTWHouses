@@ -1,13 +1,14 @@
 package com.grandtheftwarzone.gtwhouses.client;
 
 import com.grandtheftwarzone.gtwhouses.client.gtwhouses.network.GTWNetworkHandler;
-import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.npc.ShopNPC;
-import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.npc.ShopNPCFactory;
 import com.grandtheftwarzone.gtwhouses.client.gtwhouses.ui.frames.AdminCreateHouseFrame;
 import com.grandtheftwarzone.gtwhouses.client.gtwhouses.ui.frames.AdminFrame;
 import com.grandtheftwarzone.gtwhouses.client.gtwhouses.ui.frames.HouseFrame;
-import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.ui.GuiItemPricing;
-import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.ui.GuiShop;
+import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.npc.ShopNPC;
+import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.npc.ShopNPCFactory;
+import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.ui.ContainerSell;
+import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.ui.GuiSell;
+import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.packets.SellShopGUIOpenPacket;
 import fr.aym.acsguis.api.ACsGuiApi;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
@@ -54,6 +55,7 @@ public class GTWHousesUI {
 
     @SubscribeEvent
     public void onPress(InputEvent.KeyInputEvent event) {
+
 
     }
 }
