@@ -34,7 +34,7 @@ public class BuyItemsPacket implements IGTWPacket {
     public void toBytes(ByteBuf buf) {
         buf.writeInt(items.size());
         items.forEach(item -> {
-            byte[] keyBytes = item.getItem().getBytes();
+            byte[] keyBytes = item.getItemStackSerialized().getBytes();
             buf.writeInt(keyBytes.length);
             buf.writeBytes(keyBytes);
             buf.writeInt(item.getAmount());

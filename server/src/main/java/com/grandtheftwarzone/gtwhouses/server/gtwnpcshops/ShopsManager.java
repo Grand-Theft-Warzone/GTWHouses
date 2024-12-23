@@ -5,12 +5,14 @@ import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.ShopItem;
 import com.grandtheftwarzone.gtwhouses.server.GTWHouses;
 import com.grandtheftwarzone.gtwhouses.server.GTWSaver;
 import lombok.Getter;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ShopsManager {
@@ -20,7 +22,7 @@ public class ShopsManager {
     @Getter
     private final HashMap<String, Shop> shops = new HashMap<>();
     @Getter
-    private final HashMap<String, ShopItem> items = new HashMap<>();
+    private final List<ShopItem> items = new ArrayList<>();
 
     public ShopsManager() {
         shopSaver = new GTWSaver<>("shops.sav", Shop.class);
@@ -42,23 +44,28 @@ public class ShopsManager {
         save();
     }
 
-    public ShopItem getItem(String name) {
-        return items.get(name);
-    }
-
-    public boolean hasItem(String name) {
-        return items.containsKey(name);
+    public ShopItem getItem(String serializedItemStack) {
+        for (ShopItem shopItem : items) {
+            if (shopItem.getSerializedItemStack().equalsIgnoreCase(serializedItemStack))
+                return shopItem;
+        }
+        return null;
     }
 
     public void setOrUpdateItem(ShopItem item) {
         if (item.getBuyPrice() <= 0 && item.getSellPrice() <= 0) {
-            items.remove(item.getItem());
+            for (ShopItem s : items) {
+                if (s.getSerializedItemStack().equalsIgnoreCase(item.getSerializedItemStack())) {
+                    items.remove(s);
+                    break;
+                }
+            }
         }
 
         if (item.getBuyPrice() <= 0) {
-            shops.values().forEach(shop -> shop.getItems().remove(item.getItem()));
+            shops.values().forEach(shop -> shop.getItems().remove(item));
         } else {
-            items.put(item.getItem(), item);
+            items.add(item);
         }
 
         save();
@@ -82,7 +89,7 @@ public class ShopsManager {
             shops.putAll(shopSaver.load().stream().collect(Collectors.toMap(Shop::getName, shop -> shop)));
             GTWHouses.getInstance().getLogger().info("Loaded " + shops.size() + " shops.");
 
-            items.putAll(itemSaver.load().stream().collect(Collectors.toMap(ShopItem::getItem, item -> item)));
+            items.addAll(new ArrayList<>(itemSaver.load()));
             GTWHouses.getInstance().getLogger().info("Loaded " + items.size() + " items.");
         } catch (Exception e) {
             GTWHouses.getInstance().getLogger().severe("Error loading shops and items");
@@ -106,7 +113,7 @@ public class ShopsManager {
         try {
             shopSaver.save(shops.values());
             GTWHouses.getInstance().getLogger().info("Saved shops.sav");
-            itemSaver.save(items.values());
+            itemSaver.save(items);
             GTWHouses.getInstance().getLogger().info("Saved items.sav");
         } catch (Exception e) {
             GTWHouses.getInstance().getLogger().severe("Error saving shops and items");

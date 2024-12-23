@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ShopItemAmount {
-    private String item;
+    private String itemStackSerialized;
     private int amount;
 
 

@@ -1,17 +1,17 @@
 package com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.ui;
 
+import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.ItemUtils;
 import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.Shop;
 import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.ShopItem;
 import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.ShopItemAmount;
 import lombok.Getter;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.*;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 public class ContainerShop extends Container {
@@ -26,6 +26,9 @@ public class ContainerShop extends Container {
     @Getter
     private int totalCost;
 
+    @Getter
+    private int minLevel;
+
     public ContainerShop(Shop shop, Collection<ShopItem> items) {
         this.shop = shop;
         this.items = items;
@@ -33,11 +36,11 @@ public class ContainerShop extends Container {
         this.buyListInventory = new InventoryBasic("Buy List", false, 27);
 
 
-        for (int row = 0; row < 3; ++row) {
-            for (int col = 0; col < 9; ++col) {
+        for (int row = 0; row < 6; ++row) {
+            for (int col = 0; col < 13; ++col) {
                 int index = row * 9 + col;
-                int x = 95 + col * 18;
-                int y = 42 + row * 18;
+                int x = 8 + col * 18;
+                int y = 18 + row * 18;
 
                 this.addSlotToContainer(new Slot(shopInventory, index, x, y) {
                     @Override
@@ -51,8 +54,8 @@ public class ContainerShop extends Container {
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 9; ++col) {
                 int index = row * 9 + col;
-                int x = 10 + col * 18;
-                int y = 150 + row * 18; // Adjust Y position below shop
+                int x = 8 + col * 18;
+                int y = 140 + row * 18; // Adjust Y position below shop
                 this.addSlotToContainer(new Slot(buyListInventory, index, x, y));
             }
         }
@@ -186,23 +189,32 @@ public class ContainerShop extends Container {
 
     private void calculateTotalCost() {
         totalCost = 0;
+        minLevel = 0;
 
         for (int i = 0; i < buyListInventory.getSizeInventory(); i++) {
             ItemStack stack = buyListInventory.getStackInSlot(i);
 
             if (!stack.isEmpty()) {
-                int itemCost = getItemCost(stack);
-                totalCost += itemCost * stack.getCount();
+                System.out.println(stack.getDisplayName());
+                ShopItem item = getShopitem(stack);
+                if (item == null) continue;
+
+                totalCost += item.getBuyPrice() * stack.getCount();
+                minLevel = Math.max(minLevel, item.getBuyLevel());
             }
         }
     }
 
-    private int getItemCost(ItemStack stack) {
-        for (ShopItem item : items)
-            if (item.getItem().equals(stack.getItem().getRegistryName().toString()))
-                return item.getBuyPrice();
+    private ShopItem getShopitem(ItemStack stack) {
+        ItemStack copy = stack.copy();
+        copy.setTagCompound(null); //Remove tooltip information for comparison
+        copy.setCount(1);
 
-        return 0;
+        for (ShopItem item : items)
+            if (item.getSerializedItemStack().equals(ItemUtils.serializeItemStack(copy)))
+                return item;
+
+        return null;
     }
 
     public List<ShopItemAmount> getBuyList() {
@@ -210,9 +222,11 @@ public class ContainerShop extends Container {
 
         for (int i = 0; i < buyListInventory.getSizeInventory(); i++) {
             ItemStack stack = buyListInventory.getStackInSlot(i);
-
+            ItemStack copy = stack.copy();
+            copy.setTagCompound(null); //Remove tooltip information for comparison
+            copy.setCount(1);
             if (!stack.isEmpty()) {
-                ShopItemAmount itemAmount = new ShopItemAmount(stack.getItem().getRegistryName().toString(), stack.getCount());
+                ShopItemAmount itemAmount = new ShopItemAmount(ItemUtils.serializeItemStack(copy), stack.getCount());
                 buyList.add(itemAmount);
             }
         }

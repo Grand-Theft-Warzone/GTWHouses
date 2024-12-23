@@ -1,6 +1,8 @@
 package com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.ui;
 
+import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.ItemUtils;
 import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.ShopItem;
+import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.ShopItemAmount;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,36 +16,36 @@ import java.util.Map;
 public class ContainerSell extends Container {
     private final InventoryBasic inventorySell;
     private final InventoryPlayer playerCopyInventory;
-    private final Map<String, ShopItem> sellableItems;
+    private final List<ShopItem> sellableItems;
 
     @Getter
     private int profit;
 
-    public ContainerSell(InventoryPlayer playerInventory, Map<String, ShopItem> sellableItems) {
+    public ContainerSell(InventoryPlayer playerInventory, List<ShopItem> sellableItems) {
         this.sellableItems = sellableItems;
-        this.inventorySell = new InventoryBasic("Sell", false, 27);
+        this.inventorySell = new InventoryBasic("Sell", false, 6 * 13);
         this.playerCopyInventory = new InventoryPlayer(null);
         for (int i = 0; i < playerInventory.getSizeInventory(); i++) {
             this.playerCopyInventory.setInventorySlotContents(i, playerInventory.getStackInSlot(i).copy());
         }
 
         // Add slots for the sell inventory
-        for (int i = 0; i < 3; ++i) {
-            for (int j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new Slot(inventorySell, j + i * 9, 8 + j * 18, 18 + i * 18));
+        for (int i = 0; i < 6; ++i) {
+            for (int j = 0; j < 13; ++j) {
+                this.addSlotToContainer(new Slot(inventorySell, j + i * 9, 8 + j * 18, 27 + i * 18));
             }
         }
 
         // Add slots for the player inventory
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new Slot(playerCopyInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.addSlotToContainer(new Slot(playerCopyInventory, j + i * 9 + 9, 8 + j * 18, 149 + i * 18));
             }
         }
 
         // Add slots for the player hotbar
         for (int i = 0; i < 9; ++i) {
-            this.addSlotToContainer(new Slot(playerCopyInventory, i, 8 + i * 18, 142));
+            this.addSlotToContainer(new Slot(playerCopyInventory, i, 8 + i * 18, 207));
         }
     }
 
@@ -128,7 +130,18 @@ public class ContainerSell extends Container {
     }
 
     public boolean isSellable(ItemStack stack) {
-        return sellableItems.containsKey(stack.getItem().getRegistryName().toString());
+        ItemStack copyStack = stack.copy();
+        copyStack.setTagCompound(null);
+        copyStack.setCount(1);
+
+        ShopItem item = null;
+        for (ShopItem i : sellableItems) {
+            if (i.getSerializedItemStack().equalsIgnoreCase(ItemUtils.serializeItemStack(copyStack))) {
+                item = i;
+                break;
+            }
+        }
+        return item != null && item.getSellPrice() > 0;
     }
 
     private void moveStackToInventory(ItemStack stack, IInventory targetInventory) {
@@ -156,17 +169,26 @@ public class ContainerSell extends Container {
         for (int i = 0; i < inventorySell.getSizeInventory(); i++) {
             ItemStack stack = inventorySell.getStackInSlot(i);
             if (stack.isEmpty()) continue;
-            profit += sellableItems.get(stack.getItem().getRegistryName().toString()).getSellPrice() * stack.getCount();
+
+            ItemStack copyStack = stack.copy();
+            copyStack.setTagCompound(null);//Remove hover data
+            copyStack.setCount(1);
+            ShopItem item = sellableItems.stream().filter(si -> si.getSerializedItemStack().equalsIgnoreCase(ItemUtils.serializeItemStack(copyStack))).findFirst().orElse(null);
+            if (item == null) continue;
+            profit += item.getSellPrice() * stack.getCount();
         }
     }
 
-    public Map<String, Integer> getItemsToSell() {
-        Map<String, Integer> items = new java.util.HashMap<>();
+    public List<ShopItemAmount> getItemsToSell() {
+        List<ShopItemAmount> shopItems = new java.util.ArrayList<>();
         for (int i = 0; i < inventorySell.getSizeInventory(); i++) {
             ItemStack stack = inventorySell.getStackInSlot(i);
             if (stack.isEmpty()) continue;
-            items.put(stack.getItem().getRegistryName().toString(), stack.getCount());
+            ItemStack copyStack = stack.copy();
+            copyStack.setTagCompound(null);
+            copyStack.setCount(1);
+            shopItems.add(new ShopItemAmount(ItemUtils.serializeItemStack(copyStack), stack.getCount()));
         }
-        return items;
+        return shopItems;
     }
 }

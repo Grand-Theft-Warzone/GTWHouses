@@ -1,6 +1,7 @@
 package com.grandtheftwarzone.gtwhouses.server;
 
 import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.Shop;
+import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.packets.SellShopGUIOpenPacket;
 import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.packets.ShopGUIOpenPacket;
 import com.grandtheftwarzone.gtwhouses.server.gtwhouses.GTWHouseCommand;
 import com.grandtheftwarzone.gtwhouses.server.gtwhouses.HousesManager;
@@ -127,6 +128,7 @@ public class GTWHouses extends JavaPlugin {
     }
 
     //Used by a custom version of znpcs using reflection
+    @SuppressWarnings("unused")
     public void openShop(Player player, String shopname) {
         Shop shop = getShopsManager().getShop(shopname);
         if (shop == null) {
@@ -135,5 +137,11 @@ public class GTWHouses extends JavaPlugin {
         }
 
         getPacketManager().sendPacket(player, new ShopGUIOpenPacket(shop, getShopsManager().getShopItems(shopname)));
+    }
+
+    //Used by a custom version of znpcs using reflection
+    @SuppressWarnings("unused")
+    public void openSell(Player player) {
+        getPacketManager().sendPacket(player, new SellShopGUIOpenPacket(getShopsManager().getItems()));
     }
 }

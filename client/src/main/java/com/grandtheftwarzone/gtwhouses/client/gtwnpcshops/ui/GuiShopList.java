@@ -48,6 +48,7 @@ public class GuiShopList extends GuiScreen {
             editButtons.put(s.getName(), this.addButton(new GuiButton(5, this.width / 2 + 10, 80, 40, 20, "Edit")));
             deleteButtons.put(s.getName(), this.addButton(new GuiButton(6, this.width / 2 + 60, 80, 40, 20, "Delete")));
         }
+        Mouse.setGrabbed(false);
 
     }
 
@@ -110,6 +111,11 @@ public class GuiShopList extends GuiScreen {
             filteredShopList = shopList.stream()
                     .filter(shop -> shop.getName().toLowerCase().contains(query))
                     .collect(Collectors.toList());
+
+            for (GuiButton button : editButtons.values())
+                button.visible = false;
+            for (GuiButton button : deleteButtons.values())
+                button.visible = false;
         }
     }
 

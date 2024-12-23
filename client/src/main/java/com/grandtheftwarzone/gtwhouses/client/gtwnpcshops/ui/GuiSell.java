@@ -12,32 +12,33 @@ import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class GuiSell extends GuiContainer {
-    private static final ResourceLocation sellGuiTextures = new ResourceLocation("gtwhouses", "textures/gui/sell_gui.png");
+    private static final ResourceLocation sellGuiTextures = new ResourceLocation("textures/gui/sell.png");
     private final InventoryPlayer playerInventory;
     private final ContainerSell containerSell;
     private GuiButton sellButton;
 
-    public GuiSell(Map<String, ShopItem> items) {
+    public GuiSell(List<ShopItem> items) {
         super(new ContainerSell(Minecraft.getMinecraft().player.inventory, items));
         this.playerInventory = Minecraft.getMinecraft().player.inventory;
         this.containerSell = (ContainerSell) this.inventorySlots;
-        this.xSize = 176;
-        this.ySize = 166;
+        this.xSize = 256;
+        this.ySize = 256;
     }
 
     @Override
     public void initGui() {
         super.initGui();
-        int k = (this.width - this.xSize) / 2;
-        int l = (this.height - this.ySize) / 2;
-        this.sellButton = new GuiButton(0, k + 10, l + 70, 60, 20, "Sell");
+        this.sellButton = new GuiButton(0, guiLeft + 180, guiTop + 4, 60, 20, "Sell");
         this.buttonList.add(this.sellButton);
+        Mouse.setGrabbed(false);
     }
 
     @Override
@@ -51,9 +52,8 @@ public class GuiSell extends GuiContainer {
         if (button.id == 0) {
             containerSell.calculateProfit();
 
-            Map<String, Integer> items = containerSell.getItemsToSell();
-            if (items.size() > 0)
-                GTWNetworkHandler.sendToServer(new SellItemsPacket(items));
+            if (containerSell.getProfit() <= 0) return;
+            GTWNetworkHandler.sendToServer(new SellItemsPacket(containerSell.getItemsToSell()));
 
             Minecraft.getMinecraft().player.closeScreen();
         }
@@ -62,9 +62,11 @@ public class GuiSell extends GuiContainer {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         if (this.mc == null) return;
-        this.fontRenderer.drawString("Sell Items", 8, 6, 4210752);
-        this.fontRenderer.drawString(this.playerInventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
-        this.fontRenderer.drawString("Profit: " + containerSell.getProfit(), 8, this.ySize - 96 + 12, 4210752);
+        this.fontRenderer.drawString("Sell Items", 8, 10, 4210752);
+        this.fontRenderer.drawString(this.playerInventory.getDisplayName().getUnformattedText(), 8, 137, 4210752);
+        this.fontRenderer.drawString("Profit: ", 103, 10, 4210752);
+        this.fontRenderer.drawString(containerSell.getProfit() + "$", 135, 10, 0x1ec71e);
+
 
         // Gray out slots that are not sellable
         for (Slot slot : this.inventorySlots.inventorySlots) {
@@ -93,8 +95,6 @@ public class GuiSell extends GuiContainer {
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(sellGuiTextures);
-        int k = (this.width - this.xSize) / 2;
-        int l = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
+        this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, this.xSize, this.ySize);
     }
 }

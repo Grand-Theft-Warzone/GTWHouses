@@ -6,23 +6,31 @@ import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.ui.GuiShopCreation;
 import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.ui.GuiShopList;
 import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.packets.OpenAdminShopGuiPacket;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 
 public class OpenAdminShopHandler implements GTWHouseHandler<OpenAdminShopGuiPacket> {
     @Override
     public void handle(OpenAdminShopGuiPacket message) {
+        GuiScreen gui = null;
         switch (message.getGui()) {
             case SHOP_LIST:
-                Minecraft.getMinecraft().displayGuiScreen(new GuiShopList(message.getShops().values()));
+                gui = new GuiShopList(message.getShops().values());
                 break;
             case ITEMS_PRICING:
-                Minecraft.getMinecraft().displayGuiScreen(new GuiItemPricing(message.getShopItems()));
+                gui = new GuiItemPricing(message.getShopItems());
                 break;
             case SHOP_CREATION:
-                Minecraft.getMinecraft().displayGuiScreen(new GuiShopCreation(message.getShops(), message.getShopItems()));
+                gui = (new GuiShopCreation(message.getShops(), message.getShopItems()));
                 break;
             case SHOP_EDIT:
                 //TODO: Implement shop edit GUI
                 break;
         }
+
+        if (gui == null) return;
+
+        Minecraft mc = Minecraft.getMinecraft();
+        final GuiScreen finalGui = gui;
+        mc.addScheduledTask(() -> mc.displayGuiScreen(finalGui));
     }
 }

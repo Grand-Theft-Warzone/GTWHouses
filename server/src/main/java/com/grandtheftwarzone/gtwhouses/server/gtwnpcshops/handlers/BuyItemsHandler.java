@@ -4,6 +4,7 @@ import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.ShopItem;
 import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.ShopItemAmount;
 import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.packets.BuyItemsPacket;
 import com.grandtheftwarzone.gtwhouses.server.GTWHouses;
+import com.grandtheftwarzone.gtwhouses.server.gtwnpcshops.ItemUtils;
 import com.grandtheftwarzone.gtwhouses.server.network.GTWPacketHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
@@ -22,12 +23,13 @@ public class BuyItemsHandler implements GTWPacketHandler.PacketHandler<BuyItemsP
         ItemStack[] items = new ItemStack[packet.getItems().size()];
 
         for (ShopItemAmount itemAmount : packet.getItems()) {
-            ShopItem item = GTWHouses.getShopsManager().getItem(itemAmount.getItem());
+            ShopItem item = GTWHouses.getShopsManager().getItem(itemAmount.getItemStackSerialized());
             if (item == null) continue;
 
-            items[i++] = CraftItemStack.asBukkitCopy(new net.minecraft.server.v1_12_R1.ItemStack(
-                    net.minecraft.server.v1_12_R1.Item.b(itemAmount.getItem()), itemAmount.getAmount()));
-
+            ItemStack stack = ItemUtils.deserializeItemStack(itemAmount.getItemStackSerialized());
+            if (stack == null) continue;
+            stack.setAmount(itemAmount.getAmount());
+            items[i++] = stack;
 
             cost += item.getBuyPrice() * itemAmount.getAmount();
             levelRequirement = Math.max(item.getBuyLevel(), levelRequirement);

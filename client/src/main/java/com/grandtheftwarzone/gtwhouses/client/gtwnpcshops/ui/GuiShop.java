@@ -18,42 +18,43 @@ import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
+import org.lwjgl.input.Mouse;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class GuiShop extends GuiContainer {
     private static final ResourceLocation SHOP_GUI_TEXTURE = new ResourceLocation("textures/gui/shop.png");
     private final ContainerShop containerShop;
 
+    private final Shop shop;
+
     public GuiShop(Shop shop, Collection<ShopItem> items) {
         super(new ContainerShop(shop, items));
+        this.shop = shop;
         this.containerShop = (ContainerShop) inventorySlots;
-
-        org.lwjgl.input.Mouse.setGrabbed(false);
     }
 
     @Override
     public void initGui() {
-
-        this.xSize = (int) (432 / 1.685); //For some random reason pixels dont match the texture
-        this.ySize = (int) (474 / 1.85);
-
-        int x = (this.width - this.xSize) / 2;
-        int y = (this.height - this.ySize) / 2;
-
-        GuiButton buyButton = new GuiButton(1, x + 10, y + 50, 60, 20, "Buy");
-        this.buttonList.add(buyButton);
+        this.xSize = 256;
+        this.ySize = 256;
 
         super.initGui();
-        org.lwjgl.input.Mouse.setGrabbed(false);
-        mc.mouseHelper.ungrabMouseCursor();
+        this.addButton(new GuiButton(1, guiLeft + 180, guiTop + 197, 60, 20, "Buy"));
+        Mouse.setGrabbed(false);
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        this.fontRenderer.FONT_HEIGHT = 16;
-        this.fontRenderer.drawString("Min Level: 1", 12, 100, 4210752);
-        this.fontRenderer.drawString(String.valueOf(containerShop.getTotalCost()), 28, 117, 0x1ec71e);
+        //this.fontRenderer.FONT_HEIGHT = 16;
+        this.fontRenderer.drawString(shop.getName(), 8, 6, 4210752);
+        this.fontRenderer.drawString("Buy List", 8, 129, 4210752);
+        this.fontRenderer.drawString("Cost: ", 12, 202, 4210752);
+        this.fontRenderer.drawString(containerShop.getTotalCost() + "$", 45, 202, 0x1ec71e);
+
+        this.fontRenderer.drawString("Level: ", 97, 202, 4210752);
+        this.fontRenderer.drawString(containerShop.getMinLevel() + "", 135, 202,  0xff0000);
     }
 
     @Override
@@ -62,16 +63,26 @@ public class GuiShop extends GuiContainer {
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(SHOP_GUI_TEXTURE);
-        int x = (this.width - this.xSize) / 2;
-        int y = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);
+        this.drawTexturedModalRect(this.guiLeft, guiTop, 0, 0, this.xSize, this.ySize);
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        if (this.mc == null) return;
         super.drawScreen(mouseX, mouseY, partialTicks);
         //org.lwjgl.input.Mouse.setGrabbed(false);
         this.renderHoveredToolTip(mouseX, mouseY);
+    }
+
+    @Override
+    public boolean doesGuiPauseGame() {
+        return false;
+    }
+
+    @Override
+    public void onGuiClosed() {
+        super.onGuiClosed();
+        Mouse.setGrabbed(true);
     }
 
     @Override

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ShopItem extends GTWSerializable {
-    private String item;
+    private String serializedItemStack;
     private int buyPrice;
     private int buyLevel;
 
@@ -27,7 +27,7 @@ public class ShopItem extends GTWSerializable {
             int itemNameLength = buf.readInt();
             byte[] itemNameBytes = new byte[itemNameLength];
             buf.readBytes(itemNameBytes);
-            item = new String(itemNameBytes);
+            serializedItemStack = new String(itemNameBytes);
 
             buyPrice = buf.readInt();
             buyLevel = buf.readInt();
@@ -39,12 +39,13 @@ public class ShopItem extends GTWSerializable {
     public void toBytes(ByteBuf buf) {
         buf.writeInt(SHOP_ITEM_VERSION);
 
-        byte[] itemNameBytes = item.getBytes();
+        byte[] itemNameBytes = serializedItemStack.getBytes();
         buf.writeInt(itemNameBytes.length);
         buf.writeBytes(itemNameBytes);
 
         buf.writeInt(buyPrice);
         buf.writeInt(buyLevel);
         buf.writeInt(sellPrice);
+
     }
 }

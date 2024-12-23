@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 public class OpenSellShopHandler implements GTWHouseHandler<SellShopGUIOpenPacket> {
     @Override
     public void handle(SellShopGUIOpenPacket message) {
-        Minecraft.getMinecraft().displayGuiScreen(new GuiSell(message.getShopItems()));
+        Minecraft mc = Minecraft.getMinecraft();
+        mc.addScheduledTask(() -> mc.displayGuiScreen(new GuiSell(message.getShopItems())));
     }
 }

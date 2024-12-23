@@ -13,12 +13,12 @@ public class ShopEvents implements Listener {
 
     @EventHandler
     public void onPigClick(PlayerInteractEntityEvent event) {
-        if (event.getRightClicked() instanceof Pig) {
+       /* if (event.getRightClicked() instanceof Pig) {
             GTWHouses.getPacketManager().sendPacket(
                     event.getPlayer(),
                     new SellShopGUIOpenPacket(GTWHouses.getShopsManager().getItems())
             );
-        }
+        }*/
     }
 
 }

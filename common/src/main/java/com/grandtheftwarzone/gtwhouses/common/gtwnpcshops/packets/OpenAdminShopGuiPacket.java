@@ -9,7 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -18,7 +20,7 @@ public class OpenAdminShopGuiPacket implements IGTWPacket {
 
     private AdminShopGUI gui;
     private HashMap<String, Shop> shops;
-    private HashMap<String, ShopItem> shopItems;
+    private List<ShopItem> shopItems;
 
     @Override
     public void fromBytes(ByteBuf buf) {
@@ -36,11 +38,11 @@ public class OpenAdminShopGuiPacket implements IGTWPacket {
 
         if (buf.readBoolean()) {
             int size = buf.readInt();
-            shopItems = new HashMap<>(size);
+            shopItems = new ArrayList<>(size);
             for (int i = 0; i < size; i++) {
                 ShopItem s = new ShopItem();
                 s.fromBytes(buf);
-                shopItems.put(s.getItem(), s);
+                shopItems.add(s);
             }
         }
 
@@ -60,7 +62,7 @@ public class OpenAdminShopGuiPacket implements IGTWPacket {
         buf.writeBoolean(shopItems != null);
         if (shopItems != null) {
             buf.writeInt(shopItems.size());
-            for (ShopItem s : shopItems.values())
+            for (ShopItem s : shopItems)
                 s.toBytes(buf);
         }
 

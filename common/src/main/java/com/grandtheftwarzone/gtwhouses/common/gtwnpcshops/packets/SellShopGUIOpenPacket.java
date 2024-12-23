@@ -7,23 +7,25 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SellShopGUIOpenPacket implements IGTWPacket {
-    private Map<String, ShopItem> shopItems;
+    private List<ShopItem> shopItems;
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        shopItems = new HashMap<>();
+        shopItems = new ArrayList<>();
         int size = buf.readInt();
         for (int i = 0; i < size; i++) {
             ShopItem item = new ShopItem();
             item.fromBytes(buf);
-            shopItems.put(item.getItem(), item);
+            shopItems.add(item);
         }
 
     }
@@ -31,7 +33,7 @@ public class SellShopGUIOpenPacket implements IGTWPacket {
     @Override
     public void toBytes(ByteBuf buf) {
         buf.writeInt(shopItems.size());
-        for (ShopItem item : shopItems.values())
+        for (ShopItem item : shopItems)
             item.toBytes(buf);
 
     }
