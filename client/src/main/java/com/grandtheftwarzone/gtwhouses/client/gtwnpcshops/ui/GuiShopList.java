@@ -5,6 +5,7 @@ import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.AdminShopGUI;
 import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.data.Shop;
 import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.packets.DeleteShopPacket;
 import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.packets.OpenAdminShopGuiPacket;
+import com.grandtheftwarzone.gtwhouses.common.gtwnpcshops.packets.OpenEditShopPacket;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -126,7 +127,12 @@ public class GuiShopList extends GuiScreen {
         } else if (button.id == 3) {
             GTWNetworkHandler.sendToServer(new OpenAdminShopGuiPacket(AdminShopGUI.ITEMS_PRICING, null, null));
         } else if (button.id == 5) {
-            // Edit shop logic
+            for (Map.Entry<String, GuiButton> entry : editButtons.entrySet()) {
+                if (entry.getValue() == button) {
+                    GTWNetworkHandler.sendToServer(new OpenEditShopPacket(entry.getKey(), null, null));
+                    break;
+                }
+            }
         } else if (button.id == 6) {
             for (Map.Entry<String, GuiButton> entry : deleteButtons.entrySet()) {
                 if (entry.getValue() == button) {

@@ -6,6 +6,7 @@ import com.grandtheftwarzone.gtwhouses.client.gtwhouses.network.handlers.HouseCo
 import com.grandtheftwarzone.gtwhouses.client.gtwhouses.network.handlers.HousesGUIHandler;
 import com.grandtheftwarzone.gtwhouses.client.gtwhouses.network.handlers.RegisterHouseHandler;
 import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.network.OpenAdminShopHandler;
+import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.network.OpenEditShopHandler;
 import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.network.OpenSellShopHandler;
 import com.grandtheftwarzone.gtwhouses.client.gtwnpcshops.network.OpenShopHandler;
 import com.grandtheftwarzone.gtwhouses.common.GTWHousesUtils;
@@ -43,6 +44,7 @@ public class GTWNetworkHandler {
         registerHandler(new OpenShopHandler());
         registerHandler(new OpenAdminShopHandler());
         registerHandler(new OpenSellShopHandler());
+        registerHandler(new OpenEditShopHandler());
     }
 
     //NOTE: Generics are used, but the class could be sent as a parameter instead

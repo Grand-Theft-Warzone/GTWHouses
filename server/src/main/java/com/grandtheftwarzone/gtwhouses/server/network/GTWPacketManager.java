@@ -37,6 +37,8 @@ public class GTWPacketManager extends TinyProtocol {
         packetHandler.registerHandler(new DeleteShopHandler());
         packetHandler.registerHandler(new OpenAdminShopHandler());
         packetHandler.registerHandler(new SellItemsHandler());
+        packetHandler.registerHandler(new UpdateShopHandler());
+        packetHandler.registerHandler(new OpenEditShopHandler());
     }
 
     @Override
