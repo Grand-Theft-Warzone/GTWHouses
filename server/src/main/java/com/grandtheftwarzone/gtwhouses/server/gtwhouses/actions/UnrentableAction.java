@@ -7,6 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.util.Date;
+
 public class UnrentableAction {
     public static void handle(House house, Player player) throws InvalidActionException {
         if (!player.getUniqueId().equals(house.getOwner()))
@@ -14,7 +16,14 @@ public class UnrentableAction {
 
         //Make the renter leave the house in 3 days
         if (house.isRentedByPlayer()) {
+            if (house.isKicked()){
+                player.sendMessage("The house renter has already been given 3 days to leave the house.");
+                return;
+            }
+
             house.setRentedAt(null);
+            Date rentDueDate = new Date(System.currentTimeMillis() + 3 * 24 * 60 * 60 * 1000); //3 days
+            house.setRentDueDate(rentDueDate);
             house.setKicked(true);
             GTWHouses.getHousesManager().save();
 

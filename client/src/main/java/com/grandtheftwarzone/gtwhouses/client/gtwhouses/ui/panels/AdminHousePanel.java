@@ -41,8 +41,10 @@ public class AdminHousePanel extends GuiPanel {
         houseInfoPanel.setCssClass("houseInfo");
         houseInfoPanel.setLayout(GridLayout.columnLayout(15, 2));
 
+        String buyCost = String.format("%,d", house.getBuyCost());
+        String sellCost = String.format("%,f", house.getSellCost());
 
-        String selling = house.isForSale() ? house.isOwned() ? house.getSellCost() + "$" : house.getBuyCost() + "$ by City" : "NOT FOR SALE";
+        String selling = house.isForSale() ? house.isOwned() ? sellCost + "$" : buyCost + "$ by City" : "NOT FOR SALE";
         String rentValue = house.getRentCost() + "$/day";
 
         UUID renterUUID = house.getRenter() == null ? null : house.getRenter();
@@ -54,7 +56,7 @@ public class AdminHousePanel extends GuiPanel {
         String ownerName = house.getOwner() == null ? "NO OWNER" : playerInfo == null ? "UNKNOWN" : playerInfo.getGameProfile().getName();
 
         houseInfoPanel.add(new GuiLabel(house.getName()).setCssId("houseName"));
-        houseInfoPanel.add(new GuiLabel("Value: " + house.getBuyCost() + "$").setCssId("housePrice"));
+        houseInfoPanel.add(new GuiLabel("Value: " + buyCost + "$").setCssId("housePrice"));
         houseInfoPanel.add(new GuiLabel("Selling: " + selling).setCssId("houseSell"));
         houseInfoPanel.add(new GuiLabel("Renter: " + renterName).setCssId("houseRenter"));
         houseInfoPanel.add(new GuiLabel("Rent Value: " + rentValue).setCssId("houseLocation"));

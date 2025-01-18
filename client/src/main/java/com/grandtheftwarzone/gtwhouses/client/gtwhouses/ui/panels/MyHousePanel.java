@@ -1,5 +1,6 @@
 package com.grandtheftwarzone.gtwhouses.client.gtwhouses.ui.panels;
 
+import com.grandtheftwarzone.gtwhouses.client.GTWHousesUI;
 import com.grandtheftwarzone.gtwhouses.client.gtwhouses.houseimages.HouseImage;
 import com.grandtheftwarzone.gtwhouses.client.gtwhouses.network.GTWNetworkHandler;
 import com.grandtheftwarzone.gtwhouses.client.gtwhouses.ui.modals.SellModal;
@@ -20,6 +21,7 @@ import java.util.UUID;
 public class MyHousePanel extends GuiPanel {
 
     public MyHousePanel(House house) {
+
         GuiPanel imagePanel = new GuiPanel();
         imagePanel.setCssClass("myHouseImage");
         // imagePanel.add(new GuiLabel("Image").setCssId("image"));
@@ -39,14 +41,14 @@ public class MyHousePanel extends GuiPanel {
         houseInfoPanel.setCssClass("houseInfo");
         houseInfoPanel.setLayout(GridLayout.columnLayout(15, 2));
 
-        String selling = house.isForSale() ? String.valueOf(house.getSellCost()) : "NOT FOR SALE";
+        String selling = house.isForSale() ? String.format("%,f", house.getSellCost()) : "NOT FOR SALE";
         String rentValue = house.getRentCost() + "$/day";
 
         UUID renterUUID = house.getRenter() == null ? null : house.getRenter();
         String renterName = house.getRenter() == null ? "NO TENANT" : Minecraft.getMinecraft().getConnection().getPlayerInfo(renterUUID).getGameProfile().getName();
 
         houseInfoPanel.add(new GuiLabel(house.getName()).setCssId("houseName"));
-        houseInfoPanel.add(new GuiLabel("Buy Value: " + house.getBuyCost() + "$").setCssId("housePrice"));
+        houseInfoPanel.add(new GuiLabel("Buy Value: " + String.format("%,d", house.getBuyCost()) + "$").setCssId("housePrice"));
         houseInfoPanel.add(new GuiLabel("Selling: " + selling).setCssId("houseSell"));
         houseInfoPanel.add(new GuiLabel("Tenant: " + renterName).setCssId("houseRenter"));
         houseInfoPanel.add(new GuiLabel("Rent Value: " + rentValue).setCssId("houseLocation"));
@@ -75,13 +77,21 @@ public class MyHousePanel extends GuiPanel {
             Minecraft.getMinecraft().player.closeScreen();
         })));
 
-        String rentAction = house.isRentable() ? "Stop Renting" : house.isRented() ? "Kick Tenant" : "Rent Out";
+        System.out.println(house.getOwner() + " " + Minecraft.getMinecraft().player.getUniqueID());
+        System.out.println("Is rentable: " + house.isRentable() + " Is rented: " + house.isRented() + " Renter: " + house.getRenter() + " Owner: " + house.getOwner());
+
+        String rentAction = "Rent Out";
+
+        if (house.isRentable())
+            rentAction = "Make Unrentable";
+        else
+            rentAction = "Rent Out";
+
         GuiButton rentOutButton = new GuiButton(rentAction);
         rentOutButton.setCssId("rentOutButton").setCssClass("houseBtn");
         rentOutButton.addClickListener((a, b, c) -> add(new ConfirmModal(this, (pos, mouse, button) -> {
             HouseActions action = HouseActions.Rentable;
-            if (house.isRented() || house.isRentable())
-                action = HouseActions.Unrentable;
+            if (house.isRentable()) action = HouseActions.Unrentable;
 
             GTWNetworkHandler.sendToServer(new HouseActionC2SPacket(action, house.getName(), null));
             Minecraft.getMinecraft().player.closeScreen();

@@ -9,9 +9,8 @@ import org.bukkit.entity.Player;
 public class UnrentAction {
 
     public static void handle(House house, Player player) throws InvalidActionException {
-        if (!house.isRentedByPlayer() || house.getRenter() != player.getUniqueId())
+        if (!player.getUniqueId().equals(house.getRenter()))
             throw new InvalidActionException("This house is not rented by you.");
-
         house.resetRent();
         GTWHouses.getHousesManager().save();
         HouseUtils.resetHouseBlocks(house, player.getServer());

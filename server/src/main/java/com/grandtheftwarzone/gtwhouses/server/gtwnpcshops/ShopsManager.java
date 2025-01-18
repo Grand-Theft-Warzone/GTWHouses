@@ -53,20 +53,19 @@ public class ShopsManager {
     }
 
     public void setOrUpdateItem(ShopItem item) {
-        if (item.getBuyPrice() <= 0 && item.getSellPrice() <= 0) {
-            for (ShopItem s : items) {
-                if (s.getSerializedItemStack().equalsIgnoreCase(item.getSerializedItemStack())) {
-                    items.remove(s);
-                    break;
-                }
-            }
+        for (int i = 0; i < items.size(); i++) {
+            ShopItem s = items.get(i);
+            if (!s.getSerializedItemStack().equalsIgnoreCase(item.getSerializedItemStack())) continue;
+
+            if (item.getBuyPrice() <= 0 && item.getSellPrice() <= 0)
+                items.remove(i);
+            else items.set(i, item);
+            break;
         }
 
-        if (item.getBuyPrice() <= 0) {
-            shops.values().forEach(shop -> shop.getItems().remove(item));
-        } else {
-            items.add(item);
-        }
+        if (item.getBuyPrice() <= 0)
+            for (Shop shop : shops.values())
+                shop.getItems().remove(item.getSerializedItemStack());
 
         save();
     }

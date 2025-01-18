@@ -38,9 +38,11 @@ public class HousePanel extends GuiPanel {
             imagePanel.getStyle().setTexture(new GuiTextureSprite(houseImage.getTexture(), 0, 0, houseImage.getWidth(), houseImage.getHeight(), houseImage.getWidth(), houseImage.getHeight()));
         add(imagePanel);
 
+        String buyCost = String.format("%,d", house.getBuyCost());
+        String sellCost = String.format("%,f", house.getSellCost());
 
         String price =
-                house.isForSale() ? "$" + (house.isOwned() ? house.getSellCost() : house.getBuyCost())
+                house.isForSale() ? "$" + (house.isOwned() ? sellCost : buyCost)
                         : house.isRentable() ? "$" + house.getRentCost() + "/day" : "Unavailable";
 
         if (price.contains("."))
@@ -71,6 +73,8 @@ public class HousePanel extends GuiPanel {
 
 
         add(pricePanel);
+        if (house.isForSale())
+            add(new GuiLabel("$" + house.getRentCost() + "/day rent").setCssClass("rentPrice"));
         add(new GuiLabel(house.getName()).setCssClass("houseName"));
     }
 }

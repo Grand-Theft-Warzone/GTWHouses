@@ -100,7 +100,7 @@ public class HouseFrame extends GuiFrame {
 
             GuiScrollPane scrollPane = new GuiScrollPane();
             scrollPane.setCssId("houseScrollPane");
-            scrollPane.setLayout(GridLayout.columnLayout(200, 10));
+            scrollPane.setLayout(GridLayout.columnLayout(225, 10));
 
             List<House> filter = entry.getValue();
 
@@ -114,7 +114,7 @@ public class HouseFrame extends GuiFrame {
                 housePanel.setCssClass("housePanel");
                 scrollPane.add(housePanel);
             }
-            scrollPane.add(new GuiPanel().setCssClass("housePadding"));
+           // scrollPane.add(new GuiPanel().setCssClass("housePadding"));
 
             contentPanel.add(scrollPane);
 
