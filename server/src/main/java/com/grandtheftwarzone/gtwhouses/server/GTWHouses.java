@@ -9,6 +9,7 @@ import com.grandtheftwarzone.gtwhouses.server.gtwhouses.events.BlockInteractEven
 import com.grandtheftwarzone.gtwhouses.server.gtwhouses.events.HouseEnterEvent;
 import com.grandtheftwarzone.gtwhouses.server.gtwhouses.events.HousePermissionEvents;
 import com.grandtheftwarzone.gtwhouses.server.gtwhouses.events.JoinEvent;
+import com.grandtheftwarzone.gtwhouses.server.gtwhouses.phone.GTWHousesApp;
 import com.grandtheftwarzone.gtwhouses.server.gtwnpcshops.ShopAdminCommand;
 import com.grandtheftwarzone.gtwhouses.server.gtwnpcshops.ShopsManager;
 import com.grandtheftwarzone.gtwhouses.server.gtwnpcshops.events.ShopEvents;
@@ -16,6 +17,8 @@ import com.grandtheftwarzone.gtwhouses.server.network.GTWPacketManager;
 import com.grandtheftwarzone.gtwhouses.server.gtwhouses.handlers.HouseCoordsHandler;
 import com.grandtheftwarzone.gtwhouses.server.gtwhouses.runnables.RentRunnable;
 import com.grandtheftwarzone.gtwhouses.server.gtwhouses.util.LoginMessageSystem;
+import com.grandtheftwarzone.phone.api.app.ServerApp;
+import com.grandtheftwarzone.phone.api.service.AppRegistrar;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
@@ -89,6 +92,14 @@ public class GTWHouses extends JavaPlugin {
         //TODO: Check if this can be done asynchronously
         if (rentTask != null) rentTask.cancel();
         rentTask = Bukkit.getScheduler().runTaskTimer(this, new RentRunnable(), 20 * 10, 20 * 60 * 30); //30 minutes
+
+        AppRegistrar appRegistrar = getServer().getServicesManager().load(AppRegistrar.class);
+        if (appRegistrar != null) {
+            getLogger().info("Registering GTW Houses app");
+            appRegistrar.register(new GTWHousesApp());
+
+            appRegistrar.registeredApps().forEach(app -> getLogger().info("Registered app: " + app.name()));
+        }else getLogger().warning("App registrar not found! GTW Houses app will not be registered!");
     }
 
 

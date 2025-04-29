@@ -1,5 +1,6 @@
 package com.grandtheftwarzone.gtwhouses.client.gtwhouses.ui.modals;
 
+import com.grandtheftwarzone.gtwhouses.client.GTWHousesUI;
 import com.grandtheftwarzone.gtwhouses.client.gtwhouses.network.GTWNetworkHandler;
 import com.grandtheftwarzone.gtwhouses.common.HouseActions;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
@@ -67,6 +68,6 @@ public class SellModal extends GuiFrame {
 
     @Override
     public boolean needsCssReload() {
-        return true;
+        return GTWHousesUI.UI_RELOAD;
     }
 }

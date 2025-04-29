@@ -1,5 +1,6 @@
 package com.grandtheftwarzone.gtwhouses.client.gtwhouses.ui.frames;
 
+import com.grandtheftwarzone.gtwhouses.client.GTWHousesUI;
 import com.grandtheftwarzone.gtwhouses.client.gtwhouses.ui.panels.AdminHousePanel;
 import com.grandtheftwarzone.gtwhouses.common.data.House;
 import fr.aym.acsguis.api.ACsGuiApi;
@@ -91,6 +92,6 @@ public class AdminFrame extends GuiFrame {
 
     @Override
     public boolean needsCssReload() {
-        return true;
+        return GTWHousesUI.UI_RELOAD;
     }
 }

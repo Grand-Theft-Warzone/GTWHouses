@@ -33,6 +33,7 @@ public class GTWHousesUI {
     public static final String VERSION = "1.0";
     @Getter
     private static Logger logger;
+    public static final boolean UI_RELOAD = false;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {

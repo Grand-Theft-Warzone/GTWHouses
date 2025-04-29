@@ -241,6 +241,6 @@ public class HouseFrame extends GuiFrame {
 
     @Override
     public boolean needsCssReload() {
-        return true;
+        return GTWHousesUI.UI_RELOAD;
     }
 }

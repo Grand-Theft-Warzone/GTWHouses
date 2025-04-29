@@ -2,6 +2,8 @@ name: GTWHouses
 version: '${version}'
 main: com.grandtheftwarzone.gtwhouses.server.GTWHouses
 author: Edgar Silva
+softdepend:
+  - GTWPhone
 depend:
   - Vault
   - WorldEdit
